@@ -1,5 +1,5 @@
 ---
-title: '클라우드(Cloud)와 AWs의 장점'
+title: '클라우드(Cloud)와 AWS의 장점'
 date: 2020-09-02 15:42:00
 category: 'aws'
 draft: false
@@ -24,20 +24,20 @@ draft: false
 
 1. **InfraStructure as a Service(IaaS, 아이아스, 이에스)**
 
-- 기존 물리 장비를 미들웨어와 함께 묶어둔 추상화 서비스
-- 가상머신, 스토리지, 네트워크, 운영체제 등의 IT 인프라를 대여해 주는 서비스
-- ex) **AWS의 EC2, S3** 등
+   - 기존 물리 장비를 미들웨어와 함께 묶어둔 추상화 서비스
+   - 가상머신, 스토리지, 네트워크, 운영체제 등의 IT 인프라를 대여해 주는 서비스
+   - ex) **AWS의 EC2, S3** 등
 
 1. PlatForm as a Service (PaaS, 파스)
 
-- 앞에서 언급한 Iaas에서 한 번 더 추상화한 서비스
-- 한 번 더 추상화했기 때문에 많은 기능이 자동화 되어있다.
-- ex) Beanstalk(빈스톡), Heroku(헤로쿠) 등
+   - 앞에서 언급한 Iaas에서 한 번 더 추상화한 서비스
+   - 한 번 더 추상화했기 때문에 많은 기능이 자동화 되어있다.
+   - ex) Beanstalk(빈스톡), Heroku(헤로쿠) 등
 
 1. Software as a Service (Saas, tktm)
 
-- 소프트웨어 서비스
-- ex) 구글 드라이브, 드랍박스, 와탭 등
+   - 소프트웨어 서비스
+   - ex) 구글 드라이브, 드랍박스, 와탭 등
 
 ## 클라우드 종류 중 AWS의 장점
 
