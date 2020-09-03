@@ -1,5 +1,5 @@
 ---
-title: 'AWS 회원가입'
+title: '(AWS시리즈1) AWS 회원가입'
 date: 2020-09-02 18:00:00
 category: 'aws'
 draft: false

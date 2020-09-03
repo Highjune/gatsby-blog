@@ -1,5 +1,5 @@
 ---
-title: 'EC2 인스턴스 생성하기'
+title: '(AWS시리즈3) EC2 인스턴스 생성하기'
 date: 2020-09-02 18:22:00
 category: 'aws'
 draft: false
