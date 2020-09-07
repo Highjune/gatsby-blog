@@ -177,7 +177,131 @@ public class Vector extends AbstracList
 1. 접근시간(access time) - ArrayList가 빠름
 
 
+#### HashSet
+- Set 인터페이스를 구현한 대표적인 컬렉션 클래스
+- 순서X, 중복X
+- 순서를 유지하려면, LinkedHashSet 클래스를 사용하면 된다
+- 주요 메서드
+    - boolean add(Object o) 
+    - boolean addAll(Collection c) 
+    - boolean remove(Object o) // 삭제
+    - boolean removeAll(Collection c) // 교집합
+    - boolean retainAll(Collection c) // 조건부삭제
+    - void clear() // 모두 삭제 
+    - boolean contains(Object o)
+    - boolean containsAll(COllection c)
+    - Iterator iterator()
+- 객체를 저장하기 전에 기존에 같은 객체가 있는지 확인. 같은 객체가 없으면 저장하고, 있으면 저장하지 않는다.
+    - boolean add(Object o) 는 저장할 객체의 equals()와 hashCode()를 호출한다. 그런데 equals()와 hashCode()가 오버라이딩 되어 있지 않으면 HashSet이 제대로 동작하지 않는다. (오버라이딩 되어있어야만 중복을 확인할 수 있다)
+    ```
+    public class test {
+	public static void main(String[] args) {
+		HashSet set = new HashSet();
+		
+		set.add("abc");
+		set.add("abc"); //중복이라 저장안됨
+		set.add(new Person("June", 10));
+		set.add(new Person("June", 10));
+		
+		System.out.println(set);
+        }
+    }
+
+
+    class Person {
+        String name;
+        int age;
+        
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, age);
+            //원래는 return (name, age)hashcode();
+        }
+        
+        @Override
+        public boolean equals(Object obj) {
+            if(!(obj instanceof Person)) return false;
+            
+            Person p = (Person)obj;
+            
+            return this.name.equals(p.name) && this.age==p.age;
+        }
+        
+        Person(String name, int age){
+            this.name = name;
+            this.age = age;	
+        }
+            
+        public String toString() {
+            return name + ":" + age;
+        }
+        
+    }
+
+    ```
+
+#### TreeSet
+![](./images/collectionframework/4.png)
+- 이진 탐색 트리(binary search tree)로 구현되어 있다.. 범위 탐색과 정렬에 유리(정렬 필요없음)
+- 이진 트리는 모든 노드가 최대 2개(0~2)의 하위 노드를 갖는다. 각 요소(node)가 나무(tree)형태로 연결(LkinkedList의 변형)
+
+```
+class TreeNode {
+    TreeNode left;  // 왼쪽 자식노드
+    Object element; // 저장할 객체
+    TreeNode right; // 오른쪽 자식노드
+}
+```
+- 이진 탐색 트리
+    - 부모보다 작은 값은 왼쪽, 큰 값은 오른쪽에 저장
+    ![](./images/collectionframework/5.png)
+    - 실제 그림은 아래와 같다.
+    ![](./images/collectionframework/6.png)
+
+- 단점
+    - 데이터가 많아질수록 추가, 삭제에 시간이 더 걸림(HashSet보다)
+    - 저장할때마다 `root부터 시작해서` 부모까지 다 비교해서 대소를 비교해서 적정자리에 저장, 삭제해야 하므로
+- 데이터 저장과정 boolean add(Object o)
+    - 중복을 허용하지 않으므로 기존에 같은 객체가 있는지 확인한다. TreeSet은 compare()를 호출해서 비교한다 
+
+- TreeSet은 비교기준이 꼭 필요한데, 저장하는 객체가 Comparable을 구현했거나 TreeSet이 특정한 정렬기준을 가지고 있어야 한다. 
+
+
+#### HashMap과 HashTable(구버전)
+- 순서 X, 중복(키X, 값O)
+- Map 인터페이스를 구현, 데이터를 키와 값의 쌍으로 저장
+- HashMap(동기화X)은 HashTable(동기화O)의 신버전
+- HashMap이 Map인터페이스를 구현한 대표적인 컬렉션 클래스
+- 순서를 유지하려면, LinkedHashMap 클래스를 사용하면 된다.
+- 해싱(hashing)기법으로 해시테이블(hash table)에 데이터를 저장. 데이터가 많아도 검색이 빠르다.
+    - 해싱은 해시함수를 이용해서 저장 & 읽어온다.
+    - key값을 알려주면 배열의 index(저장위치=해시코드)를 알려준다. 같은 key값은 항상 같은 index가 나온다. (서로 다른 키일지라도 같은 값의 해시코드를 반환할 수 있다)
+    - 해시테이블은 배열(접근성 좋음)과 링크드 리스트(변경 유리)가 조합된 형태
+    ![](./images/collectionframework/7.png)
+- 키와 값을 묶어서 etnry 라고 한다.
+
+- 해시테이블에 저장된 데이터를 가져오는 과정
+    ![](./images/collectionframework/8.png)
+    1. 키로 해시함수를 배열해서 해시코드를 얻는다.
+    1. 해시코드(해시함수의 반환값)에 해당하는 링크드리스트를 배열에서 찾는다.
+    1. 링크드리스트에서 키와 일치하는 데이터를 찾는다.
+
+- 주요 메서드
+    - Object put(Object key, Object value) //추가
+    - void putAll(Map m) //추가
+    - Object remove(Object key) // 삭제
+    - Object replace(Object key, Object value)
+    - boolean replace(Object key, Object oldValue, Object newValue)
+    - Set entrySet() // 키와 값이 포함된 쌍들을 얻을 수 있다.
+    - Set keySet() // 키값들만
+    - Collection values() // 값들만
+    - Object get(Object key)
+    - Object getOrDefault(Object key, Object defaultValue)
+    - boolean containsKey(Object key)
+    - boolean containsValue(Object value)
+
 ### Stack & Queue
+
 #### Stack 
 - 클래스
 - 밑에 막힌 box(상자). 위만 뚫려 있는 구조
@@ -211,43 +335,43 @@ public class Vector extends AbstracList
 - 큐의 활용
     - 최근사용문서, 인쇄작업 대기목록, 버퍼
 
-```
-public class Test {
-	public static void main(String[] args) {
-		Stack st = new Stack();
-		Queue q = new LinkedList(); //Queue 인터페이스  구현체인 LinkedList
-		
-		st.push("0");
-		st.push("1");
-		st.push("2");
-		
-		q.offer("0");
-		q.offer("1");
-		q.offer("2");
-		
-		System.out.println("= Stack = ");
-		while(!st.empty()) {
-			System.out.println(st.pop()); // 스택에서 요소 하나를 꺼냄
-		}
-		
-		System.out.println("= Queue = ");
-		while(!q.isEmpty()) {
-			System.out.println(q.poll());
-		}
-	}
-}
-```
-그럼 결과는
-```
-= Stack = 
-2
-1
-0
-= Queue = 
-0
-1
-2
-```
+    ```
+    public class Test {
+        public static void main(String[] args) {
+            Stack st = new Stack();
+            Queue q = new LinkedList(); //Queue 인터페이스  구현체인 LinkedList
+            
+            st.push("0");
+            st.push("1");
+            st.push("2");
+            
+            q.offer("0");
+            q.offer("1");
+            q.offer("2");
+            
+            System.out.println("= Stack = ");
+            while(!st.empty()) {
+                System.out.println(st.pop()); // 스택에서 요소 하나를 꺼냄
+            }
+            
+            System.out.println("= Queue = ");
+            while(!q.isEmpty()) {
+                System.out.println(q.poll());
+            }
+        }
+    }
+    ```
+    그럼 결과는
+    ```
+    = Stack = 
+    2
+    1
+    0
+    = Queue = 
+    0
+    1
+    2
+    ```
 
 
 ### Iterator, ListIterator, Enumeration
@@ -284,24 +408,26 @@ public class Test {
     ```
 
     ```
-    public class test {
-	public static void main(String[] args) {
-		List list = new ArrayList();
-		list.add(1);
-		list.add(2);
-		list.add(3);
-		list.add(4);
-		list.add(5);
-		
-		Iterator it = list.iterator();
-		while(it.hasNext()) {
-			Object obj = it.next(); // 읽음
-			System.out.println(obj);
-		}
-	}
-}
+        public class test {
+        public static void main(String[] args) {
+            List list = new ArrayList();
+            list.add(1);
+            list.add(2);
+            list.add(3);
+            list.add(4);
+            list.add(5);
+            
+            Iterator it = list.iterator();
+            while(it.hasNext()) {
+                Object obj = it.next(); // 읽음
+                System.out.println(obj);
+                }
+            }
+        }
     ```
-    결과는
+    
+    결과는?
+
     ```
     1
     2
@@ -309,30 +435,34 @@ public class Test {
     4
     5
     ```
+
+
+
+
     - Iterator를 다 쓰고 나면 (pointer가 다 이동했으면) 다시 얻어서 생성해야 한다.
     ```
-    public class Ex11_5 {
-	public static void main(String[] args) {
-		List list = new ArrayList();
-		list.add(1);
-		list.add(2);
-		list.add(3);
-		list.add(4);
-		list.add(5);
-		
-		Iterator it = list.iterator(); //1회용임
-		while(it.hasNext()) {
-			Object obj = it.next(); // 읽음
-			System.out.println(obj);
-		}
+        public class Ex11_5 {
+        public static void main(String[] args) {
+            List list = new ArrayList();
+            list.add(1);
+            list.add(2);
+            list.add(3);
+            list.add(4);
+            list.add(5);
+            
+            Iterator it = list.iterator(); //1회용임
+            while(it.hasNext()) {
+                Object obj = it.next(); // 읽음
+                System.out.println(obj);
+            }
 
-        Iterator it = list.iterator();
-		while(it.hasNext()) { // false가 된다.
-			Object obj = it.next(); 
-			System.out.println(obj);
-		}
-	}
-}
+            Iterator it = list.iterator();
+            while(it.hasNext()) { // false가 된다.
+                Object obj = it.next(); 
+                System.out.println(obj);
+            }
+        }
+    }
     ```
     결과는
     ```
@@ -344,16 +474,16 @@ public class Test {
     ```
 
 - Map에는 iterator()가 없다. 그래서 keySet(), entrySet(), values()를 호출해야 한다. 각각의 반환타입은 Set, Set, Collection이다. Map을 통해서 바로 iterator()를 가져오지 않고 이들을(KeySet(), entrySet(), values()) 통해서 Set이나 Collection을 얻은 다음에 이를 통해 iterator() 호출
-```
-Map map = new HashMap();
-    ...
-Iterator it = map.entrySet().iterator();
-```
-위의 두번째 줄은 사실 아래와 같다.
-```
-Set eSet = map.entrySet();
-Iterator it = eSet.iterator();
-```
+    ```
+    Map map = new HashMap();
+        ...
+    Iterator it = map.entrySet().iterator();
+    ```
+    위의 두번째 줄은 사실 아래와 같다.
+    ```
+    Set eSet = map.entrySet();
+    Iterator it = eSet.iterator();
+    ```
 
 ### Arrays 클래스
 - 배열을 다루기 편리한 메서드(static) 제공. 마치 Math, Objects, Collections 클래스와 비슷(모두 static메서드 제공). util 메서드라고도 한다.
@@ -362,14 +492,75 @@ Iterator it = eSet.iterator();
 1. 배열의 복사 - copyOf(), copyOfRange()
     - 새로운 배열을 만들어서 반환
 1. 배열 채우기 - fill(), setAll()
+    ```
+    int[] arr = new int[5];
+    Arrays.fill(arr, 9);
+    Arrays.setAll(arr, (i) -> (int)(Math.random()*5+1); // arr = [1, 5, 2, 1, 1]
+    ```
+1. 배열의 정렬과 검색 - sort(), binarySearch()
+    ```
+    int[] arr = {3, 2, 0, 1, 4};
+    int idx = Arrays.binarySearch(arr, 2);
+
+    Arrays.sort(arr); //정렬
+    System.out.println(Arrays.toString(arr));   //[0, 1, 2, 3, 4]
+    int idx = Arrays.binarySearch(arr, 2); //idx=2
+
+    ```
+1. 다차원 배열의 출력 - deepToString()
+    ```
+    int[] arr = {0, 1, 2, 3, 4};
+    int[][] arr2D = {{11, 12}, {21, 22}};
+
+    System.out.println(Arrays.toString(arr)); // {0, 1, 2, 3, 4}
+    System.out.println(Arrays.deepToString(arr)); //{{11, 12}, {21, 22}};
+
+    ```
+1. 다차원 배열의 비교 - deepEquals();
+
+1. 배열을 List로 변환 - asList(Object... a)
+
+1. 람다와 스트림 - paralleXXX(), spliterator(), stream()
+
+
+### Comparator와 Comparable
+
+- 객체 정렬에 필요한 메서드(정렬기준 제공)를 정의한 인터페이스
+    - Comparable 기본 정렬기준을 구현하는데 사용
+    - Comparator 기본 정렬기준 외에 다른 기준으로 정렬하고자 할 때 사용
+
+    ```
+    public interface Comparator {
+        int compare(Object o1, Object o2) // o1, o2 두 객체를 비교. 0이면 같고 양수면 왼쪽이 큰 것이고 음수면 반대
+        boolean equals(Object obj); //equals를 오버라이딩하라는 뜻
+    }
+    public interface Comparable {
+        int compareTo(Object o); //주어진 객체(o)를 자신(this)과 비교
+    }
+
+    ```
+
+- compare()와 compareTo()는 두 객체의 비교결과를 반환하도록 작성. 같으면 0, 오른쪽이 크면 음수(-), 작으면 양수(+)
+    ```
+    public final class Integer extends Number implements Comparable {
+        ...
+        public int compareTo(Integer anotherInteger) {
+            int v1 = this.value;
+            int v2 = anotherInteger.value;
+
+            //같으면 0, 오른쪽 값이 크면 -1, 작으면 1을 반환
+            return (v1 < v2 ? -1 : (v1==v2 ? 0 : 1));
+        }
+
+    }
+
+    ```    
+
+- 정렬은 대상과 기준이 있다. 그리고 정렬할 때는 `두 대상을 비교하고 자리를 바꾼다.` 이 부분은 절대불변이며(버블정렬, 선택정렬 등 모두 다 동일), 우리는 그 정렬하는 기준만 제시해주면 되는 것이다. 절대불변인 구체적 방법은 이미 다 구현되어 있는 상태.
 
 
 
 
 
 
-
-
-
-
-참고 : 자바의 정석(기초편)
+참고 : 자바의 정석 - 남궁성
