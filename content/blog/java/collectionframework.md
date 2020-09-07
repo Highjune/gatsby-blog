@@ -47,18 +47,24 @@ draft: false
 
 
 
-### List  
+### List 인터페이스
 - 순서 O, 중복O
-![](./images/collectionframework1.png)
+![](./images/collectionframework/1.png)
 - ArrayList와 LinkedList가 핵심(List인터페이스를 구현한 대표적인 컬렉션 클래스)
 - vector의 발전된 형태가 ArrayList
 
-### Set인터페이스 
-![](./images/collectionframework2.png)
+### Set 인터페이스
+![](./images/collectionframework/2.png)
 - 순서 X, 중복X
-- HashSet과 TreeSet이 핵심(Set인터페이스를 구현한 대표적인 컬렉션 클래스)
+- HashSet과 TreeSet이 핵심
 
+### Map 인터페이스
+![](./images/collectionframework/3.png)
+- 순서X, 중복(키X, 값O)
+- HashMap과 TreeMap이 핵심
+- LinkedHashMap은 순서가 O
+- Hashtable은 동기화O, HashMap은 동기화X
 
-
+ 
 
 참고 : 자바의 정석(기초편)
