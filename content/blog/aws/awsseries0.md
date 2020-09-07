@@ -1,5 +1,5 @@
 ---
-title: 'AWS시리즈(0) 이란'
+title: '(AWS시리즈0)'
 date: 2020-09-03 20:53:00
 category: 'aws'
 draft: false
