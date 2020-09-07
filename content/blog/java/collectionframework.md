@@ -47,14 +47,16 @@ draft: false
 
 
 
-### List 
+### List  
+- 순서 O, 중복O
+![](./images/collectionframework1.png)
+- ArrayList와 LinkedList가 핵심(List인터페이스를 구현한 대표적인 컬렉션 클래스)
+- vector의 발전된 형태가 ArrayList
 
-![사진](./images/collectionframework1.png)
-- ArrayList와 LinkedList가 핵심
-- ArrayList 
-
-
-
+### Set인터페이스 
+![](./images/collectionframework2.png)
+- 순서 X, 중복X
+- HashSet과 TreeSet이 핵심(Set인터페이스를 구현한 대표적인 컬렉션 클래스)
 
 
 
