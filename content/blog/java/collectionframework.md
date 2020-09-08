@@ -4,28 +4,28 @@ date: 2020-08-29 20:43:00
 category: 'java'
 draft: false
 ---
-##### 자바의 정석을 공부하면서 정리한 것
+#### 자바의 정석을 공부하면서 정리한 것
 
-## 컬렉션 프레임웍
+# 컬렉션 프레임웍
 
-### 컬렉션(collection)
+## 컬렉션(collection)
 - 여러 객체(데이터)를 모아 놓은 것을 의미
 
-### 프레임웍(framework)
+## 프레임웍(framework)
 - 표준화, 정형화된 체계적인 프로그래밍 방식
 - 자유도 낮은 대신 생산성 높음
 - 방식이 비슷하기에 서로 협업하기에 편함
 
-### 컬렉션 프레임웍 (collection framework)
+## 컬렉션 프레임웍 (collection framework)
 - 컬렉션(다수의 객체)을 다루기 위한 표준화된 프로그래밍 방식
 - 컬렉션을 쉽고 편리하게 다룰 수 있는(저장, 삭제, 검색, 정렬) 다양한 클래스를 제공
 - java.util 패키지에 포함. jdk1.2부터 제공
 
-### 컬렉션 클래스(collection class)
+## 컬렉션 클래스(collection class)
 - 다수의 데이터를 저장할 수 있는 클래스
 - ex) Vector, ArrayList, HashSet
 
-### 컬렉션 프레임웍의 핵심 인터페이스(크게 3가지)
+## 컬렉션 프레임웍의 핵심 인터페이스(크게 3가지)
 1. List
     - ![](./images/collectionframework/1.png)
     - 순서 O, 중복 O
@@ -54,29 +54,28 @@ draft: false
 - 위의 List와 Set의 공통부분만 추출해서 `Collection인터페이스`를 정의(Map은 성격이 약간 달라서)
 
 
-### 중요한 컬렉션 클래스 설명
-#### ArrayList
+## 중요한 컬렉션 클래스 설명
+### ArrayList
 - ArrayList는 기존의 Vector를 개선한 것으로 구현원리와 기능적으로 동일. ArrayList와 달리 Vector는 자체적으로 동기화처리가 되어 있다.
 - 데이터의 저장공간으로 배열을 사용한다(배열기반)
 - 객체 배열이므로 모든 종류의 객체 저장 가능하다.
 - String의 "1"과 new Integer(1)은 다르다.
 - ArrayList에는 객체만 저장가능
-```
-ArrayList list1 = new ArrayList(); // 크기 10인 ArrayList생성
+    ```
+    ArrayList list1 = new ArrayList(); // 크기 10인 ArrayList생성
 
-list1.add(5); // 이것은 사실 list1.add(new Integer(5)); // autoboxing에 의해 기본형이 참조형으로 자동 변환
+    list1.add(5); // 이것은 사실 list1.add(new Integer(5)); // autoboxing에 의해 기본형이 참조형으로 자동 변환
+    ```
 
-```
-
-```
-public class Vector extends AbstracList
-    implements List, RandomAccess, Cloneable, java.io.Serializable
-    {   
-        ...
-        protected Object[] elementData; // 객체를 담기 위한 배열
-        ...
-    }
-```
+    ```
+    public class Vector extends AbstracList
+        implements List, RandomAccess, Cloneable, java.io.Serializable
+        {   
+            ...
+            protected Object[] elementData; // 객체를 담기 위한 배열
+            ...
+        }
+    ```
 
 - ArrayList의 메서드
     - 추가
@@ -147,8 +146,9 @@ public class Vector extends AbstracList
     위와 같은 방식으로는 배열 복사가 일어나지 않고 마지막 객체부터 하나씩 다 지워나갈 수 있다.
 
 
-#### LinkedList와 ArrayList 차이
-##### 배열의 장단점
+### LinkedList와 ArrayList 차이
+
+#### 배열의 장단점
 - 장점 
     배열은 구조가 간단, 데이터를 읽는데 시간이 짧다
 - 단점
@@ -156,7 +156,7 @@ public class Vector extends AbstracList
     크기를 변경해야 하는 경우 새로운 배열(더 큰 배열) 생성 후 데이터를 복사, 그리고 참조주소 변경도 해야된다. 그렇다고 애초부터 너무 큰 배열을 만드는 경우 메모리의 낭비 발생
     1. 비순차적인 데이터의 추가, 삭제에 시간이 많이 걸린다. (물론 끝에 데이터를 순차적으로 추가하는 것과 끝부터 순차적으로 삭제하는 것은 빠르다)
 
-##### LinkedList
+#### LinkedList
 - LinkedList는 배열의 단점을 보완(크기 변경X, 추가삭제시 시간소모 큼)
 - 배열과 달리 LinkedList는 불연속적으로 존재하는 데이터를 하나하나씩 연결(link). `기차`로 비유
 - 데이터 하나씩을 `Node`라고 한다. 각 Node는 데이터와 다음노드의 주소값을 가지고 있다.
@@ -169,7 +169,7 @@ public class Vector extends AbstracList
 - 단점
     - 연결리스트, 데이터 접근성이 나쁨. 불연속적이므로(자신의 다음 Node만 알고 있으므로). `기차`로 비유하자면 1칸->3칸으로 이동하려면 반드시 2칸을 거쳐야 한다. 그리고 2칸에서 1칸으로(반대로) 접근하지 못한다. `더블리 링크드 리스트(doubly linked list), 이중 연결리스트`는 이 단점을 보완해서 각 Node의 앞, 뒤로 이동 가능(그러나 여전히 여러칸을 한번에 뛰어넘지는 못한다). `더블리 써큘러 링크드 리스트(double circular linked list), 이중 원형 연결리스트`는 한 번 더 이 단점을 보완한 것. 
 
-##### ArrayList vs LinkedList 
+#### ArrayList vs LinkedList 
 1. 순차적으로 데이터를 추가/삭제
     - ArrayList가 빠름
 1. 비순차적으로 데이터를 추가/삭제
@@ -300,9 +300,9 @@ class TreeNode {
     - boolean containsKey(Object key)
     - boolean containsValue(Object value)
 
-### Stack & Queue
+## Stack & Queue
 
-#### Stack 
+### Stack 
 - 클래스
 - 밑에 막힌 box(상자). 위만 뚫려 있는 구조
 - LIFO(Last in First Out)구조. 마지막에 저장된 것을 제일 먼저 꺼내게 된다.
@@ -318,7 +318,7 @@ class TreeNode {
     - 수식계산, 수식괄호검사, 워드프로세스의 undo/redo, 웹브라우저의 뒤로/앞으로
 
 
-#### Queue
+### Queue
 - 인터페이스(객체 생성 안됨)
     - Queue를 직접 구현 or Queue를 구현한 클래스 사용(LinkedList)
 - 파이프 구조(위 아래가 다 뚫려 있음)
@@ -374,7 +374,7 @@ class TreeNode {
     ```
 
 
-### Iterator, ListIterator, Enumeration
+## Iterator, ListIterator, Enumeration
 - 컬렉션에 저장된 데이터를 접근(읽는)하는데 사용되는 인터페이스
 - Enumeration은 Iterator의 구버전. `Iterator`를 사용하기
 - Iterator의 핵심 메서드 2개
@@ -485,7 +485,7 @@ class TreeNode {
     Iterator it = eSet.iterator();
     ```
 
-### Arrays 클래스
+## Arrays 클래스
 - 배열을 다루기 편리한 메서드(static) 제공. 마치 Math, Objects, Collections 클래스와 비슷(모두 static메서드 제공). util 메서드라고도 한다.
 
 1. 배열의 출력 - toString()
@@ -523,7 +523,7 @@ class TreeNode {
 1. 람다와 스트림 - paralleXXX(), spliterator(), stream()
 
 
-### Comparator와 Comparable
+## Comparator와 Comparable
 
 - 객체 정렬에 필요한 메서드(정렬기준 제공)를 정의한 인터페이스
     - Comparable 기본 정렬기준을 구현하는데 사용
