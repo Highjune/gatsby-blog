@@ -8,6 +8,9 @@ draft: false
 
 # 컬렉션 프레임웍
 
+- ![](./images/collectionframework/0.png)
+
+
 ## 컬렉션(collection)
 - 여러 객체(데이터)를 모아 놓은 것을 의미
 
@@ -58,7 +61,7 @@ draft: false
 ### ArrayList
 - ArrayList는 기존의 Vector를 개선한 것으로 구현원리와 기능적으로 동일. ArrayList와 달리 Vector는 자체적으로 동기화처리가 되어 있다.
 - 데이터의 저장공간으로 배열을 사용한다(배열기반)
-- 객체 배열이므로 모든 종류의 객체 저장 가능하다.
+- 객체 배열이므로 모든 종류의 객체 저장 가능하다.(Vector도 마찬가지)
 - String의 "1"과 new Integer(1)은 다르다.
 - ArrayList에는 객체만 저장가능
     ```
@@ -148,7 +151,7 @@ draft: false
 
 ### LinkedList와 ArrayList 차이
 
-#### 배열의 장단점
+#### 배열(ArrayList)의 장단점
 - 장점 
     배열은 구조가 간단, 데이터를 읽는데 시간이 짧다
 - 단점
@@ -158,6 +161,8 @@ draft: false
 
 #### LinkedList
 - LinkedList는 배열의 단점을 보완(크기 변경X, 추가삭제시 시간소모 큼)
+- 배열기반인 ArrayList와 Vector에서 추가, 삭제 기능 향상시킨 것이 LinkedList
+- LinkedList로 만든 것이 Queue
 - 배열과 달리 LinkedList는 불연속적으로 존재하는 데이터를 하나하나씩 연결(link). `기차`로 비유
 - 데이터 하나씩을 `Node`라고 한다. 각 Node는 데이터와 다음노드의 주소값을 가지고 있다.
 - 데이터 삭제
@@ -179,6 +184,7 @@ draft: false
 
 #### HashSet
 - Set 인터페이스를 구현한 대표적인 컬렉션 클래스
+- HashMap에서 key값들만으로 만든 것이 HashSet
 - 순서X, 중복X
 - 순서를 유지하려면, LinkedHashSet 클래스를 사용하면 된다
 - 주요 메서드
@@ -193,54 +199,59 @@ draft: false
     - Iterator iterator()
 - 객체를 저장하기 전에 기존에 같은 객체가 있는지 확인. 같은 객체가 없으면 저장하고, 있으면 저장하지 않는다.
     - boolean add(Object o) 는 저장할 객체의 equals()와 hashCode()를 호출한다. 그런데 equals()와 hashCode()가 오버라이딩 되어 있지 않으면 HashSet이 제대로 동작하지 않는다. (오버라이딩 되어있어야만 중복을 확인할 수 있다)
-    ```
-    public class test {
-	public static void main(String[] args) {
-		HashSet set = new HashSet();
-		
-		set.add("abc");
-		set.add("abc"); //중복이라 저장안됨
-		set.add(new Person("June", 10));
-		set.add(new Person("June", 10));
-		
-		System.out.println(set);
-        }
-    }
-
-
-    class Person {
-        String name;
-        int age;
-        
-        @Override
-        public int hashCode() {
-            return Objects.hash(name, age);
-            //원래는 return (name, age)hashcode();
-        }
-        
-        @Override
-        public boolean equals(Object obj) {
-            if(!(obj instanceof Person)) return false;
-            
-            Person p = (Person)obj;
-            
-            return this.name.equals(p.name) && this.age==p.age;
-        }
-        
-        Person(String name, int age){
-            this.name = name;
-            this.age = age;	
-        }
-            
-        public String toString() {
-            return name + ":" + age;
-        }
-        
-    }
 
     ```
+        public class test {
+        public static void main(String[] args) {
+            HashSet set = new HashSet();
+            
+            set.add("abc");
+            set.add("abc"); //중복이라 저장안됨
+            set.add(new Person("June", 10));
+            set.add(new Person("June", 10));
+            
+            System.out.println(set);
+            }
+        }
+
+        class Person {
+            String name;
+            int age;
+            
+            @Override
+            public int hashCode() {
+                return Objects.hash(name, age);
+                //원래는 return (name, age)hashcode();
+            }
+            
+            @Override
+            public boolean equals(Object obj) {
+                if(!(obj instanceof Person)) return false;
+                
+                Person p = (Person)obj;
+                
+                return this.name.equals(p.name) && this.age==p.age;
+            }
+            
+            Person(String name, int age){
+                this.name = name;
+                this.age = age;	
+            }
+                
+            public String toString() {
+                return name + ":" + age;
+            }
+        }
+    ```
+
+#### TreeMap
+- LinkedList에서 검색, 범위검색, 정렬기능 향상시킨 것
+
 
 #### TreeSet
+- TreeSet은 TreeMap에서 key 값들만으로 만든 것
+
+
 ![](./images/collectionframework/4.png)
 - 이진 탐색 트리(binary search tree)로 구현되어 있다.. 범위 탐색과 정렬에 유리(정렬 필요없음)
 - 이진 트리는 모든 노드가 최대 2개(0~2)의 하위 노드를 갖는다. 각 요소(node)가 나무(tree)형태로 연결(LkinkedList의 변형)
@@ -254,9 +265,12 @@ class TreeNode {
 ```
 - 이진 탐색 트리
     - 부모보다 작은 값은 왼쪽, 큰 값은 오른쪽에 저장
-    ![](./images/collectionframework/5.png)
+
+        ![](./images/collectionframework/5.png)
+
     - 실제 그림은 아래와 같다.
-    ![](./images/collectionframework/6.png)
+
+        ![](./images/collectionframework/6.png)
 
 - 단점
     - 데이터가 많아질수록 추가, 삭제에 시간이 더 걸림(HashSet보다)
@@ -267,16 +281,23 @@ class TreeNode {
 - TreeSet은 비교기준이 꼭 필요한데, 저장하는 객체가 Comparable을 구현했거나 TreeSet이 특정한 정렬기준을 가지고 있어야 한다. 
 
 
+
+
+
 #### HashMap과 HashTable(구버전)
 - 순서 X, 중복(키X, 값O)
 - Map 인터페이스를 구현, 데이터를 키와 값의 쌍으로 저장
+- 키와 값을 Object로 저장(Properties는 문자열로만 저장가능)
 - HashMap(동기화X)은 HashTable(동기화O)의 신버전
 - HashMap이 Map인터페이스를 구현한 대표적인 컬렉션 클래스
+- HashMap과 Hashtable은 ArrayList와 LinkedList에서 검색기능을 향상시킨 것이다. 각각의 장점(배열+linkedList)을 합친 것.
 - 순서를 유지하려면, LinkedHashMap 클래스를 사용하면 된다.
 - 해싱(hashing)기법으로 해시테이블(hash table)에 데이터를 저장. 데이터가 많아도 검색이 빠르다.
     - 해싱은 해시함수를 이용해서 저장 & 읽어온다.
     - key값을 알려주면 배열의 index(저장위치=해시코드)를 알려준다. 같은 key값은 항상 같은 index가 나온다. (서로 다른 키일지라도 같은 값의 해시코드를 반환할 수 있다)
     - 해시테이블은 배열(접근성 좋음)과 링크드 리스트(변경 유리)가 조합된 형태
+- 미리 존재해 있는 키 값을 넣으면 늦게 입력한 키, 값이 덮어쓴다.
+
     ![](./images/collectionframework/7.png)
 - 키와 값을 묶어서 etnry 라고 한다.
 
@@ -300,12 +321,111 @@ class TreeNode {
     - boolean containsKey(Object key)
     - boolean containsValue(Object value)
 
+
+- 예제1
+
+    ```
+        public class test {
+        public static void main(String[] args) {
+            HashMap map = new HashMap();
+            map.put("june", "1234");
+            map.put("min", "1111");
+            map.put("heo", "1234");
+            
+            Scanner s = new Scanner(System.in);
+            
+            while(true) {
+                System.out.println("id와 password를 입력해보세요");
+                System.out.println("Id : ");
+                String id = s.nextLine().trim(); 
+                
+                System.out.println("password : ");
+                String password = s.nextLine().trim();
+                System.out.println();
+                
+                if(!map.containsKey(id)) {
+                    System.out.println("입력하신 id는 존재하지 않습니다. 다시 입력해주세요");
+                    continue;
+                }
+                
+                if(!(map.get(id)).equals(password)) { 
+                    System.out.println("비밀번호가 일치하지 않습니다. 다시 입력해주세요"); 
+                } else {
+                    System.out.println("id와 비밀번호가 일치합니다.");
+                    break;
+                }
+                
+            }
+        }
+    }
+    ```
+
+- 예제2
+    ```
+    public class test {
+        public static void main(String[] args) {
+            HashMap map = new HashMap();
+            map.put("가", new Integer(90));
+            map.put("나", new Integer(100));
+            map.put("다", new Integer(30));
+            map.put("라", new Integer(40));
+            map.put("마", new Integer(50));
+            
+            Set set = map.entrySet();
+            Iterator it = set.iterator();
+            
+            while(it.hasNext()) {
+                Map.Entry e = (Map.Entry)it.next(); //Entry는 Map인터페이스 안에 정의된 내부 인터페이스
+                System.out.println("이름 : " + e.getKey() + ", 점수 : " + e.getValue());
+            }
+            
+            set = map.keySet();
+            System.out.println("참가자 명단 : " + set);
+            
+            Collection values = map.values();
+            it = values.iterator();
+            
+            int total = 0;
+            
+            while(it.hasNext()) {
+                int i = (int)it.next();
+                total += i;
+                
+            }
+            System.out.println("총점 : " + total);
+            System.out.println("평균 : " + (float)total/set.size());
+            System.out.println("최고점수 : " + Collections.max(values)); //max안에는 comparable을 구현한 객체만 들어올 수 있다(기준이 있어야 하므로). 밑의 min도 마찬가지
+            System.out.println("최저점수 : " + Collections.min(values));
+        }
+    }
+    ```
+
+    결과는
+    ```
+    이름 : 가, 점수 : 90
+    이름 : 다, 점수 : 30
+    이름 : 나, 점수 : 100
+    이름 : 마, 점수 : 50
+    이름 : 라, 점수 : 40
+    참가자 명단 : [가, 다, 나, 마, 라]
+    총점 : 310
+    평균 : 62.0
+    최고점수 : 100
+    최저점수 : 30
+    ```
+#### Properties
+- HashMap 에서의 변형
+- 키, 값을 문자열(String)만으로 저장
+- 파일의 읽기와 쓰기가 용이
+
+
 ## Stack & Queue
 
 ### Stack 
 - 클래스
 - 밑에 막힌 box(상자). 위만 뚫려 있는 구조
 - LIFO(Last in First Out)구조. 마지막에 저장된 것을 제일 먼저 꺼내게 된다.
+- ArrayList, Vector를 이용해서 만든 것이 stack
 - 저장(push), 추출(pop)
 - 스택을 구현하려면 배열과 링크드리스트 중에서 배열이 더 효율적. 순차적으로 저장, 삭제가 되므로
 - 메서드
@@ -323,6 +443,7 @@ class TreeNode {
     - Queue를 직접 구현 or Queue를 구현한 클래스 사용(LinkedList)
 - 파이프 구조(위 아래가 다 뚫려 있음)
 - FIFO(FIrst in First Out)구조. 제일 먼저 저장한 것을 제일 먼저 꺼내게 된다.
+- LinkedList로 만든 것이 Queue
 - 저자(offer), 추출(poll)
 - 큐를 구현하려면 배열과 링크드리스트 중에서 링크드리스트가 더 효율적. 자리이동 없이 연결만 바꿔주면 되므로.    
 - 메서드
@@ -523,6 +644,98 @@ class TreeNode {
 1. 람다와 스트림 - paralleXXX(), spliterator(), stream()
 
 
+
+## Collections 컬렉션을 위한 메서드(static) 제공
+- 컬렉션을 다루기에 유용한 static 메서드 제공
+- 참고) Objects, Arrays, Collections 모두 다 각각, 배열, 컬렉션을 다루기 위한 static 메서드 제공
+
+1. 컬렉션 채우기, 복사, 정렬, 검색 - fill(), copy(), sort(), binarySearch() 등
+
+1. 컬렉션의 동기화 - synchronizedXXX()
+
+    static Collection `synchronized`Collection(Collection c)
+
+    static List       `synchronized`List(List list)
+    
+    static Set        `synchronized`Set(Set s)
+
+    static Map        `synchronized`Map(Map m)
+
+    static SortedSet  `synchronized`SortedSet(SortedSet s)
+
+    static SortedSet  `synchronized`SortedMap(SortedMap m)
+
+    - 사용법
+    
+    매개변수인(동기화X) new ArrayList 를 넣어서 동기화 된 synList를 만드는 것
+
+    동기화된 synList는 Vector(원래 동기화O)와 동일해지게 된 것
+    ```
+    List synList = Collections.synchronizedList(new ArrayList(...));
+
+    ```
+
+1. 변경불가(readOnly) 컬렉션 만들기 - unmodifiableXXX()
+
+    static Collection `unmodifiable`Collection(Collection c)
+
+    static List `unmodifiable`List(List list)
+
+    static Set `unmodifiable`Set(Set s)
+
+    static Map `unmodifiable`Map(Map m)
+
+    static NavigableSet `unmodifiable`NavigableSet(NavigableSet s)
+
+    static SortedSet `unmodifiable`SortedSet(SortedSet s)
+
+    static NavigableMap `unmodifiable`NavigableMap(NavigableMap m)
+
+    static SortedMap `unmodifiable`SortedMap(SortedMap m)
+
+1. 싱글톤 컬렉션 만들기 - singletonXXX()
+
+    static List singleton(Object o)
+
+    static Set singleton(Object o)
+
+    static Map singletonMap(Object key, Object value)
+
+
+1. 한 종류의 객체만 저장하는 컬렉션 만들기 - checkedXXX()
+
+    static Collection `checked`Collection(Collection c, Class type)
+
+    static List `checked`List(List list, Class type) 
+
+    static Set  `checked`Set(Set s, Class type)
+
+    static Map  `checked`Map(Map m, Class keyType, Class valueType)
+    
+    static Queue `checked`Queue(Queue queue, Class type)
+
+    static NavigableSet `checked`NavigableSet(NavigableSet s, Class type)
+
+    static SortedSet `checked`SortedSet(SortedSet s, Class type)
+
+    static NavigableSet `checked`NavigableMap(NavigableMap m, Class keyType, class valueType)
+
+    static SortedMap `checked`SortedMap(SortedMap m, Class keyType, Class valueType)
+
+    - 사용법
+    
+    원래 add(Object obj)라서 다 넣을 수 있지만 지정한 종류의 타입만 가능
+    ```
+    List list - new ArrayList();
+    List CheckedList = checkedList(list, String.class); // String만 저장가능
+
+    checkedList.add("abc");
+    checkedList.add(new Integer(3)); //에러남 ClassCastException 발생
+    ```
+
+
+
+
 ## Comparator와 Comparable
 
 - 객체 정렬에 필요한 메서드(정렬기준 제공)를 정의한 인터페이스
@@ -557,6 +770,8 @@ class TreeNode {
     ```    
 
 - 정렬은 대상과 기준이 있다. 그리고 정렬할 때는 `두 대상을 비교하고 자리를 바꾼다.` 이 부분은 절대불변이며(버블정렬, 선택정렬 등 모두 다 동일), 우리는 그 정렬하는 기준만 제시해주면 되는 것이다. 절대불변인 구체적 방법은 이미 다 구현되어 있는 상태.
+
+
 
 
 
