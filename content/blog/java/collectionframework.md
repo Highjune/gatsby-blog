@@ -182,7 +182,7 @@ draft: false
 1. 접근시간(access time) - ArrayList가 빠름
 
 
-#### HashSet
+### HashSet
 - Set 인터페이스를 구현한 대표적인 컬렉션 클래스
 - HashMap에서 key값들만으로 만든 것이 HashSet
 - 순서X, 중복X
@@ -244,11 +244,11 @@ draft: false
         }
     ```
 
-#### TreeMap
+### TreeMap
 - LinkedList에서 검색, 범위검색, 정렬기능 향상시킨 것
 
 
-#### TreeSet
+### TreeSet
 - TreeSet은 TreeMap에서 key 값들만으로 만든 것
 
 
@@ -284,7 +284,7 @@ class TreeNode {
 
 
 
-#### HashMap과 HashTable(구버전)
+### HashMap과 HashTable(구버전)
 - 순서 X, 중복(키X, 값O)
 - Map 인터페이스를 구현, 데이터를 키와 값의 쌍으로 저장
 - 키와 값을 Object로 저장(Properties는 문자열로만 저장가능)
@@ -413,7 +413,7 @@ class TreeNode {
     최고점수 : 100
     최저점수 : 30
     ```
-#### Properties
+### Properties
 - HashMap 에서의 변형
 - 키, 값을 문자열(String)만으로 저장
 - 파일의 읽기와 쓰기가 용이
@@ -495,7 +495,7 @@ class TreeNode {
     ```
 
 
-## Iterator, ListIterator, Enumeration
+### Iterator, ListIterator, Enumeration
 - 컬렉션에 저장된 데이터를 접근(읽는)하는데 사용되는 인터페이스
 - Enumeration은 Iterator의 구버전. `Iterator`를 사용하기
 - Iterator의 핵심 메서드 2개
@@ -606,7 +606,7 @@ class TreeNode {
     Iterator it = eSet.iterator();
     ```
 
-## Arrays 클래스
+### Arrays 클래스
 - 배열을 다루기 편리한 메서드(static) 제공. 마치 Math, Objects, Collections 클래스와 비슷(모두 static메서드 제공). util 메서드라고도 한다.
 
 1. 배열의 출력 - toString()
@@ -645,7 +645,7 @@ class TreeNode {
 
 
 
-## Collections 컬렉션을 위한 메서드(static) 제공
+### Collections 컬렉션을 위한 메서드(static) 제공
 - 컬렉션을 다루기에 유용한 static 메서드 제공
 - 참고) Objects, Arrays, Collections 모두 다 각각, 배열, 컬렉션을 다루기 위한 static 메서드 제공
 
@@ -736,7 +736,7 @@ class TreeNode {
 
 
 
-## Comparator와 Comparable
+### Comparator와 Comparable
 
 - 객체 정렬에 필요한 메서드(정렬기준 제공)를 정의한 인터페이스
     - Comparable 기본 정렬기준을 구현하는데 사용
