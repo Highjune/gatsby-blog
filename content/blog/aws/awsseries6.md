@@ -44,13 +44,18 @@ draft: false
     - time_zone을 검색해서 `asia/seoul` 클릭
 
 1. Character Set
-    - character_set_clinet 
-    - character_set_connection
-    - character_set_database
-    - character_set_filesystem
-    - character_set_results
-    - character_set_server
-    - 
+    - 아래는 다 `utf8mb4`
+        - character_set_clinet 
+        - character_set_connection
+        - character_set_database
+        - character_set_filesystem
+        - character_set_results
+        - character_set_server
+    - 아래는 다 `utf8`
+        - collation_connection
+        - collation_server
+    - `utf8mb4`와 `utf8`의 차이는 이모지 저장 가능 여부
+    
 
 
 1. Max Connection
