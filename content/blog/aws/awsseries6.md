@@ -1,6 +1,6 @@
 ---
 title: '(AWS시리즈6) AWS RDS'
-date: 2020-09-04 01:00:00
+date: 2020-09-14 16:00:00
 category: 'aws'
 draft: false
 ---
