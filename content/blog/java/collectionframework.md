@@ -8,7 +8,7 @@ draft: false
 
 # 컬렉션 프레임웍
 
-- ![](./images/collectionframework/0.png)
+![](./images/collectionframework/0.png)
 
 
 ## 컬렉션(collection)
@@ -30,7 +30,7 @@ draft: false
 
 ## 컬렉션 프레임웍의 핵심 인터페이스(크게 3가지)
 1. List
-    - ![](./images/collectionframework/1.png)
+    ![](./images/collectionframework/1.png)
     - 순서 O, 중복 O
     - ex) 대기자 명단
     - 구현 클래스 : ArrayList, LinkedList, Stack, Vector 등
@@ -38,14 +38,14 @@ draft: false
     - vector의 발전된 형태가 ArrayList
 
 1. Set
-    - ![](./images/collectionframework/2.png)
+    ![](./images/collectionframework/2.png)
     - 순서 X, 중복 X
     - ex) 양의 정수집합, 소수의 집합
     - 구현 클래스 : HashSet, TreeSet 등
     - HashSet과 TreeSet이 핵심
 
 1. Map
-    - ![](./images/collectionframework/3.png)
+    ![](./images/collectionframework/3.png)
     - 키(key)와 값(value)의 쌍으로 이루어진 데이터의 집합
     - 순서 X, 키는 중복 X, 값은 중복 O
     - ex) 우편번호, 지역번호, id와 passwd

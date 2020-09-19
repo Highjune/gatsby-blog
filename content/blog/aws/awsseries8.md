@@ -1,6 +1,6 @@
 ---
 title: '(AWS시리즈8) Travis CI 배포 자동화'
-date: 2020-09-16 17:10:00
+date: 2020-09-19 18:30:00
 category: 'aws'
 draft: false
 ---
@@ -455,7 +455,208 @@ ll
 
 - 이렇게 Travis CI와 S3, CodeDeploy가 연동이 완료되었다.
 
-## 배포 자동화 구성
+# 배포 자동화 구성
+
+- 앞의 과정에서 Travis CI, S3, CodeDeploy 연동까지 구현되었다. 이제 이것을 기반으로 실제로 Jar를 배포하여 실행까지 해보겠습니다.
+
+## dpeloy.sh 파일 추가
+
+- 먼저 Step 환경에서 실행될 deploy.sh 를 생성. scripts 디렉토리를 생성(프로젝트 바로 밑 depth에)하여 여기에 스트립크를 생성
+
+```
+#!/bin/bash
+
+REPOSITORY=/home/ec2-user/app/step2
+PROJECT_NAME=freelec-springboot2-webservice
+
+echo "> Build 파일 복사"
+
+cp $REPOSITORY/zip/*.jar $REPOSITORY/
+
+echo "> 현재 구동중인 애플리케이션 pid 확인"
+
+CURRENT_PID=$(pgrep -fl freelec-springboot2-webservice | grep jar | awk '{print $1}')
+
+echo "현재 구동중인 어플리케이션 pid: $CURRENT_PID"
+
+if [ -z "$CURRENT_PID" ]; then
+    echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
+else
+    echo "> kill -15 $CURRENT_PID"
+    kill -15 $CURRENT_PID
+    sleep 5
+fi
+
+echo "> 새 어플리케이션 배포"
+
+JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
+
+echo "> JAR Name: $JAR_NAME"
+
+echo "> $JAR_NAME 에 실행권한 추가"
+
+chmod +x $JAR_NAME
+
+echo "> $JAR_NAME 실행"
+
+nohup java -jar \
+    -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
+    -Dspring.profiles.active=real \
+    $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
+```
+
+- `CURRENT_PID`
+  - 현재 수행중인 스프링 부트 애플리케이션의 프로세스 ID를 찾는다.
+  - 실행 중이면 종료하기 위해서이다.
+  - 스프링 부트 애플리케이션 이름(freelec-springboot2-webservice)으로 된 다른 프로그램들이 있을 수 있어 freelec-springboot2-webservice로 된 jar(pgrep -fl freelec-springboot2-webservice) 프로세스를 찾은 뒤 ID를 찾는다(| awk '{print \$1}').
+- `chomod +x $JAR_NAME`
+  - Jar 파일은 실행 권한이 없는 상태
+  - nohup으로 실행할 수 있게 실행 권한을 부여한다
+- `$JAR_NAME > $REPOSITORY/nohup.out 2>&1 &`
+  - nohup 실행 시 CodeDeploy는 무한 대기한다
+  - 이 이슈를 해결하기 위해 nohup.out 파일을 표준 입출력용으로 별도로 사용한다
+  - 이렇게 하지 않으면 nohup.out 파일이 생기지 않고, CodeDeploy 로그에 표준 입출력이 출력된다
+  - nohup이 끝나기 전까지 CodeDeploy도 끝나지 않으니 꼭 이렇게 해야만 한다
+- step1에서 작성된 deploy.sh와 크게 다르지 않다. 웃너 git pull을 통해 직접 빌드했던 부분을 제거했다. 그리고 Jar를 실행하는 단계에서 몇 가지 코드가 추가되었다.
+
+## travis.yml 파일 수정
+
+- 현재는 프로젝트의 모든 파일을 zip파일로 만드는데, 실제로 필요한 파일들은 Jar, appspec.yml, 배포를 위한 스크립트들이다. 이 외 나머지는 배포에 필요하지 않으니 포함하지 않겠다. 그래서 .travis.yml 파일의 before_deploy를 수정한다.
+
+  ```
+  before_deploy:
+  - mkdir -p before-deploy # zip에 포함시킬 파일들을 담을 디렉토리 생성
+  - cp scripts/*.sh before-deploy/
+  - cp appspec.yml before-deploy/
+  - cp build/libs/*.jar before-deploy/
+  - cd before-deploy && zip -r before-deploy * # before-deploy로 이동후 전체 압축
+  - cd ../ && mkdir -p deploy # 상위 디렉토리로 이동후 deploy 디렉토리 생성
+  - mv before-deploy/before-deploy.zip deploy/freelec-springboot2-webservice.zip # deploy로 zip파일 이동
+  ```
+
+  - `mkdir -p before-deploy`
+    - Travis CI는 C3로 특정 파일만 업로드가 안된다.
+    - 디렉토리 단위로만 업로드할 수 있기 때문에 deploy 디렉토리는 항상 생성
+  - `cp scripts/*.sh before-deploy/`
+    - before-deploy에는 zip 파일에 포함시킬 파일들을 저장
+  - `cd before-deploy && zip -r before-deploy *`
+    - zip -r 명령어를 통해 before-deploy 디렉토리 전체 파일을 압축한다.
+
+- 이 외 나머지 코드는 수정할 것이 없다
+- 마지막으로 CodeDeploy의 명령을 담당할 appspec.yml 파일을 수정한다.
+
+## appspec.yml 파일 수정
+
+- appspec.yml 파일에 다음 코드 추가한다. location, timeout, runas의 들여쓰기를 주의해야 한다. 들여쓰기가 잘못될 경우 배포가 실패한다.
+
+  ```
+  permissions:
+    - object: /
+      pattern: "*"
+      owner: ec2-user
+      group: ec2-user
+
+  hooks:
+    ApplicationStart:
+      - location: deploy.sh
+        timeout: 60
+        runas: ec-user
+  ```
+
+  - `permissions`
+    - CodeDeploy에서 EC2 서버로 넘겨준 파일들을 모두 ec-user 권한을 갖도록 한다.
+  - `hooks`
+    - CodeDeploy 배포 단계에서 실행할 명령어를 지정
+    - ApplicationStart라는 단계에서 deploy.sh를 ec2-user 권한으로 실행하게 한다
+    - timeout: 60으로 스크립트 실행 60초 이상 수행되면 실패가 된다(무한정 기다릴 수 없으니 제한 필요)
+
+- 전체 코드는 다음과 같다.
+
+  ```
+  version: 0.0
+  os: linux
+  files:
+    - source:  /
+      destination: /home/ec2-user/app/step3/zip/
+      overwrite: yes
+
+  permissions:
+    - object: /
+      pattern: "**"
+      owner: ec2-user
+      group: ec2-user
+
+  hooks:
+    ApplicationStart:
+      - location: start.sh # 엔진엑스와 연결되어 있지 않은 Port로 새 버전의 스프링 부트를 시작.
+        timeout: 60
+        runas: ec2-user
+  ```
+
+- 모든 설정이 완료되었으니 깃허브로 커밋과 푸시. Travis CI에서 다음과 같이 성공 메시지 확인하고 CodeDeploy에서도 배포가 성공한 것 확인
+
+  ```
+  Preparing deploy
+  Deploying application
+  $ mkdir -p before-deploy
+  $ cp scripts/*.sh before-deploy/
+  ...
+  (중략)
+  ...
+  Deploying ...
+  Done. Your build exited with 0.
+  ```
+
+- 웹 브라우저에서도 Ec2 도메인을 입력해서 확인해 보기
+  `http://ec2-3-35-70-236.ap-northeast-2.compute.amazonaws.com:8080/`
+
+- 마지막으로 실제 배포하듯이 진행해 보겠다.
+
+## 실제 배포 과정 체험
+
+- build.gradle에서 프로젝트 버전 변경
+  - 원래는 `version '1.0-SNAPSHOT'`
+  - 변경은 `VERSION '1.0.1-SNAPSHOT'`
+- 간단하게나마 변경된 내용을 알 수 있게 src/main/resources/templates/index.mustache 내용에 다음과 같이 Ver.2 텍스트 추가
+
+  ```
+  (중략)
+  <h1>스프링 부트로 시작하는 웹 서비스 Ver.2</h1>
+  (중략)
+  ```
+
+- 그리고 깃허브로 커밋과 푸시. 그럼 당므과 같이 변경된 코드(`Ver.2`)가 배포된 것을 확인할 수 있다.
+
+  - `http://ec2-3-35-70-236.ap-northeast-2.compute.amazonaws.com:8080/` 에서 확인
+
+- 이렇게 신규 버전(수정해서 배포)이 정상적으로 잘 배포되었다.
+
+# CodeDeploy 로그 확인
+
+- CodeDeploy와 같이 AWS가 지원하는 서비스에서는 오류가 발생했을 때 로그 찾는 방법을 모르면 오류를 해결하기가 어렵다. 그래서 배포가 실패하면 어느 로그를 봐야 할지 간단하게 소개
+- CodeDeploy에 관한 대부분 내용은 `/opt/codedeploy-agent/deployment-root`에 있다. 해당 디렉토리로 이동(cd /opt/codedeploy-agent/deployment-root)한 뒤 목록을 확인해보면(`ll`) 다음과 같은 내용을 확인할 수 있다.
+
+  ```
+  (권한, 날짜 생략) (숫자+영문자)-(숫자-영문자)
+  (권한, 날짜 생략) deployment-instructions
+  (권한, 날짜 생략) deployment-logs
+  (권한, 날짜 생략) ongoing-deployment
+  ```
+
+  - `(숫자+영문자)-(숫자-영문자)`
+    - 최상단의 영문과 대시(-)가 있는 디렉토리명은 CodeDeploy ID이다.
+    - 사용자마다 고유한 ID가 생성되어 각자 다른 ID가 발급되니 본인의 서버에는 다른 코드로 되어있다.
+    - 해당 디렉토리로 들어가 보면 배포한 단위별로 배포 파일들이 있다/
+    - 본인의 배포 파일이 정상적으로 왔는지 확인해 볼 수 있다.
+  - `/opt/codedeploy-agent/deployment-root/deployment-logs/codedeploy-agent-deployments.log`
+    - CodeDeploy 로그 파일이다.
+    - CodeDeploy로 이루어지는 배포 내용 중 표준 입/출력 내용은 모두 여기에 있다.
+    - 작성한 echo 내용도 모두 표기
+
+- 이렇게 테스트, 빌드, 배포까지 전부 자동화되었다.
+- 이제는 작업이 끝난 내용을 Master 브랜치에 푸시만 하면 자동으로 EC2에 배포가 된다.
+- 배포하는 동안에도 서비스는 계속 유지가 될까
+- 이제 `서비스 중단 없는 배포` 방법을 소개. `무중단 배포`. 다음 장에서
 
 # 참고
 
@@ -467,3 +668,5 @@ ll
 
 - CodeDeploy가 빌드도 하고 배포도 할 수 있다. CodeDeploy에서는 깃허브 코드를 가져오는 기능을 지원하기 때문이다. 하지만 이렇게 할 때 빌드 없이 배포만 필요할 때 대응하기 쉽지 않다.
 - 빌드와 배포가 분리되어 있으면 예전에 빌드되어 만들어진 Jar를 재사용하면 되지만 CodeDeploy가 모든 것을 하게 될 땐 `항상 빌드를 하게 되니(안해도 되는 경우에도)`, 확장성이 많이 떨어진다. 그래서 웬만하면 빌드와 배포는 분리하는 것을 추천
+
+참고 : 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 - 이동욱
