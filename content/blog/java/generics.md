@@ -268,4 +268,312 @@ HashMap<String, Student> map = new HashMap<>();
 
 참고 : 자바의 정석 - 남궁성
 
+## 제한된 지네릭 클래스
+
+- extends로 대입할 수 있는 타입을 제한
+
+```
+class FruitBox<T extends Fruit>{
+	ArrayList<T> list = new ArrayList<T>();
+
+}
+
+public class Test {
+	public static void main(String[] args) {
+		FruitBox<Apple> appleBox = new FruitBox<Apple>(); //OK
+		FruitBox<Toy> toyBox = new FruitBox<Toy>(); //에러. Toy는 Fruit의 자손이 아님
+	}
+}
+
+```
+
+- 인터페이스인 경우에도 extends를 사용(`implements가 아니다`)
+
+```
+interface Eatable {}
+class FruitBox<T extends Eatable> {...}
+
+```
+
+- 예제
+
+```
+class Fruit implements Eatable {
+	public String toString() {
+		return "Fruit";
+	}
+}
+
+class Apple extends Fruit {
+	public String toString()  { return "Apple";}
+}
+class Grape extends Fruit {
+	public String toString()  { return "Grape";}
+}
+class Toy {
+	public String toString()  { return "Toy";}
+}
+
+interface Eatable {}
+
+public class Test {
+	public static void main(String[] args) {
+		FruitBox<Fruit> fruitBox = new FruitBox<Fruit>();
+		FruitBox<Apple> appleBox = new FruitBox<Apple>();
+		FruitBox<Grape> grapeBox = new FruitBox<Grape>();
+//		FruitBox<Grpae> grapeBox = new FruitBox<Apple>(); //에러, 타입 불일치
+//		FruitBox<Toy> toyBox = new FruitBox<Toy>(); // 에러, FruitBox는 Fruit를 상속받아야 하며 Eatable를 구현한 것만 들어올 수 있다. Toy는 해당 안됨
+
+		fruitBox.add(new Fruit()); //Box클래스에서 add(T item)메서드가 add(Fruit  item) 으로 변경되기 때문에 다형성에 의해 Fruit포함 자손들 다 add 매개변수로 들어올 수 있다.
+		fruitBox.add(new Apple());
+		fruitBox.add(new Grape());
+		appleBox.add(new Apple());
+//		appleBox.add(new Grape()); //에러. Grape는 Apple의 자손이 아님
+		grapeBox.add(new Grape());
+
+		System.out.println("fruitBox" + fruitBox);
+	}
+}
+
+class FruitBox<T extends Fruit & Eatable> extends Box<T> {} //클래스(Fruit)와 인터페이스(Eatable) 둘 다 구현할 때는 , 로 연결안되고 &로 구분해야 한다.
+//사실 위는 class FruitBox<T extends Fruit> extends Box<T> {} 와 똑같다. Fruit이 Eatable을 구현했으므로.
+
+class Box<T> {
+	ArrayList<T> list = new ArrayList<T>(); // item을 저장할 list
+	void add(T item) {list.add(item);} //박스에 item을 추가
+	T get(int i) {return list.get(i);} //박스에서 item을 꺼낼 때
+	int size() {return list.size();}
+	public String toString() {return list.toString();}
+}
+
+```
+
+## 지네릭스의 제약
+
+- 타입 변수에 대입은 인스턴스별로 다르게 가능하다
+
+```
+class Box<T> {}
+Box<Apple> appleBox = new Box<Apple>(); //OK. Apple객체만 저장가능
+Box<Grape> grapebox = new Box<Grape>(); //OK. Apple객체만 저장가능
+```
+
+제약1. static멤버에 타입 변수 사용 불가
+
+- static 멤버는 모든 인스턴스에 공통이므로 불가.(인스턴스별로 타입 변수 지정이 가능해야하는데)
+
+```
+class Box<T> {
+  static T item; // 에러
+  static int compare(T t1, T t2) {...} // 에러
+  ...
+}
+```
+
+제약2. 배열생성, 객체생성할 때 타입 변수 사용불가. 타입 변수로 배열 선언은 가능(new 연산자는 뒤의 타입이 확정되어 있어야 한다)
+
+```
+class Box<T>{
+  T[] itemArr; //OK. T타입의 배열을 위한 참조변수
+    ...
+  T[] toArray() {
+    T[] tmpArr = new T[itemArr.length]; // 에러. 지네릭 배열 생성불가, new T 자체가 불가하다.
+    ...
+  }
+}
+```
+
+## 와일드 카드 <?>
+
+- 하나의 참조 변수로 대입된 타입이 다른 객체를 참조 가능
+- 원래 지네릭스에서는 참조변수와 생성자에 대입된 타입이 일치해야 하는데, 다형성처럼 하나의 참조변수로 여러 객체를 가리키고자 만들어진 것이 와일드 카드
+
+- 와일드 카드를 사용하면 불일치도 가능하다
+  - list 참조변수 하나로 Tv와 Audio둘 모두 가리킬 수 있다.
+
+```
+ArrayList<? extends Product> list = new ArrayList<Tv>(); // OK
+ArrayList<? extends Product> list = new ArrayList<Audio>(); // OK
+```
+
+- 와일드 카드의 3가지 용법
+
+  1. `<? extends T>` 와일드 카드의 상한 제한. T와 그 자손들만 가능(가장 많이 쓰임)
+  2. `<? super T>` 와일드 카드의 하한 제한. T와 그 자손들만 가능
+  3. `<?>` 제한없음. 모든 타입이 가능 <? extends ObjecT>와 동일
+
+- 메서드의 매개변수에 와일드 카드 사용가능
+
+```
+static Juice makeJuice(FruitBox<? extends Fruit> box) {
+  String tmp : "";
+  for(Fruit f : box.getList()) tmp += f + " ";
+  return new Juice(tmp);
+}
+
+..(중략)..
+
+//아래 둘 다 가능. 만약 makeJuice(FruitBox<Fruit> box)로 정의되어 있으면 매개변수로 new FruitBox<Fruit>() 만 가능하다. (일치하는 것만 가능). 즉, 매개변수 FruitBox<? etends Fruit> box 는 FruitBox<Fruit>와 Fruitbox<Apple> 2가지 모두를 포함한다.
+
+System.out.println(Juicer.makeJuice(new FruitBox<Fruit>()));
+System.out.println(Juicer.makeJuice(new FruitBox<Apple>()));
+```
+
+## 지네릭 메서드
+
+- 지네릭 타입이 선언된 메서드(타입 변수는 메서드 내에서만 유효)
+
+```
+static <T> void Sort(List<T> list, Comparator<? super T> c)
+```
+
+- 클래스의 타입 매개변수`<T>`와 메서드의 타입 매개변수 `<T>`는 별개
+  - 밑에서 FruitBOx`<T>`와 메서드에 있는 `<T>`는 별개다. 전자에 String, 후자에 Integer로 따로 설정 가능
+
+```
+class FruitBox<T> {
+  ...
+  static <T> void sort(List<T> list, Comparator<? super T> c){
+    ...
+  }
+}
+```
+
+- 메서드를 호출할 때마다 타입을 대입해야(대부분 생략 가능)
+  - 지네릭 클래스는 객체를 생성할 때 지네릭 타입을 대입하는 반면, 메서드는 호출할 때마다.
+
+```
+FruitBox<Fruit> fruitBox = new FruitBox<Fruit>();
+FruitBox<Fruit> fruitBox = new FruitBox<Apple>();
+  ...
+System.out.println(Juicer.<Fruit>makeJuice(fruitBox)); //여기서 Fruit>은 생략가능. 위의 new FruitBox<Fruit>(); 에서 이미 <Fruit> 이라고 이미 명시했기 때문에.
+System.out.println(Juicer.<Apple>makeJuice(appleBox));//여기서 Apple>은 생략가능. 위의 new FruitBox<Apple>>(); 에서 이미 <Apple> 이라고 이미 명시했기 때문에.
+...
+
+static<T extends Fruit> Juice makeJuice(FruitBox<T> box){
+  String tmp : "";
+  for(Fruit f : box.getList()) tmp += f + " ";
+  return new Juice(tmp);
+}
+
+```
+
+- 메서드를 호출할 때 타입을 생략하지 않을 때는 클래스 이름 생략 불가
+
+```
+System.out.println(<Fruit>makeJuice(fruitBox)); //에러, 클래스 이름 생략불가
+System.out.println(this.<Fruit>makeJuice(fruitBox)); // OK
+System.out.println(Juicer.<Fruit>makeJuice(fruitBox)); // OK
+```
+
+- 지네릭 메서드 vs 와일드카드 메서드
+  - `지네릭 메서드`는 지네릭 클래스처럼 호출할 때마다 다른 타입을 대입할 수 있는 것이며, `와일드카드`는 하나의 참조변수로 대입된 타입이 다른 여러 지네릭 객체를 다룰 수 있게 하기 위한 것. (용도가 조금 다르다)
+  - 와일드 카드를 쓰지 못하는 경우가 있는데, 그럴 때 지네릭 메서드를 사용한다.
+  - 아래 2개는 같이 쓸 수 있다.
+    - 지네릭 메서드
+    ```
+    static <T extends Fruit> Juice makeJuice(FruitBox<T> box) {
+      String tmp : "";
+      for(Fruit f : box.getList()) tmp += f + " ";
+      return new Juice(tmp);
+    }
+    ```
+    - 와일드카드 메서드
+    ```
+    static Juice makeJuice(FruitBox<? extends Fruit> box) {
+      String tmp : "";
+      for(Fruit f : box.getList()) tmp += f + " ";
+      return new Juice(tmp);
+    }
+    ```
+
 ## 지네릭 타입의 형변환
+
+- 지네릭 타입과 원시 타입 간의 형변환은 바람직하지 않다.(경고 발생)
+  - 즉 `class Box<T> {}`로 선언이 되어있는데 타입을 대입하지 않고 Box만 쓰면 안된다라는 것. 원시타입과 지네릭 타입을 섞어서 쓰지 말기
+
+```
+Box<Object> objBox = null;
+Box box = (Box)objBox;  // OK. 지네릭 타입 -> 원시 타입. 경고 발생
+objBox = (Box<Object>)box; //OK. 원시타입 -> 지네릭 타입. 경고 발생
+```
+
+- ex)
+
+```
+Box b = null;
+Box<String> bStr = null;
+
+b = (Box)bStr; // Box<String> -> Box 가능, 그러나 경고
+bStr = (Box<String>b); // Box -> ox<String>  가능, 그러나 경고
+```
+
+- 와일드 카드가 사용된 지네릭 타입으로는 형변환 가능
+
+```
+Box<Object>objBox = (Box<Object>)new Box<String>(); // 에러, 형변환 불가능
+Box<? extends Ojbect> wBox = (Box<? extends Object>)new Box<String>(); // OK, 형변환 가능
+Box<? extends Object> wBox = new Box<String>(); //OK, 위 문장과 동일(형변환이 생략되어 있는 것임)
+```
+
+## 지네릭 타입의 제거
+
+- 컴파일러는 지네릭 타입을 제거하고, 필요한 곳에 형변환을 넣는다. (안정적인 하위호환성 때문에. JDK 1.5 이전버전과 문제 없이 돌아가게 하려고)
+
+1. 지네릭 타입의 경계(bound)를 제거
+
+   ```
+   class Box<T>{
+     void add(T t) {
+       ...
+     }
+   }
+   ```
+
+   - 컴파일이 되면 위가 아래처럼 된다.
+
+   ```
+   class Box{
+     void add(Object obj){
+       ...
+     }
+   }
+   ```
+
+   또,
+
+   ```
+   class Box<T extends Fruit>{
+     void add(T t) {
+       ...
+     }
+   }
+   ```
+
+   - 컴파일이 되면 위가 아래처럼 된다.
+
+   ```
+   class Box{
+     void add(Fruit t){
+       ...
+     }
+   }
+   ```
+
+2. 지네릭 타입 제거 후에 타입이 불일치하면, 형변환을 추가
+
+   ```
+   T get(int i) {
+     return list.get(i);
+   }
+   ```
+
+   - 위의 코드는 아래처럼 변경
+
+   ```
+   Fruit get(int i) {
+     return (Fruit)list.get(i);
+   }
+   ```
+
+참고 : 자바의 정석 - 남궁성

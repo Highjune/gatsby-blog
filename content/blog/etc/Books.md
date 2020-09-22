@@ -1,6 +1,6 @@
 ---
 title: '개발책 정리'
-date: 2020-09-18 16:21:13
+date: 2020-09-21 15:00:00
 category: 'etc'
 draft: false
 ---
