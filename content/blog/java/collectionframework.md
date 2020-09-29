@@ -331,7 +331,7 @@ class TreeNode {
 
   ![](./images/collectionframework/7.png)
 
-- 키와 값을 묶어서 etnry 라고 한다.
+- 키와 값을 묶어서 `entry` 라고 한다.
 
 - 해시테이블에 저장된 데이터를 가져오는 과정
   ![](./images/collectionframework/8.png)
@@ -480,7 +480,7 @@ class TreeNode {
 - 파이프 구조(위 아래가 다 뚫려 있음)
 - FIFO(FIrst in First Out)구조. 제일 먼저 저장한 것을 제일 먼저 꺼내게 된다.
 - LinkedList로 만든 것이 Queue
-- 저자(offer), 추출(poll)
+- 저장(offer), 추출(poll)
 - 큐를 구현하려면 배열과 링크드리스트 중에서 링크드리스트가 더 효율적. 자리이동 없이 연결만 바꿔주면 되므로.
 - 메서드
   - boolean add()
@@ -544,7 +544,7 @@ class TreeNode {
   - boolean hasMoreElements() // Iteartor의 hasNext()와 동일
   - Object nextElement() // Iterator의 next()와 동일
 - ListIterator는 Iterator의 접근성을 향상시킨 것(단방향 -> 양방향)
-- 컬렉션에 저장된 요소들을 읽어오는 방법을 표준화한 것이다. 그래서 구조가 어떻든 간에(List, Set, Map) hasNext()와 next()로 접근하여 사용하면 된다.
+- 컬렉션에 저장된 요소들을 읽어오는 방법을 `표준화`한 것이다. 그래서 구조(List, Set, Map)가 어떻든 간에 hasNext()와 next()로 접근하여 사용하면 된다.
 - 사용법
 
   - 컬렉션에 iterator()를 호출해서 Iterator를 구현한 객체를 얻어서 사용
