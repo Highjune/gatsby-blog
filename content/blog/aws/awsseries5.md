@@ -140,4 +140,4 @@ Failed to connect to freelec-springboot2-webservice port 80:
 
 이는 아직 80포트로 실행된 서비스가 없음을 의미한다. 즉 curl 호스트 이름으로 실행은 잘 되었음을 의미.
 
-참고 : 스프링 부트와 AWS로 혼자 구현하는 웹 서비스
+참고 : 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 - 이동욱
