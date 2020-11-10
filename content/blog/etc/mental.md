@@ -1,6 +1,6 @@
 ---
 title: '유념할 것 정리'
-date: 2020-10-25 23:00:00
+date: 2020-11-09 23:00:00
 category: 'etc'
 draft: false
 ---

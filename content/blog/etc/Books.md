@@ -1,6 +1,6 @@
 ---
 title: '개발책 정리'
-date: 2020-09-21 15:00:00
+date: 2020-11-11 12:00:00
 category: 'etc'
 draft: false
 ---
@@ -16,11 +16,12 @@ draft: false
 
 ## `reading`
 
-1. Pro git 2/E
-1. 자바의 정석(2권)
-1. 혼자 공부하는 자바
-1. 만화로 배우는 리눅스 시스템관리
 1. 알고리즘 도감
+1. 혼자 공부하는 자바
+1. 자바의 정석(2권)
+1. Pro git 2/E
+   - 새로운 프로젝트 시작할 때 공부하기
+1. 만화로 배우는 리눅스 시스템관리
 
 ## `completed`
 
@@ -58,8 +59,12 @@ draft: false
 1. TCP/IP 완벽 가이드
 1. 읽기 좋은 코드가 좋은 코드다
 1. 그림으로 배우는 HTTP & Network
+1. 자바로 배우는 쉬운 자료구조
+1. Cracking the Coding Interview
+   - 미국 개발자들이 코딩 테스트 준비할 때 보는 수학의 정석 같은 책. 틈날 때마다 자주 보기(영어 독해만 된다면 가장 좋은 책)
 
-[책추천](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/) 에서 참고 후 좀 더 추가하기
+[책추천1](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/) 에서 참고 후 좀 더 추가하기
+[책추천2, 강의](https://github.com/cheese10yun/dev-info) 에서도 참고하기
 
 ---
 
