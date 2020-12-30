@@ -9,7 +9,8 @@ draft: false
 
 # 지네릭스(Generics)
 
-- 컴파일시 타입을 체크해 주는 기능(compile-time type check) - JDK1.5
+- 컴파일시 타입을 체크해 주는 기능(compile-time type check) - JDK1.5부터
+  - 컴파일러에게 타입을 알려줌
 - 객체의 타입 안정성을 높이고 형변환의 번거로움을 줄여줌(코드 간결)
 - 기존에도 컴파일시 체크해주긴 했는데 한계가 존재했다.
 
@@ -26,7 +27,7 @@ draft: false
 
           list.add(10);
           list.add(20);
-          list.add("30");
+          list.add("30"); //사실 숫자만 넣고 싶었는데 String 넣었음에도 구분못함
 
           Integer i = (Integer)list.get(2); // 컴파일은 OK, 그러나 실행시에 에러가 발생한다.
 
@@ -35,9 +36,9 @@ draft: false
   }
   ```
 
-  - 위의 코드는 컴파일은 OK이지만, `ClassCastException(형변환)` 실행에러가 난다. 왜냐하면 list.get()의 모든 타입은 Object 라서 (Integer)로 형변환이 가능하다는 로직 때문에 컴파일이 가능하다. 하지만 실제로는 list.get(2)의 형은 "30", 즉 `String`이므로 `Integer`로 형변환이 불가능한다. 이 불가능한 것을 컴파일러는 체크하지 못하므로 한계.
+  - 위의 코드는 컴파일은 OK이지만, `ClassCastException(형변환)` 실행에러가 난다. 왜냐하면 list.get()의 모든 타입은 Object 라서 (Integer)로 형변환이 가능하다는 로직 때문에(Object->String 형변환 가능) 컴파일이 가능하다. 하지만 실제로는 list.get(2)의 형은 "30", 즉 `String`이므로 `Integer`로 형변환이 불가능하므로 에러 발생. 컴파일러는 실제로 안에 뭐가(String, Interger 등) 들어있는지 체크하지 못하므로 한계.
   - 실행시 에러가 발생하면 프로그램이 off된다. 그래서 실행시 에러보다 컴파일러 에러가 그나마 낫다. 따라서 컴파일에서 애초에 그 에러를 잡는 것이 중요하다.
-  - 실행시 에러를 컴파일 에러로 들고 오기 위한 고민이 바로 `Generics`
+  - 실행시 에러(RuntimeException)를 컴파일 에러(Compile Error)로 들고 오기 위한 고민이 바로 `Generics`. 컴파일러에게 타입 정보면 제공해주면 가능.
   - 따라서 아래와 같이 변경하면 가능.
 
   ```
@@ -51,24 +52,26 @@ draft: false
 
           list.add(10);
           list.add(20);
+          //list.add("30"); // 컴파일러가 에러를 잡아준다. String은 들어갈 수 없음
           list.add(30); //지네릭스 덕분에 타입 체크가 강화됨
 
-          Integer i = list.get(2); //형변환이 필요없다. 애초에 Integer밖에 못 들어오는 것을 알고 있기에
+          Integer i = list.get(2); //원래는 list.get()의 리턴이 Object라서 형 변환해줘야 하지만. 형변환도 생략가능. 애초에 Integer밖에 못 들어오는 것을 알고 있기에. 
 
           System.out.println(list);
       }
   }
   ```
 
-  - 만약 여러 종류를 저장하고 싶다면 `<Object>` 옵션을 주면 된다. 애초에 ArrayList는 Object를 넣기 때문에 안 넣어도 되지 않나? 아니다. JDK 1.5부터는 명시해야 한다.
+  - 만약 여러 종류를 저장하고 싶다면 `<Object>` 옵션을 주면 된다. 애초에 ArrayList는 Object를 넣기 때문에 안 넣어도 되지 않나? 아니다. JDK 1.5부터는 반드시 명시해야 한다. 
 
   ```
   ArrayList<Object> list = new ArrayList<Object>();
   ```
 
-- 클래스 안에 Object 타입이 있는 것들은 `일반클래스` -> `지네릭클래스`로 변경되었다.
+- 클래스 안에 Object 타입이 있는 것들은 `일반클래스` -> `지네릭클래스`로 변경되었다. 지네릭 타입을 반드시 써줘야 하는 클래스들이 있다. 타입을 꼭 지정해 줘야 한다.
 
-  - 클래스 옆에 문자가 있는 것들(타입변수, `<E>`)은 지네릭클래스다.
+  - 클래스 이름 옆에 문자가 있는 것들(타입변수, `<E>`)은 지네릭클래스다. 
+  - ArrayList 클래스 들어가서 설명 보면 알 수 있다.
   - ex) ArrayList -> ArrayList`<E>`
 
   ```
