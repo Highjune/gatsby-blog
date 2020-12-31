@@ -9,7 +9,8 @@ draft: false
 
 # 지네릭스(Generics)
 
-- 컴파일시 타입을 체크해 주는 기능(compile-time type check) - JDK1.5
+- 컴파일시 타입을 체크해 주는 기능(compile-time type check) - JDK1.5부터
+  - 컴파일러에게 타입을 알려줌
 - 객체의 타입 안정성을 높이고 형변환의 번거로움을 줄여줌(코드 간결)
 - 기존에도 컴파일시 체크해주긴 했는데 한계가 존재했다.
 
@@ -26,7 +27,7 @@ draft: false
 
           list.add(10);
           list.add(20);
-          list.add("30");
+          list.add("30"); //사실 숫자만 넣고 싶었는데 String 넣었음에도 구분못함
 
           Integer i = (Integer)list.get(2); // 컴파일은 OK, 그러나 실행시에 에러가 발생한다.
 
@@ -35,9 +36,9 @@ draft: false
   }
   ```
 
-  - 위의 코드는 컴파일은 OK이지만, `ClassCastException(형변환)` 실행에러가 난다. 왜냐하면 list.get()의 모든 타입은 Object 라서 (Integer)로 형변환이 가능하다는 로직 때문에 컴파일이 가능하다. 하지만 실제로는 list.get(2)의 형은 "30", 즉 `String`이므로 `Integer`로 형변환이 불가능한다. 이 불가능한 것을 컴파일러는 체크하지 못하므로 한계.
+  - 위의 코드는 컴파일은 OK이지만, `ClassCastException(형변환)` 실행에러가 난다. 왜냐하면 list.get()의 모든 타입은 Object 라서 (Integer)로 형변환이 가능하다는 로직 때문에(Object->String 형변환 가능) 컴파일이 가능하다. 하지만 실제로는 list.get(2)의 형은 "30", 즉 `String`이므로 `Integer`로 형변환이 불가능하므로 에러 발생. 컴파일러는 실제로 안에 뭐가(String, Interger 등) 들어있는지 체크하지 못하므로 한계.
   - 실행시 에러가 발생하면 프로그램이 off된다. 그래서 실행시 에러보다 컴파일러 에러가 그나마 낫다. 따라서 컴파일에서 애초에 그 에러를 잡는 것이 중요하다.
-  - 실행시 에러를 컴파일 에러로 들고 오기 위한 고민이 바로 `Generics`
+  - 실행시 에러(RuntimeException)를 컴파일 에러(Compile Error)로 들고 오기 위한 고민이 바로 `Generics`. 컴파일러에게 타입 정보면 제공해주면 가능.
   - 따라서 아래와 같이 변경하면 가능.
 
   ```
@@ -51,24 +52,26 @@ draft: false
 
           list.add(10);
           list.add(20);
+          //list.add("30"); // 컴파일러가 에러를 잡아준다. String은 들어갈 수 없음
           list.add(30); //지네릭스 덕분에 타입 체크가 강화됨
 
-          Integer i = list.get(2); //형변환이 필요없다. 애초에 Integer밖에 못 들어오는 것을 알고 있기에
+          Integer i = list.get(2); //원래는 list.get()의 리턴이 Object라서 형 변환해줘야 하지만. 형변환도 생략가능. 애초에 Integer밖에 못 들어오는 것을 알고 있기에. 
 
           System.out.println(list);
       }
   }
   ```
 
-  - 만약 여러 종류를 저장하고 싶다면 `<Object>` 옵션을 주면 된다. 애초에 ArrayList는 Object를 넣기 때문에 안 넣어도 되지 않나? 아니다. JDK 1.5부터는 명시해야 한다.
+  - 만약 여러 종류를 저장하고 싶다면 `<Object>` 옵션을 주면 된다. 애초에 ArrayList는 Object를 넣기 때문에 안 넣어도 되지 않나? 아니다. JDK 1.5부터는 반드시 명시해야 한다. 
 
   ```
   ArrayList<Object> list = new ArrayList<Object>();
   ```
 
-- 클래스 안에 Object 타입이 있는 것들은 `일반클래스` -> `지네릭클래스`로 변경되었다.
+- 클래스 안에 Object 타입이 있는 것들은 `일반클래스` -> `지네릭클래스`로 변경되었다. 지네릭 타입을 반드시 써줘야 하는 클래스들이 있다. 타입을 꼭 지정해 줘야 한다.
 
-  - 클래스 옆에 문자가 있는 것들(타입변수, `<E>`)은 지네릭클래스다.
+  - 클래스 이름 옆에 문자가 있는 것들(타입변수, `<E>`)은 지네릭클래스다. 
+  - ArrayList 클래스 들어가서 설명 보면 알 수 있다.
   - ex) ArrayList -> ArrayList`<E>`
 
   ```
@@ -80,8 +83,8 @@ draft: false
 
 ## 타입 변수
 
-- 클래스 작성시, Object타입 대신 타입 변수(E)를 선언해서 사용
-- E는 ELement(요소)의 약자. 타입 변수는 `<E>` 이외에 다른 것들 `<T>`, `<X>`, `<AB>` 등 여러가지 다 써도 된다.
+- 클래스 작성시, Object타입 대신 타입 변수`<E>`를 선언해서 사용
+- E는 Element(요소)의 약자. T는 Type의 약자. 타입 변수는 `<E>`, `<T>` 이외에 다른 것들 `<X>`, `<AB>` 등 여러가지 다 써도 된다.
 - 객체를 생성시, 타입 변수`<E>` 대신 실제 타입 `<Tv>`을 지정(대입)
 
 `ArrayList<Tv> tvList = new ArrayList<Tv>();`
@@ -108,6 +111,18 @@ public class ArrayList extends AbstractList<Tv>{
 ```
 
 - 타입 변수 대신 실제 타입이 지정되면, 형변환 생략가능
+  - 원래는 아래와 같았다.
+  ```
+  ArrayList tvList = new ArrayList();
+  tvList.add(new Tv());
+  Tv t = (Tv)tvList.get(0);  // 꺼낼 때의 타입이 Object이므로
+  ```
+  - 하지만, 아래와 같이 형변환 생략가능
+  ```
+  ArrayList<Tv> tvList = new ArrayList<Tv>();
+  tvList.add(new Tv());
+  Tv t = tvList.get(0);
+  ```
 
 ## 지네릭스 용어
 
@@ -118,7 +133,8 @@ public class ArrayList extends AbstractList<Tv>{
   - 실제 타입을 정해준다. ex) String 등
 - Box
 
-  - 원시 타입(raw type), 일반 클래스
+  - 원시 타입(raw type), 일반 클래스(지네릭 클래스로 바뀌기 전 타입)
+  - ex) Array`<String>` 이 되기 전의 그냥 Array
 
 - ex1) class Box`<T>`{ }
   - Box`<T>` - 지네릭클래스
@@ -129,6 +145,7 @@ public class ArrayList extends AbstractList<Tv>{
   Box<Stirng> b = new Box<String>();
   ```
   - `<String>` 은 대입된 타입(매개변수화된 타입, parameterized type). 참조변수의 타입과 생성자의 타입 `<String>`은 일치되어야 한다.
+  - 생성할 때마다 `<String>` 말고 다른 타입을 적용해도 된다.
   - Box`<String>` 는 지네릭 타입 호출
 
 ## 지네릭 타입과 다형성
@@ -144,7 +161,7 @@ public class ArrayList extends AbstractList<Tv>{
 
   ```
   ArrayList<Tv> list = new ArrayList<Tv>();      //OK. 일치
-  ArrayList<Product> list = new ArrayList<Tv>(); //에러, 불일치(다형성 성립 안됨)
+  ArrayList<Product> list = new ArrayList<Tv>(); //에러, 불일치(다형성 성립 안됨) 즉 부모 - 조상 관계라도 안된다
   ```
 
   ```
@@ -155,16 +172,28 @@ public class ArrayList extends AbstractList<Tv>{
 
   (메인함수)
   public static void main(String[] args) {
+      ArrayList<Product> productList = new ArrayList<Product>();
+      ArrayList<Tv> tvList = new ArrayList<Tv>();
+      List<Tv> tvList2 = new ArrayList<Tv>(); // OK. 다형성
+
+      // public boolean add(Product e) {}로 변환됨
+      productList.add(new Tv());
+      productList.add(new Audio()); // Audio가 Product의 자손이므로 가능
+
+      // public boolean add(Tv e) {}로 변환됨
+      tvList.add(new Tv()); 
+      tvList.add(new Audio()); // 안됨. Tv와 Audio는 아무 관계 없으므로
+
       printAll(tvList); //컴파일 에러가 난다
   }
   ```
 
   - 바로 위 코드에서 에러나는 이유는, printAll의 함수의 파라미터는 product타입을 받아야 하는데, tv타입을 대입했으므로.
 
-* 지네릭 클래스간의 다형성은 성립(여전히 대입된 타입은 일치해야 한다)
+- 지네릭 클래스간의 다형성은 성립(여전히 대입된 타입은 일치해야 한다)
 
 ```
-List<Tv> list = new ArrayList<Tv>(); //OK. 다형성. ArrayList가 List를 구현
+List<Tv> list = new ArrayList<Tv>();    //OK. 다형성. ArrayList가 List를 구현
 List<Tv> list = new LinkedList<Tv>();   //OK. 다형성. LinkedList가 List를 구현
 ```
 
@@ -185,18 +214,19 @@ List<Tv> list = new LinkedList<Tv>();   //OK. 다형성. LinkedList가 List를 �
   ```
 
   - 위의 코드 중 제일 마지막에 `Tv t = (Tv)List.get(1)`에서 (Tv)로 형변환 하는 이유는?
-    `E get(int index) {...}` -> `Product get(int index) {...}` 이므로 get의 타입은 Product 이기 때문에
+    `E get(int index) {...}` -> `Product get(int index) {...}` 이므로 get의 타입은 Object가 아니라 Product 이기 때문에
 
 ## Iterator`<E>`
+- 지네릭 클래스 중 1개
 
 - 클래스를 작성할 때, Object타입 대신 T와 같은 타입 변수를 사용
 
-  - 예전에는 아래와 같았지만,
+  - 예전에는 아래와 같았다.
 
   ```
   public interface Iterator {
-    boolean hasNexT();
-    Object nexT(); //Object
+    boolean hasNext();
+    Object next(); //next()의 리턴이 Object 타입
     void remove();
   }
 
@@ -207,12 +237,12 @@ List<Tv> list = new LinkedList<Tv>();   //OK. 다형성. LinkedList가 List를 �
   }
   ```
 
-  - 지네릭스를 사용하면 형변환이 필요가 없다.(코드 간결)
+  - 하지만 지네릭스를 사용하면 형변환이 필요가 없어져서 아래와 같이 코드 간결해진다.
 
   ```
   public interface Iterator<E>{
-    boolean hasNexT();
-    E nexT(); // next()가 Student 타입
+    boolean hasNext();
+    E next(); // next()의 리턴이 Student 타입
     void remove();
   }
 
@@ -223,10 +253,29 @@ List<Tv> list = new LinkedList<Tv>();   //OK. 다형성. LinkedList가 List를 �
   }
 
   ```
+  - ex)
+  ```
+    public class test {
+    public static void main(String[] args) {
+      ArrayList<Student> list = new ArrayList<Student>();
+      list.add(new Student("자바왕", 1, 1));
+      list.add(new Student("자바짱", 1, 2));
+      list.add(new Student("홍길동", 3, 4));
+      
+      Iterator<Student> it = list.iterator();
+      //Iterator it = list.iterator();
+      while(it.hasNext()) {
+        // System.out.println((Student).it.next()).name);
+        System.out.println(it.next()).name); // 훨씬 간결
+      }
+    }
+  }
+
+  ```
 
 ## HashMap<K,V>
 
-- 여러 개의 타입 변수가 필요한 경우, 콤마(,)를 구분자로 선언.
+- 여러 개의 타입 변수가 필요한 경우, 콤마(,)를 구분자로 선언. (3개 이상도 가능)
 - Key의 K, Value의 Value이다. 꼭 K와 V를 써야 하는 것은 아니다.
 
 ```
@@ -234,7 +283,7 @@ HashMap<String, Student> map = new HashMap<String, Student>(); // 생성
 map.put("자바왕", new Student("자바왕", 1, 1, 100, 100, 100)); // 데이터 저장
 ```
 
-- 위의 코드로 인해 밑의 코드가,
+- HashMap을 HashMap<String, Student>로 변환하게 되면 밑의 코드가,
 
 ```
 public class HashMap<K, V> extends AbstractMap<K, V> {
@@ -266,14 +315,13 @@ public class HashMap extends AbstractMap {
 HashMap<String, Student> map = new HashMap<>();
 ```
 
-참고 : 자바의 정석 - 남궁성
 
 ## 제한된 지네릭 클래스
 
 - extends로 대입할 수 있는 타입을 제한
 
 ```
-class FruitBox<T extends Fruit>{
+class FruitBox<T extends Fruit>{ // Fruit의 자손만 타입으로 지정가능
 	ArrayList<T> list = new ArrayList<T>();
 
 }
@@ -291,13 +339,15 @@ public class Test {
 
 ```
 interface Eatable {}
-class FruitBox<T extends Eatable> {...}
+class FruitBox<T extends Eatable> {...} // Eatable도 인터페이스
 
 ```
 
-- 예제
+- ex)
 
 ```
+interface Eatable {}
+
 class Fruit implements Eatable {
 	public String toString() {
 		return "Fruit";
@@ -314,17 +364,18 @@ class Toy {
 	public String toString()  { return "Toy";}
 }
 
-interface Eatable {}
+
 
 public class Test {
 	public static void main(String[] args) {
 		FruitBox<Fruit> fruitBox = new FruitBox<Fruit>();
 		FruitBox<Apple> appleBox = new FruitBox<Apple>();
 		FruitBox<Grape> grapeBox = new FruitBox<Grape>();
-//		FruitBox<Grpae> grapeBox = new FruitBox<Apple>(); //에러, 타입 불일치
+//		FruitBox<Grape> grapeBox = new FruitBox<Apple>(); //에러, 앞 뒤 타입 불일치
 //		FruitBox<Toy> toyBox = new FruitBox<Toy>(); // 에러, FruitBox는 Fruit를 상속받아야 하며 Eatable를 구현한 것만 들어올 수 있다. Toy는 해당 안됨
+    Box<Toy> toyBox2 = new Box<Toy>(); // OK
 
-		fruitBox.add(new Fruit()); //Box클래스에서 add(T item)메서드가 add(Fruit  item) 으로 변경되기 때문에 다형성에 의해 Fruit포함 자손들 다 add 매개변수로 들어올 수 있다.
+		fruitBox.add(new Fruit()); //Box클래스에서 add(T item)메서드가 add(Fruit item) 으로 변경되기 때문에 다형성에 의해 Fruit포함 자손들 다 add 매개변수로 들어올 수 있다.
 		fruitBox.add(new Apple());
 		fruitBox.add(new Grape());
 		appleBox.add(new Apple());
@@ -335,8 +386,8 @@ public class Test {
 	}
 }
 
-class FruitBox<T extends Fruit & Eatable> extends Box<T> {} //클래스(Fruit)와 인터페이스(Eatable) 둘 다 구현할 때는 , 로 연결안되고 &로 구분해야 한다.
-//사실 위는 class FruitBox<T extends Fruit> extends Box<T> {} 와 똑같다. Fruit이 Eatable을 구현했으므로.
+class FruitBox<T extends Fruit & Eatable> extends Box<T> {} //클래스(Fruit)와 인터페이스(Eatable) 둘 다 구현할 때는 , 로 연결하면 안되고 &로 구분해야 한다.
+//사실 위는 class FruitBox<T extends Fruit> extends Box<T> {} 와 똑같다. Fruit이 이미 Eatable을 구현했으므로 Fruit만 상속받더라도 Eatable을 구현한 것과 같은 결과
 
 class Box<T> {
 	ArrayList<T> list = new ArrayList<T>(); // item을 저장할 list
@@ -370,11 +421,11 @@ class Box<T> {
 }
 ```
 
-제약2. 배열생성, 객체생성할 때 타입 변수 사용불가. 타입 변수로 배열 선언은 가능(new 연산자는 뒤의 타입이 확정되어 있어야 한다)
+제약2. 객체 생성할 때(배열 생성할 때 등) 타입 변수 사용불가. 타입 변수로 배열 선언은 가능. new 연산자 뒤에 T못 쓴다. (new 연산자는 뒤의 타입이 확정되어 있어야 하는데, new 연산자 뒤에 T를 쓰면 뭐가 오는지 확실하게 모르므로)
 
 ```
 class Box<T>{
-  T[] itemArr; //OK. T타입의 배열을 위한 참조변수
+  T[] itemArr; //지네릭 배열 선언은 OK. T타입의 배열을 위한 참조변수
     ...
   T[] toArray() {
     T[] tmpArr = new T[itemArr.length]; // 에러. 지네릭 배열 생성불가, new T 자체가 불가하다.
