@@ -55,14 +55,14 @@ draft: false
           //list.add("30"); // 컴파일러가 에러를 잡아준다. String은 들어갈 수 없음
           list.add(30); //지네릭스 덕분에 타입 체크가 강화됨
 
-          Integer i = list.get(2); //원래는 list.get()의 리턴이 Object라서 형 변환해줘야 하지만. 형변환도 생략가능. 애초에 Integer밖에 못 들어오는 것을 알고 있기에. 
+          Integer i = list.get(2); //원래는 list.get()의 리턴이 Object라서 형 변환해줘야 하지만. 형변환도 생략가능. 애초에 Integer밖에 못 들어오는 것을 알고 있기에.
 
           System.out.println(list);
       }
   }
   ```
 
-  - 만약 여러 종류를 저장하고 싶다면 `<Object>` 옵션을 주면 된다. 애초에 ArrayList는 Object를 넣기 때문에 안 넣어도 되지 않나? 아니다. JDK 1.5부터는 반드시 명시해야 한다. 
+  - 만약 여러 종류를 저장하고 싶다면 `<Object>` 옵션을 주면 된다. 애초에 ArrayList는 Object를 넣기 때문에 안 넣어도 되지 않나? 아니다. JDK 1.5부터는 반드시 명시해야 한다.
 
   ```
   ArrayList<Object> list = new ArrayList<Object>();
@@ -70,7 +70,7 @@ draft: false
 
 - 클래스 안에 Object 타입이 있는 것들은 `일반클래스` -> `지네릭클래스`로 변경되었다. 지네릭 타입을 반드시 써줘야 하는 클래스들이 있다. 타입을 꼭 지정해 줘야 한다.
 
-  - 클래스 이름 옆에 문자가 있는 것들(타입변수, `<E>`)은 지네릭클래스다. 
+  - 클래스 이름 옆에 문자가 있는 것들(타입변수, `<E>`)은 지네릭클래스다.
   - ArrayList 클래스 들어가서 설명 보면 알 수 있다.
   - ex) ArrayList -> ArrayList`<E>`
 
@@ -181,7 +181,7 @@ public class ArrayList extends AbstractList<Tv>{
       productList.add(new Audio()); // Audio가 Product의 자손이므로 가능
 
       // public boolean add(Tv e) {}로 변환됨
-      tvList.add(new Tv()); 
+      tvList.add(new Tv());
       tvList.add(new Audio()); // 안됨. Tv와 Audio는 아무 관계 없으므로
 
       printAll(tvList); //컴파일 에러가 난다
@@ -217,6 +217,7 @@ List<Tv> list = new LinkedList<Tv>();   //OK. 다형성. LinkedList가 List를 �
     `E get(int index) {...}` -> `Product get(int index) {...}` 이므로 get의 타입은 Object가 아니라 Product 이기 때문에
 
 ## Iterator`<E>`
+
 - 지네릭 클래스 중 1개
 
 - 클래스를 작성할 때, Object타입 대신 T와 같은 타입 변수를 사용
@@ -253,7 +254,9 @@ List<Tv> list = new LinkedList<Tv>();   //OK. 다형성. LinkedList가 List를 �
   }
 
   ```
+
   - ex)
+
   ```
     public class test {
     public static void main(String[] args) {
@@ -261,7 +264,7 @@ List<Tv> list = new LinkedList<Tv>();   //OK. 다형성. LinkedList가 List를 �
       list.add(new Student("자바왕", 1, 1));
       list.add(new Student("자바짱", 1, 2));
       list.add(new Student("홍길동", 3, 4));
-      
+
       Iterator<Student> it = list.iterator();
       //Iterator it = list.iterator();
       while(it.hasNext()) {
@@ -314,7 +317,6 @@ public class HashMap extends AbstractMap {
 ```
 HashMap<String, Student> map = new HashMap<>();
 ```
-
 
 ## 제한된 지네릭 클래스
 
@@ -464,7 +466,7 @@ static Juice makeJuice(FruitBox<? extends Fruit> box) {
 
 ..(중략)..
 
-//아래 둘 다 가능. 만약 makeJuice(FruitBox<Fruit> box)로 파라미터가 정의되어 있으면 매개변수로 new FruitBox<Fruit>() 만 가능하다. (일치하는 것만 가능). 즉, 매개변수 FruitBox<? etends Fruit> box 는 FruitBox<Fruit>와 Fruitbox<Apple> 2가지 모두를 포함한다. Fruit 포함 자녀 모두 가능
+//아래 둘 다 가능. 만약 makeJuice(FruitBox<Fruit> box)로 정의되어 있으면 매개변수로 new FruitBox<Fruit>() 만 들어갈 수 있다. (일치하는 것만 가능). 즉, 매개변수 FruitBox<? etends Fruit> box 는 FruitBox<Fruit>와 Fruitbox<Apple> 2가지 모두를 포함한다.(자신 포함 자식들도 들어갈 수 있으니)
 
 System.out.println(Juicer.makeJuice(new FruitBox<Fruit>()));
 System.out.println(Juicer.makeJuice(new FruitBox<Apple>()));
@@ -479,7 +481,7 @@ static <T> void Sort(List<T> list, Comparator<? super T> c)
 ```
 
 - 클래스의 타입 매개변수`<T>`와 메서드의 타입 매개변수 `<T>`는 별개
-  - 밑에서 FruitBOx`<T>`와 메서드에 있는 `<T>`는 별개다. 전자에 String, 후자에 Integer로 따로 설정 가능
+  - 밑에서 클래스의 FruitBOx`<T>`와 메서드에 있는 `<T>`는 별개다. 전자에 String, 후자에 Integer로 따로 설정 가능
 
 ```
 class FruitBox<T> {
@@ -497,11 +499,12 @@ class FruitBox<T> {
 FruitBox<Fruit> fruitBox = new FruitBox<Fruit>();
 FruitBox<Fruit> fruitBox = new FruitBox<Apple>();
   ...
-System.out.println(Juicer.<Fruit>makeJuice(fruitBox)); //여기서 Fruit>은 생략가능. 위의 new FruitBox<Fruit>(); 에서 이미 <Fruit> 이라고 이미 명시했기 때문에.
-System.out.println(Juicer.<Apple>makeJuice(appleBox));//여기서 Apple>은 생략가능. 위의 new FruitBox<Apple>>(); 에서 이미 <Apple> 이라고 이미 명시했기 때문에.
+System.out.println(Juicer.<Fruit>makeJuice(fruitBox)); //여기서 <Fruit>은 생략가능. 위의 new FruitBox<Fruit>(); 에서 이미 <Fruit> 이라고 이미 명시했기 때문에.
+System.out.println(Juicer.<Apple>makeJuice(appleBox));//여기서 <Apple>은 생략가능. 위의 new FruitBox<Apple>>(); 에서 이미 <Apple> 이라고 이미 명시했기 때문에.
 ...
 
-static<T extends Fruit> Juice makeJuice(FruitBox<T> box){
+//밑의 파라미터 부분의 FruitBox<T>를 정의하는 것이 static 바로 뒤에 <T extends Fruit>임
+static <T extends Fruit> Juice makeJuice(FruitBox<T> box){
   String tmp : "";
   for(Fruit f : box.getList()) tmp += f + " ";
   return new Juice(tmp);
@@ -509,7 +512,7 @@ static<T extends Fruit> Juice makeJuice(FruitBox<T> box){
 
 ```
 
-- 메서드를 호출할 때 타입을 생략하지 않을 때는 클래스 이름 생략 불가
+- 메서드를 호출할 때 타입을 생략하지 않을 때는 클래스 이름 생략 불가(에러가 날시에만 명시해주면 되는데, 사실 거의 대부분 생략가능)
 
 ```
 System.out.println(<Fruit>makeJuice(fruitBox)); //에러, 클래스 이름 생략불가
@@ -542,11 +545,12 @@ System.out.println(Juicer.<Fruit>makeJuice(fruitBox)); // OK
 
 - 지네릭 타입과 원시 타입 간의 형변환은 바람직하지 않다.(경고 발생)
   - 즉 `class Box<T> {}`로 선언이 되어있는데 타입을 대입하지 않고 Box만 쓰면 안된다라는 것. 원시타입과 지네릭 타입을 섞어서 쓰지 말기
+  - 여기서 원시타입을 쓰는 것을 비추천
 
 ```
 Box<Object> objBox = null;
-Box box = (Box)objBox;  // OK. 지네릭 타입 -> 원시 타입. 경고 발생
-objBox = (Box<Object>)box; //OK. 원시타입 -> 지네릭 타입. 경고 발생
+Box box = (Box)objBox;  // OK. 지네릭 타입(Box<Object>) -> 원시 타입(Box). 가능하지만 경고 발생
+objBox = (Box<Object>)box; // OK. 원시타입(Box) -> 지네릭 타입(Box<Object>). 가능하지만 경고 발생
 ```
 
 - ex)
@@ -556,15 +560,37 @@ Box b = null;
 Box<String> bStr = null;
 
 b = (Box)bStr; // Box<String> -> Box 가능, 그러나 경고
-bStr = (Box<String>b); // Box -> ox<String>  가능, 그러나 경고
+bStr = (Box<String>)b; // Box -> Box<String> 가능, 그러나 경고
 ```
+
+- 위의 예제는 아래와 같이 사실 원시타입으로 지네릭 타입을 가리킨다는 것과 동일하다는 것.
+  `Box b = new Box<String>();` 이 가능. 왜냐하면 `Box b = (Box)new Box<String>();`처럼 (Box)가 생략이 되어 있기 때문에. b는 대입된 타입이 없는 원시타입이기 때문에 `b.add(new Integer(100));` 가능하다. 그래서 `Box<String> b = new Box<String>();` 으로 수정하면 `b.add(new Integer(100));`이 에러가 뜬다.
+
+- 서로 다른 타입이 대입된 지네릭 타입끼리는 서로 형변환이 안 된다.
+
+```
+Box<Object> objBox = null;
+Box<String> bStr = null;
+
+objBox = (Box<Object>)strBox; // 에러. Box<String> -> Box<Object> 안됨
+strBox = (Box<String>)objBox; // 에러. Box<Object> -> Box<String> 안됨
+```
+
+- 즉, `Box<String> b = new Box<Object>();`이 안된다는 말은 `Box<String> b = (Box<String>)new Box<Object>();` 처럼 형변환이 안된다는 말이다.
 
 - 와일드 카드가 사용된 지네릭 타입으로는 형변환 가능
 
 ```
 Box<Object>objBox = (Box<Object>)new Box<String>(); // 에러, 형변환 불가능
 Box<? extends Ojbect> wBox = (Box<? extends Object>)new Box<String>(); // OK, 형변환 가능
-Box<? extends Object> wBox = new Box<String>(); //OK, 위 문장과 동일(형변환이 생략되어 있는 것임)
+Box<? extends Object> wBox = new Box<String>(); //OK, 위 문장과 동일(형변환이 생략되어 있는 것임). String은 Object의 자손이므로 가능
+```
+
+- ex)
+
+```
+FruitBox<? extends Fruit> abox = new FruitBox<Apple>();
+FruitBox<Apple> appleBox = (FruitBox<Apple>)aBox; // OK. 경고발생
 ```
 
 ## 지네릭 타입의 제거
@@ -613,18 +639,43 @@ Box<? extends Object> wBox = new Box<String>(); //OK, 위 문장과 동일(형�
 
 2. 지네릭 타입 제거 후에 타입이 불일치하면, 형변환을 추가
 
-   ```
-   T get(int i) {
-     return list.get(i);
-   }
-   ```
+- 지네릭의 장점 중 하나가 형변환을 생략하는 것이었었음.
+- ex1)
 
-   - 위의 코드는 아래처럼 변경
+```
+T get(int i) {
+  return list.get(i); // (Fruit)list.get(i)처럼 타입 T(ex. Fruit)로 형변환이 생략되어 있음
+}
+```
 
-   ```
-   Fruit get(int i) {
-     return (Fruit)list.get(i);
-   }
-   ```
+- 위의 코드는 아래처럼 변경(그래서 아래에서 `T get(int i)`에서의 T가 컴파일에 의해서 Fruit으로 변환)
+
+```
+Fruit get(int i) {
+  return (Fruit)list.get(i);
+}
+```
+
+- ex2)
+
+```
+static Juice makeJuice(FruitBox<? extends Fruit> box){
+  String tmp = "";
+  for(Fruit f : box.getList()) // box.getList()가 Fruit과 그 자손이므로 형변환 필요x(와일드 카드 덕분)
+    tmp += f + " ";
+}
+```
+
+- 하지만 위의 코드에 비해 아래는 일일이 형변환 해줘야 한다.
+
+```
+stataic Juice makeJuice(FruitBox box){
+  String tmp = "";
+  Iterator it = box.getList().iterator();
+  while(it.hasNext()){
+    tmp += (Fruit)it.next() + " "; // 형변환 필요
+  }
+}
+```
 
 참고 : 자바의 정석 - 남궁성
