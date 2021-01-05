@@ -439,8 +439,8 @@ class Box<T>{
 - 하나의 참조 변수로 대입된 타입이 다른 객체를 참조 가능
 - 원래 지네릭스에서는 참조변수와 생성자에 대입된 타입이 일치해야 하는데, 다형성처럼 하나의 참조변수로 여러 객체를 가리키고자 만들어진 것이 와일드 카드
 
-- 와일드 카드를 사용하면 불일치도 가능하다
-  - list 참조변수 하나로 Tv와 Audio둘 모두 가리킬 수 있다.
+- 와일드 카드를 사용하면 참조변수의 타입과 생성자의 타입이 불일치 해도 가능하다
+  - list 참조변수 하나로 Tv와 Audio 둘 모두 가리킬 수 있다.(Tv와 Audio는 모두 Product의 자식 클래스)
 
 ```
 ArrayList<? extends Product> list = new ArrayList<Tv>(); // OK
@@ -451,7 +451,7 @@ ArrayList<? extends Product> list = new ArrayList<Audio>(); // OK
 
   1. `<? extends T>` 와일드 카드의 상한 제한. T와 그 자손들만 가능(가장 많이 쓰임)
   2. `<? super T>` 와일드 카드의 하한 제한. T와 그 자손들만 가능
-  3. `<?>` 제한없음. 모든 타입이 가능 <? extends ObjecT>와 동일
+  3. `<?>` 제한없음. 모든 타입이 가능 <? extends Object>와 동일
 
 - 메서드의 매개변수에 와일드 카드 사용가능
 
@@ -464,7 +464,7 @@ static Juice makeJuice(FruitBox<? extends Fruit> box) {
 
 ..(중략)..
 
-//아래 둘 다 가능. 만약 makeJuice(FruitBox<Fruit> box)로 정의되어 있으면 매개변수로 new FruitBox<Fruit>() 만 가능하다. (일치하는 것만 가능). 즉, 매개변수 FruitBox<? etends Fruit> box 는 FruitBox<Fruit>와 Fruitbox<Apple> 2가지 모두를 포함한다.
+//아래 둘 다 가능. 만약 makeJuice(FruitBox<Fruit> box)로 파라미터가 정의되어 있으면 매개변수로 new FruitBox<Fruit>() 만 가능하다. (일치하는 것만 가능). 즉, 매개변수 FruitBox<? etends Fruit> box 는 FruitBox<Fruit>와 Fruitbox<Apple> 2가지 모두를 포함한다. Fruit 포함 자녀 모두 가능
 
 System.out.println(Juicer.makeJuice(new FruitBox<Fruit>()));
 System.out.println(Juicer.makeJuice(new FruitBox<Apple>()));
