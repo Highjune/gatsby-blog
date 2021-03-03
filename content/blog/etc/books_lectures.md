@@ -20,8 +20,13 @@ draft: false
 1. Pro git 2/E
    - 새로운 프로젝트 시작할 때 공부하기
 1. 만화로 배우는 리눅스 시스템관리
+1. Clean code
 
 ## `completed`
+
+### 2021
+
+1. ?
 
 ### 2020
 
@@ -47,9 +52,10 @@ draft: false
 1. 자바프로그래밍 언어
    - 객체지향적 사고를 가르치는 책이고 대학 1, 2학년의 java 전공책을 꼽으라면 이것 할 정도로 굿
 1. Thinking in Java
+
    - 지금도 옆에 두고 모르는 것 있으면 금방 찾는다 함
    - 한 번 정독해 놓으면 구글 검색보다 더 빠르게 찾을 정도
-1. Clean code
+
 1. 객체지향의 사실과 오해
 1. 자바로 배우는 리팩토링 입문
 1. JAVA 프로그래밍 면접 이렇게 준비한다.
@@ -59,7 +65,6 @@ draft: false
 1. TCP/IP 완벽 가이드
 1. 읽기 좋은 코드가 좋은 코드다
 1. 그림으로 배우는 HTTP & Network
-1. 자바로 배우는 쉬운 자료구조
 1. Cracking the Coding Interview
    - 미국 개발자들이 코딩 테스트 준비할 때 보는 수학의 정석 같은 책. 틈날 때마다 자주 보기(영어 독해만 된다면 가장 좋은 책)
 
@@ -91,12 +96,15 @@ draft: false
 
 ## `Watching`
 
-1. [인프런(권오흠) - 영리한 프로그래밍을 위한 알고리즘 강좌](https://www.inflearn.com/course/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%95%EC%A2%8C)
 1. [인프런(한정수) - 비전공자를 위한 개발자 취업 올인원 가이드(통합편)](https://www.inflearn.com/course/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%B7%A8%EC%97%85-%ED%86%B5%ED%95%A9%ED%8E%B8/dashboard)
+1. [인프런(백기선) - 예제로 배우는 스프링 입문 (개정판)](https://www.inflearn.com/course/spring_revised_edition#)
 
 ## `completed`
 
 ### 2021
+
+1. [인프런(권오흠) - 영리한 프로그래밍을 위한 알고리즘 강좌](https://www.inflearn.com/course/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%95%EC%A2%8C)
+1. [인프런(백기선) - 스프링 프레임워크 입문](https://www.inflearn.com/course/spring#)
 
 ### 2020
 
@@ -109,12 +117,6 @@ draft: false
 1. [유투브나동빈 - Git으로 시작하는 협업 및 오픈소스 프로젝트](https://www.youtube.com/watch?v=rhP5pseOJc0&list=PLRx0vPvlEmdD5FLIdwTM4mKBgyjv4no81)
 
 ## `shopping-cart`
-
-1. [인프런(백기선) - 스프링 프레임워크 입문](https://www.inflearn.com/course/spring#)
-   - 1시간 40분
-1. [인프런(백기선) - 예제로 배우는 스프링 입문 (개정판)](https://www.inflearn.com/course/spring_revised_edition#)
-
-   - 2시간 반
 
 1. [인프런(김영한) - 강의 6개짜리 로드맵](https://www.inflearn.com/roadmaps/373)
    1. [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
@@ -130,3 +132,4 @@ draft: false
 
 - [강의 추천 글1](https://github.com/cheese10yun/dev-info)
 - [강의 추천 글2](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/)
+- [미국강의 - 2020년 최고의 자료구조/알고리즘 무료 강의 모음](https://digitaldefynd.com/best-data-structures-algorithms-tutorial-course-certification/)
