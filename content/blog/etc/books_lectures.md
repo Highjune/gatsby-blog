@@ -63,9 +63,16 @@ draft: false
 1. 실무를 위한 자바
 1. TCP/IP 완벽 가이드
 1. 읽기 좋은 코드가 좋은 코드다
-
+1. 커리어 스킬
+   - 개발과 개발자 커리어에 대한 책
 1. Cracking the Coding Interview
    - 미국 개발자들이 코딩 테스트 준비할 때 보는 수학의 정석 같은 책. 틈날 때마다 자주 보기(영어 독해만 된다면 가장 좋은 책)
+1. 운영체제와 정보기술의 원리 - 반효경 교수님
+   - 기초다지기에 매우 좋은 책
+1. OPERATING SYSTEM CONCEPTS(공룡책)
+   - 수학의 정석급
+   - 원서가 더 좋긴 함(버전도 번역서보다 더 많이 나오기)
+   - 반효경 교수님 강의 듣고 나서 보기
 
 [책추천1](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/) 에서 참고 후 좀 더 추가하기
 [책추천2, 강의](https://github.com/cheese10yun/dev-info) 에서도 참고하기
@@ -96,6 +103,7 @@ draft: false
 ## `Watching`
 
 1. [인프런(한정수) - 비전공자를 위한 개발자 취업 올인원 가이드(통합편)](https://www.inflearn.com/course/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%B7%A8%EC%97%85-%ED%86%B5%ED%95%A9%ED%8E%B8/dashboard)
+1. [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
 
 ## `completed`
 
@@ -104,7 +112,6 @@ draft: false
 1. [인프런(권오흠) - 영리한 프로그래밍을 위한 알고리즘 강좌](https://www.inflearn.com/course/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%95%EC%A2%8C)
 1. [인프런(백기선) - 스프링 프레임워크 입문](https://www.inflearn.com/course/spring#)
 1. [인프런(백기선) - 예제로 배우는 스프링 입문 (개정판)](https://www.inflearn.com/course/spring_revised_edition#)
-1. [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
 
 ### 2020
 
@@ -129,7 +136,49 @@ draft: false
 1. [인프런(김영한) - 자바 ORM 표준 JPA 프로그래밍 - 기본편](https://www.inflearn.com/course/ORM-JPA-Basic?inst=8348d300#)
 1. [인프런(김영한) - 실전! Querydsl](https://www.inflearn.com/course/Querydsl-%EC%8B%A4%EC%A0%84#)
 1. [인프런(이동욱) - IntelliJ를 시작하시는 분들을 위한 IntelliJ 가이드](https://www.inflearn.com/course/intellij-guide#)
+1. [컴맹을 위한 Go 언어 기초 프로그래밍 강좌 - 1~6편은 CS 지식을 엄청 설명 잘함](https://www.youtube.com/watch?v=Tq3W8UyltFs&list=PLy-g2fnSzUTAaDcLW7hpq0e8Jlt7Zfgd6)
+1. [운영체제 - 이화여자대학교 반효경 교수님 강의](http://www.kocw.net/home/search/kemView.do?kemId=1046323&ar=pop)
+1. [crash course computer science](https://www.youtube.com/watch?v=tpIctyqH29Q&list=PLH2l6uzC4UEW0s7-KewFLBC1D0l6XRfye)
+   - 지하철에서 보기
+   - 영어지만 한글 자막도 있어서 좋음
+1. [엔지니어대한민국](https://www.youtube.com/user/damazzang/videos)
+   - 자료구조에 매우 도움이 많이 됨
+   - 코딩테스트 준비기간에 벼락치기로 공부하기 좋음
+   - 자바로 알고리즘, 자료구조 구현하는 것
+   - 굉장히 큰 도움 받을 수 있음
+   - 설명 적절
+   - 강의에 있는 것을 실제로 구현할 때까지 연습하기
+1. [Linux Sysadmin Basics](https://www.youtube.com/watch?v=Lbh8Bh_SEzU)
+   - 영어강의. 한국어 자막은 제공x
+   - 실무에 필요한 리눅스 명령어
+   - 영어가 힘들면 인프런의 리눅스 커맨드라인 툴(Full ver).
+1. [인프런. 리눅스 커맨드라인 툴(Full ver.)](https://www.inflearn.com/course/%EB%A6%AC%EB%88%85%EC%8A%A4-%EC%BB%A4%EB%A7%A8%EB%93%9C%EB%9D%BC%EC%9D%B8-%ED%88%B4#)
+   - 유료지만 아깝지 않음
+1. [CS50](https://www.edwith.org/search/index?categoryId=72)
+   - 하버드 대학교의 컴퓨터 기초 강의
+   - 교양 수업 중에 가장 쉬운 것
+   - 딱딱하지 않고 재미있는 수업
+   - 한글자막 지원함
+   - edwith의 `모두를 위한 컴퓨터 과학` 이라는 강의
+   - 정수는 국비다닐 때 다 본 것. 지하철에서.
+1. [승지니어 기술면접 라이브코딩 기본편](https://www.youtube.com/watch?v=Bt11jaoqt_Y&list=PL2mzT_U4XxDm7p6g1o3KeQMsyRLfzSaVW)
+1. [승지니어 기술면접 라이브코딩 실전편](https://www.youtube.com/watch?v=go8y4-vVg3Y&list=PL2mzT_U4XxDl8PP-jMk4rt6BPzBtS__pQ)
+   - 문제 푸는 과정을 직접 말로 하면서 하기 때문에 실전에 매우 도움이 많이 됨
+   - 문과분인데 현재 실리콘밸리에 있기
+   - 실제로 문제를 푸는 기간에 매우 도움이 많이 됨
+   - 강의 먼저 보지 말고 leetcode문제를 보고 혼자 풀고 나서 강의 보면 도움 더 많이 됨. 혼자 푸는 것보다 다른 사람의 자세한 풀이를 보는 것도 크게 도움이 된다.
+1. [Taehoon의 유투브 채널](https://www.youtube.com/results?search_query=taehoon)
+   - 프런트앤드 개발자인데 설명이 매우 좋음
+   - 영상이 더 올라오진 않지만 이전의 영상들이 너무 좋음
+1. [(인프런)김영한 - 모든 개발자를 위한 HTTP웹 기본 지식](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC#)
+   - 유료강의
+   - 두꺼운 책인 `HTTP 완벽 가이드` 보다 먼저 강의 듣기
+   - 필요한 것들만 먼저 보여줌
+1. [뉴렉처](https://www.youtube.com/channel/UC5-ixpj8DioZqmrasj6Ihpw/playlists)
+   - 유투브 강의
+   - 여러 강의들이 다 좋음
 
 - [강의 추천 글1](https://github.com/cheese10yun/dev-info)
 - [강의 추천 글2](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/)
 - [미국강의 - 2020년 최고의 자료구조/알고리즘 무료 강의 모음](https://digitaldefynd.com/best-data-structures-algorithms-tutorial-course-certification/)
+- [나의 온라인 컴퓨터공학 공부법 - 강의추천 많음](https://coding-groot.tistory.com/93)
