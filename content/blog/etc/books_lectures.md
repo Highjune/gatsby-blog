@@ -1,6 +1,6 @@
 ---
 title: '책 & 영상'
-date: 2020-11-11 12:00:00
+date: 2021-03-11 12:00:00
 category: 'etc'
 draft: false
 ---
@@ -21,6 +21,7 @@ draft: false
    - 새로운 프로젝트 시작할 때 공부하기
 1. 만화로 배우는 리눅스 시스템관리
 1. Clean code
+1. 그림으로 배우는 HTTP & Network
 
 ## `completed`
 
@@ -62,7 +63,7 @@ draft: false
 1. 실무를 위한 자바
 1. TCP/IP 완벽 가이드
 1. 읽기 좋은 코드가 좋은 코드다
-1. 그림으로 배우는 HTTP & Network
+
 1. Cracking the Coding Interview
    - 미국 개발자들이 코딩 테스트 준비할 때 보는 수학의 정석 같은 책. 틈날 때마다 자주 보기(영어 독해만 된다면 가장 좋은 책)
 
