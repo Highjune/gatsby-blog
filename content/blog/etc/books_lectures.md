@@ -52,10 +52,8 @@ draft: false
 1. 자바프로그래밍 언어
    - 객체지향적 사고를 가르치는 책이고 대학 1, 2학년의 java 전공책을 꼽으라면 이것 할 정도로 굿
 1. Thinking in Java
-
    - 지금도 옆에 두고 모르는 것 있으면 금방 찾는다 함
    - 한 번 정독해 놓으면 구글 검색보다 더 빠르게 찾을 정도
-
 1. 객체지향의 사실과 오해
 1. 자바로 배우는 리팩토링 입문
 1. JAVA 프로그래밍 면접 이렇게 준비한다.
@@ -97,7 +95,6 @@ draft: false
 ## `Watching`
 
 1. [인프런(한정수) - 비전공자를 위한 개발자 취업 올인원 가이드(통합편)](https://www.inflearn.com/course/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%B7%A8%EC%97%85-%ED%86%B5%ED%95%A9%ED%8E%B8/dashboard)
-1. [인프런(백기선) - 예제로 배우는 스프링 입문 (개정판)](https://www.inflearn.com/course/spring_revised_edition#)
 
 ## `completed`
 
@@ -105,6 +102,8 @@ draft: false
 
 1. [인프런(권오흠) - 영리한 프로그래밍을 위한 알고리즘 강좌](https://www.inflearn.com/course/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%95%EC%A2%8C)
 1. [인프런(백기선) - 스프링 프레임워크 입문](https://www.inflearn.com/course/spring#)
+1. [인프런(백기선) - 예제로 배우는 스프링 입문 (개정판)](https://www.inflearn.com/course/spring_revised_edition#)
+1. [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
 
 ### 2020
 
@@ -119,7 +118,7 @@ draft: false
 ## `shopping-cart`
 
 1. [인프런(김영한) - 강의 6개짜리 로드맵](https://www.inflearn.com/roadmaps/373)
-   1. [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
+   1. (watching) [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
    1. [스프링 핵심 원리 - 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8#)
    1. [모든 개발자를 위한 HTTP 웹 기본 지식](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC#)
    1. 실전! 스프링 웹 MVC - 출시 예정
