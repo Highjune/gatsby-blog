@@ -22,6 +22,7 @@ draft: false
 1. 만화로 배우는 리눅스 시스템관리
 1. Clean code
 1. 그림으로 배우는 HTTP & Network
+1. 자바로 배우는 쉬운 자료구조
 
 ## `completed`
 
@@ -73,6 +74,12 @@ draft: false
    - 수학의 정석급
    - 원서가 더 좋긴 함(버전도 번역서보다 더 많이 나오기)
    - 반효경 교수님 강의 듣고 나서 보기
+1. 누워서 읽는 알고리즘
+1. 그림으로 개념을 이해하는 알고리즘
+1. 누구나 자료구조와 알고리즘
+   - 정수추천, bigO 표기법, 시간복잡도, 공간복잡도 이해하기에 가장 좋았던 책
+1. 관계형 데이터베이스 실전 입문 - 오쿠노 미키야
+   - 관계형 데이터베이스에 대해서 전혀 모르거나, SQL 문법만 알고 있다면 관계형 데이터베이스에 대한 개념과 관점을 새롭게 얻을 수 있음
 
 [책추천1](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/) 에서 참고 후 좀 더 추가하기
 [책추천2, 강의](https://github.com/cheese10yun/dev-info) 에서도 참고하기
@@ -142,6 +149,7 @@ draft: false
    - 지하철에서 보기
    - 영어지만 한글 자막도 있어서 좋음
 1. [엔지니어대한민국](https://www.youtube.com/user/damazzang/videos)
+   - 무조건 다 보기
    - 자료구조에 매우 도움이 많이 됨
    - 코딩테스트 준비기간에 벼락치기로 공부하기 좋음
    - 자바로 알고리즘, 자료구조 구현하는 것
@@ -177,8 +185,11 @@ draft: false
 1. [뉴렉처](https://www.youtube.com/channel/UC5-ixpj8DioZqmrasj6Ihpw/playlists)
    - 유투브 강의
    - 여러 강의들이 다 좋음
+1. [엔지니어대한민국 - 빅오(Big-O)표기법 완전 정복](https://www.youtube.com/watch?v=6Iq5iMCVsXA)
+   - 매우 짧음
 
 - [강의 추천 글1](https://github.com/cheese10yun/dev-info)
 - [강의 추천 글2](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/)
 - [미국강의 - 2020년 최고의 자료구조/알고리즘 무료 강의 모음](https://digitaldefynd.com/best-data-structures-algorithms-tutorial-course-certification/)
 - [나의 온라인 컴퓨터공학 공부법 - 강의추천 많음](https://coding-groot.tistory.com/93)
+- [이종립님 추천 책](https://johngrib.github.io/wiki/my-favorite-books/)
