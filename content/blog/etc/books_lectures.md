@@ -75,7 +75,7 @@ draft: false
    - 원서가 더 좋긴 함(버전도 번역서보다 더 많이 나오기)
    - 반효경 교수님 강의 듣고 나서 보기
 1. 누워서 읽는 알고리즘
-1. 그림으로 개념을 이해하는 알고리즘
+1. Hello Coding 그림으로 개념을 이해하는 알고리즘
 1. 누구나 자료구조와 알고리즘
    - 정수추천, bigO 표기법, 시간복잡도, 공간복잡도 이해하기에 가장 좋았던 책
 1. 관계형 데이터베이스 실전 입문 - 오쿠노 미키야
@@ -193,4 +193,3 @@ draft: false
 - [강의 추천 글2](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/)
 - [미국강의 - 2020년 최고의 자료구조/알고리즘 무료 강의 모음](https://digitaldefynd.com/best-data-structures-algorithms-tutorial-course-certification/)
 - [나의 온라인 컴퓨터공학 공부법 - 강의추천 많음](https://coding-groot.tistory.com/93)
-
