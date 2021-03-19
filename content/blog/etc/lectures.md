@@ -16,6 +16,7 @@ draft: false
 
 1. [인프런(한정수) - 비전공자를 위한 개발자 취업 올인원 가이드(통합편)](https://www.inflearn.com/course/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%B7%A8%EC%97%85-%ED%86%B5%ED%95%A9%ED%8E%B8/dashboard)
 1. [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
+1. [컴맹을 위한 Go 언어 기초 프로그래밍 강좌 - 1~6편은 CS 지식을 엄청 설명 잘함](https://www.youtube.com/watch?v=Tq3W8UyltFs&list=PLy-g2fnSzUTAaDcLW7hpq0e8Jlt7Zfgd6)
 
 ## `completed`
 
@@ -24,6 +25,9 @@ draft: false
 1. [인프런(권오흠) - 영리한 프로그래밍을 위한 알고리즘 강좌](https://www.inflearn.com/course/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%95%EC%A2%8C)
 1. [인프런(백기선) - 스프링 프레임워크 입문](https://www.inflearn.com/course/spring#)
 1. [인프런(백기선) - 예제로 배우는 스프링 입문 (개정판)](https://www.inflearn.com/course/spring_revised_edition#)
+
+1. [엔지니어대한민국 - 빅오(Big-O)표기법 완전 정복](https://www.youtube.com/watch?v=6Iq5iMCVsXA)
+   - 매우 짧음
 
 ### 2020
 
@@ -48,7 +52,7 @@ draft: false
 1. [인프런(김영한) - 자바 ORM 표준 JPA 프로그래밍 - 기본편](https://www.inflearn.com/course/ORM-JPA-Basic?inst=8348d300#)
 1. [인프런(김영한) - 실전! Querydsl](https://www.inflearn.com/course/Querydsl-%EC%8B%A4%EC%A0%84#)
 1. [인프런(이동욱) - IntelliJ를 시작하시는 분들을 위한 IntelliJ 가이드](https://www.inflearn.com/course/intellij-guide#)
-1. [컴맹을 위한 Go 언어 기초 프로그래밍 강좌 - 1~6편은 CS 지식을 엄청 설명 잘함](https://www.youtube.com/watch?v=Tq3W8UyltFs&list=PLy-g2fnSzUTAaDcLW7hpq0e8Jlt7Zfgd6)
+
 1. [운영체제 - 이화여자대학교 반효경 교수님 강의](http://www.kocw.net/home/search/kemView.do?kemId=1046323&ar=pop)
 1. [crash course computer science](https://www.youtube.com/watch?v=tpIctyqH29Q&list=PLH2l6uzC4UEW0s7-KewFLBC1D0l6XRfye)
    - 지하철에서 보기
@@ -90,8 +94,6 @@ draft: false
 1. [뉴렉처](https://www.youtube.com/channel/UC5-ixpj8DioZqmrasj6Ihpw/playlists)
    - 유투브 강의
    - 여러 강의들이 다 좋음
-1. [엔지니어대한민국 - 빅오(Big-O)표기법 완전 정복](https://www.youtube.com/watch?v=6Iq5iMCVsXA)
-   - 매우 짧음
 
 - [강의 추천 글1](https://github.com/cheese10yun/dev-info)
 - [강의 추천 글2](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/)
