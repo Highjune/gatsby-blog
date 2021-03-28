@@ -17,7 +17,6 @@ draft: false
 ## `reading`
 
 1. 만화로 배우는 리눅스 시스템관리
-1. Clean code
 1. 자바로 배우는 쉬운 자료구조
 1. 그림으로 배우는 HTTP & Network
 1. (상시)자바의 정석(2권)
@@ -28,7 +27,9 @@ draft: false
 
 ### 2021
 
-1. ?
+1. Clean code
+   - 후반부는 실력 더 쌓고 보기
+1.
 
 ### 2020
 

@@ -1,13 +1,14 @@
 ---
 title: 'about'
-date: 2019-11-27 16:21:13
+date: 2021-03-25 16:21:13
 lang: 'en'
 ---
 
-# Your name
+# Highjune. 허강준
 
 <div align="center">
 
-_Thank you for reading my resume. If you want to contact me, Please send me an email._
+highjune37@gmail.com
+https://github.com/highjune
 
 </div>
