@@ -64,7 +64,7 @@ draft: false
 ![](./images/memoires2020/ExcelBookList.png)
 
 - 원래 책을 좋아하는 편이다. 위의 사진은 군 전역 후부터 계속 읽어왔던 책 목록과 리스트이다. 하지만 이제는 개발 분야로 오고 나서부터는 거의 다 기술서로 바뀌었다. 아직 실력이 너무나도 부족하고 공부할 것들이 많아서 1~2년간은 기술서 위주로만 주로 읽을 생각이다. (~~내 같은 피래미 개발자가 다른 책들을 읽는 건 아직은 사치라고 생각한다~~)
-- 아래 사진은 요즘 관리하고 있는 책 목록이다. 원래는 노션페이지로 관리했으나 요즘에는 [개발서적들 정리-블로그](https://highjune.netlify.app/etc/books/) 에 주로 최신화하며 정리하고 있다.
+- 아래 사진은 요즘 관리하고 있는 책 목록이다. 원래는 노션페이지로 관리했으나 요즘에는 [개발서적들 정리-블로그](https://highjune.netlify.app/etc/books/), [개발인강들 정리-블로그](https://highjune.netlify.app/etc/lectures/) 에 주로 최신화하며 정리하고 있다.
   ![](./images/memoires2020/NotionBookList.png)
 
 ## 책으로 공부하는 이유
