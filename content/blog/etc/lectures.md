@@ -94,6 +94,9 @@ draft: false
 1. [뉴렉처](https://www.youtube.com/channel/UC5-ixpj8DioZqmrasj6Ihpw/playlists)
    - 유투브 강의
    - 여러 강의들이 다 좋음
+1. [Course - Operating system (CPA310)](https://www.youtube.com/watch?v=EdTtGv9w2sA&list=PLBrGAFAIyf5rby7QylRc6JxU5lzQ9c4tN)
+   - 운영체제 강의
+   - 평이 매우 좋은 운영체제 강의
 
 - [강의 추천 글1](https://github.com/cheese10yun/dev-info)
 - [강의 추천 글2](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/)
