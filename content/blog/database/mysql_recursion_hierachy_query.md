@@ -1,6 +1,13 @@
+---
+title: '(mysql) 재귀쿼리로 계층구조 데이터 표현'
+date: 2021-04-16 17:30:00
+category: 'database'
+draft: false
+---
+
 # 재귀쿼리로 계층구조 데이터 표현하기(id(varchar)로)
 
-- id를 integer로 받아서 표현하는 설계방법은 [여기로.]()
+- id에 varchar로 계층구조를 담아서 하지 않고 integer로 설계해서 표현하는 설계방법은 [여기로.]()
 - mysql 기준으로 설명 (오라클은 CONNECT BY PRIOR, START WITH를 사용하여
   자신의 ID와 연결된 부모 ID를 찾아가 계층적으로 쿼리결과를 뽑을 수 있다.)
 - 데이터를 계층구조(정렬순서포함)로 보여주고 싶을 때 사용
