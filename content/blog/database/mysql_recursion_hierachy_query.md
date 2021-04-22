@@ -1,5 +1,5 @@
 ---
-title: '(mysql) 재귀쿼리로 계층구조 데이터 표현'
+title: '(mysql) 재귀쿼리로 계층구조 데이터 표현(id - varchar)'
 date: 2021-04-16 17:30:00
 category: 'database'
 draft: false
@@ -43,7 +43,7 @@ ENGINE=InnoDB
 ```
 
 - 🧨단점)
-  - id를 varchar로 하게 되면?
+  - 위처럼 id를 varchar로 하게 되면?
   - id를 생성할 때 이미 계층구조를 반영한 값들로 입력해야 한다.
 
 ## 데이터
