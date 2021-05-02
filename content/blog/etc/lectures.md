@@ -1,6 +1,6 @@
 ---
 title: '강의'
-date: 2021-03-19 12:00:00
+date: 2021-05-02 23:12:00
 category: 'etc'
 draft: false
 ---
@@ -14,9 +14,6 @@ draft: false
 
 ## `Watching`
 
-1. [crash course computer science](https://www.youtube.com/watch?v=tpIctyqH29Q&list=PLH2l6uzC4UEW0s7-KewFLBC1D0l6XRfye)
-   - 지하철에서 보기
-   - 영어지만 한글 자막도 있어서 좋음
 1. [인프런(한정수) - 비전공자를 위한 개발자 취업 올인원 가이드(통합편)](https://www.inflearn.com/course/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%B7%A8%EC%97%85-%ED%86%B5%ED%95%A9%ED%8E%B8/dashboard)
 1. [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
 
@@ -30,6 +27,9 @@ draft: false
 1. [엔지니어대한민국 - 빅오(Big-O)표기법 완전 정복](https://www.youtube.com/watch?v=6Iq5iMCVsXA)
    - 매우 짧음
 1. [컴맹을 위한 Go 언어 기초 프로그래밍 강좌 - 1~6편은 CS 지식을 엄청 설명 잘함](https://www.youtube.com/watch?v=Tq3W8UyltFs&list=PLy-g2fnSzUTAaDcLW7hpq0e8Jlt7Zfgd6)
+1. [crash course computer science](https://www.youtube.com/watch?v=tpIctyqH29Q&list=PLH2l6uzC4UEW0s7-KewFLBC1D0l6XRfye)
+   - 지하철에서 보기
+   - 영어지만 한글 자막도 있어서 좋음
 1. +) 기타 유투브 등 자잘한 영상들
 
 ### 2020
