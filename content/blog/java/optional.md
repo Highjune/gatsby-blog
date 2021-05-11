@@ -132,6 +132,7 @@ System.out.println("opt=" + opt.get()); // 에러(NoSuchElementException). 이�
 원래 잘 사용하진 않는 get()을 굳이 사용하기 위해서는?
 
 ```
+Optional<String> opt = Optional.empty();
 String str = "";
       try {
           str = opt.get();
@@ -140,9 +141,10 @@ String str = "";
       }
 ```
 
-- 번거로운 get() 대신에 orElsE() 사용
+- 번거로운 get() 대신에 orElse() 사용
 
 ```
+Optional<String> opt = Optional.empty();
 String str = "";
 str = opt.orElse(""); // Optional 에 저장된 값이 null이면 빈 문자열 반환
 str = opt.elElse("Empty 문자열");
@@ -151,6 +153,7 @@ str = opt.elElse("Empty 문자열");
 - orElseGet() - 람다 사용가능
 
 ```
+Optional<String> opt = Optional.empty();
 String str = "";
 str = opt.orElseGet(() -> "Empty 문자열");
 str = opt.orElseGet(String::new);
