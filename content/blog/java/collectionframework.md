@@ -9,6 +9,7 @@ draft: false
 
 # 컬렉션 프레임웍
 
+![](./images/optional/optional.png)  
 ![](./images/collectionframework/0.png)
 
 ## 컬렉션(collection)
