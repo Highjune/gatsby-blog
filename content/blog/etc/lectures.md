@@ -96,6 +96,9 @@ draft: false
 1. [Course - Operating system (CPA310)](https://www.youtube.com/watch?v=EdTtGv9w2sA&list=PLBrGAFAIyf5rby7QylRc6JxU5lzQ9c4tN)
    - 운영체제 강의
    - 평이 매우 좋은 운영체제 강의
+1. [(인프런) 박재성 + 정호연임의 자바 강의 - 코드스쿼트]
+   - 이동욱님 추천
+   - java, git, oop, 테스트코드 4가지 개념으로 잘 알려줌
 
 - [강의 추천 글1](https://github.com/cheese10yun/dev-info)
 - [강의 추천 글2](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/)
