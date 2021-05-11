@@ -1,5 +1,5 @@
 ---
-title: 'optional'
+title: 'Optional'
 date: 2021-05-11 20:43:00
 category: 'java'
 draft: false
@@ -23,7 +23,15 @@ public final class Optional<T> {
   1. null을 직접 다루는 것은 위험하기 때문에. nullPointerException 가능성
   2. null을 체크하기 위해서 if문을 사용하면 코드가 길어진다.
 - 간접적으로 null을 다루는 것. null을 Optional 객체로 감싸는것. Optional은 객체이므로 주소가 존재한다. 그 객체(주소존재)가 가지고 있는 값이 null이라는 것. Optional이란 객체는 반드시 존재하기에 null일 없는 것
-  (그림1) 넣기
+- 그림참조
+
+```
+String str = "abc";
+Optional<String> optVal = Optional.of("abc");
+```
+
+![](./images/optional/optional.png)
+
 - 참고1) String도 비슷
 
 ```
