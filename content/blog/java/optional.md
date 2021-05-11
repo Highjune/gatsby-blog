@@ -196,7 +196,7 @@ OptionalInt opt1 = OptionalInt.of(0); // Optional에 0을 저장함
 OptionalInt opt2 = OptionalInt.empty(); // Optional에 0이 저장됨(초기화)
 System.out.println(opt1.isPresent()); // true
 System.out.println(opt2.isPresent()); // false
-System.out.println(opt1.equals()); // false
+System.out.println(opt1.equals(opt2)); // false
 ```
 
 value는 결과적으로 0으로 같지만, isPresent() 값까지 같아야만 equals() 값이 true로 나오도록 Override되어있다.
