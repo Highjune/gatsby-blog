@@ -31,6 +31,7 @@ Optional<String> optVal = Optional.of("abc");
 ```
 
 ![](./images/optional/0.png)
+![](./images/0.png)
 
 - 참고1) String도 비슷
 
