@@ -75,7 +75,7 @@ Optional<String> optVal = Optional.ofNullable(null) // 주로 이렇게 사용
 ## null대신 빈 Optional`<T>` 객체를 사용하자
 
 ```
-Optional<String> optval = null; // 널로 초기화, 바람직하지 않음
+Optional<String> optval = null; // null로 초기화, 바람직하지 않음
 Optional<String> optVal = Optional.<String>empty(); // 빈 객체로 초기화. 타입은 생략가능(아래처럼)
 Optional<String> optVal = Optional.empty();
 
