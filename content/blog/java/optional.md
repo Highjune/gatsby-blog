@@ -30,7 +30,7 @@ String str = "abc";
 Optional<String> optVal = Optional.of("abc");
 ```
 
-![](./images/op/0.png)
+![](./images/optional/0.png)
 ![](./images/0.png)
 
 - 참고1) String도 비슷
