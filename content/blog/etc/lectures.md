@@ -38,6 +38,7 @@ draft: false
    - 설명 적절
    - 강의에 있는 것을 실제로 구현할 때까지 연습하기
 1. [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
+
 ### 2020
 
 1. [인프런(Dowon Lee) - Spring Boot를 이용한 Restful web Service 개발](https://www.inflearn.com/course/spring-boot-restful-web-services/dashboard)
@@ -54,7 +55,8 @@ draft: false
    1. (완료) [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
    1. (watching) [스프링 핵심 원리 - 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8#)
    1. [모든 개발자를 위한 HTTP 웹 기본 지식](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC#)
-   1. 실전! 스프링 웹 MVC - 출시 예정
+   1. [실전! 스프링 웹 MVC - 1편](https://www.inflearn.com/course/스프링-mvc-1?utm_source=inflearn&utm_medium=social&utm_campaign=share#)
+   1. 실전! 스프링 웹 MVC - 2편
    1. 실전! 스프링 DB 접근 기술 - 출시 예정
    1. 실전! 스프링 부트 - 출시 예정
 1. [인프런 - 자바 스프링 프레임워크(renew ver.) - 신입 프로그래머를 위한 강좌](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC_renew/dashboard)
@@ -62,7 +64,6 @@ draft: false
 1. [인프런(김영한) - 실전! Querydsl](https://www.inflearn.com/course/Querydsl-%EC%8B%A4%EC%A0%84#)
 1. [인프런(이동욱) - IntelliJ를 시작하시는 분들을 위한 IntelliJ 가이드](https://www.inflearn.com/course/intellij-guide#)
 1. [운영체제 - 이화여자대학교 반효경 교수님 강의](http://www.kocw.net/home/search/kemView.do?kemId=1046323&ar=pop)
-
 
 1. [Linux Sysadmin Basics](https://www.youtube.com/watch?v=Lbh8Bh_SEzU)
    - 영어강의. 한국어 자막은 제공x
