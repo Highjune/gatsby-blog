@@ -1,6 +1,6 @@
 ---
 title: '책'
-date: 2021-05-06 18:18:00
+date: 2021-06-21 17:16:00
 category: 'etc'
 draft: false
 ---
@@ -95,6 +95,7 @@ draft: false
 [책추천1](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/) 에서 참고 후 좀 더 추가하기
 [책추천2, 강의](https://github.com/cheese10yun/dev-info) 에서도 참고하기
 [이종립님 추천 책](https://johngrib.github.io/wiki/my-favorite-books/)
+[라인 개발자님](https://blog.naver.com/gngh0101/221295353117)
 
 # 비개발 책
 
