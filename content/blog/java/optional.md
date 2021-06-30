@@ -242,4 +242,5 @@ System.out.println("optInt2=" + optInt2);
 System.out.println("optInt1.equals(optInt2)?" + optInt1.equals(optInt2));
 ```
 
-참고 : 자바의 정석 - 남궁성
+- [Optional을 람다식과 함께(올바른사용법)](https://www.daleseo.com/java8-optional-after/)
+  참고 : 자바의 정석 - 남궁성
