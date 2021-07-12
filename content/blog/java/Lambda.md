@@ -257,6 +257,130 @@ int method() {
 
 # 3. 함수형 인터페이스(Functional Interface)
 
+- 람다식은 익명 클래스의 객체와 동일하다.
+
+  - 왜냐하면 사실 자바에서 모든 메서드는 클래스 내에 포함되어야 하므로.
+
+- 그래서 아래의 람다식은 사실 익명 클래스의 객체로 표현가능하다.
+  - 람다로
+  ```
+  (int a, inb b) -> a > b ? a : b;
+  ```
+  - 익명 클래스의 객체로
+  ```
+  new Object() {
+      int max (int a, int b) {
+          return a > b ? a : b;
+      }
+  }
+  ```
+- 위의 코드에서 메서드 이름 max는 임의로 붙인 것일 뿐 의미는 없다. 어쨌든 람다식으로 정의된 익명 객체의 메서드를 어떻게 호출할 것인가? 이미 알고 있는 것처럼 참조변수가 있어야 객체의 메서드를 호출할 수 있으니까 일단 이 익명 객체의 주소를 f라는 참조변수에 저장해보자
+
+```
+타입 f = (int a, int b) -> a > b ? a : b; // 참조변수의 타입을 뭘로 해야 할까?
+```
+
+- 그러면, 참조변수 f의 타입은 어떤 것이어야 하나? 참조형이므로 클래스 또는 인터페이스가 가능함. 그리고 람다식과 동등한 메서드가 정의되어 있는 것이어야 한다. 그래야만 참조변수로 익명 객체(람다식)의 메서드를 호출할 수 있기 때문이다.
+- 예를 들어, 아래와 같이 max()라는 메서드가 정의된 MyFunction인터페이스가 정의되어 있다고 가정하자.
+
+```
+interface MyFunction {
+    public abstract int max(int a, int b);
+}
+```
+
+그러면 이 인터페이스를 구현한 익명 클래스의 객체는 다음과 같이 생성 가능
+
+```
+MyFunction f = new Function() {
+    public int max(int a, int b) {
+        return a > b ? a : b;
+    };
+}
+int big = f.max(3, 5); // 익명 객체의 클래스를 호출
+```
+
+그런데 위의 MyFunction인터페이스에 정의된 메서드 max()는 람다식 `(int a, int b) -> a > b ? a : b`과 메서드의 선언부가 일치한다. 그래서 위 코드의 익명 객체를 람다식으로 아래와 같이 대체할 수 있다.
+
+```
+MyFunction f = (int a, int b) -> a > b ? a : b; // 익명 객체를 람다식으로 대체
+ing big = f.max(5, 3); // 익명 객체의 메서드를 호출
+```
+
+- (중요) 이처럼 MyFunction인터페이스를 구현한 익명 객체를 람다식으로 대체가 가능한 이유는, 람다식도 실제로는 익명 객체이고, MyFunction인터페이스를 구현한 익명 객체의 메서드 max()와 람다식의 매개변수의 타입과 개수 그리고 반환값이 일치하기 때문이다. 하나의 메서드가 선언된 인터페이스를 정의해서 람다식을 다루는 것은 기존의 자바의 규칙들을 어기지 않으면서도 자연스러움.
+- 그래서 인터페이스를 통해 람다식을 다루기로 결정된 것이며, 람다식을 다루기 위한 인터페이스를 `함수형 인터페이스(functional interface)`라고 부르기로 한 것.
+
+```
+@FunctionalInterface
+interface MyFunction { // 함수형 인터페이스 MyFunction을 정의
+    public abstract int max(int a, int b);
+}
+```
+
+- 제약) 단, 함수형 인터페이스에는 오직 하나의 추상 메서드만 정의되어 있어야 한다. 그래야 람다식과 인터페이스의 메서드가 1:1로 연결될 수 있기 때문. 반면에 static메서드와 default메서드의 개수에는 제약이 없다.
+
+  - 참고) `@FunctionalInterface` 를 붙이면, 컴파일러가 함수형 인터페이스를 올바르게 정의하였는지 확인해주므로, 꼭 붙이자
+
+- 기존에는 아래와 같이 인터페이스의 메서드 하나를 구현하는데도 복잡하게 했어야 했는데,
+
+```
+List<String> list = Arrays.asList("abc", "aaa", "bbb", "ddd", "aaA");
+
+Collections.sort(list, new Comparator<String>(){
+    public int compare(String s1, String s2) {
+        return s2.compareTo(s1);
+    }
+});
+```
+
+- 이제는 람다식으로 아래와 같이 간단히 처리할 수 있게 되었다
+
+```
+List<String> list = Arrays.asList("abc", "aaa", "bbb", "ddd", "aaa");
+Collections.sort(list, (s1, s2) -> s2.compareTo(s1));
+```
+
+## 함수형 인터페이스 타입의 매개변수와 반환타입
+
+- 함수형 인터페이스 MyFunction이 아래와 같이 정의되어 있을 때,
+
+```
+@FunctionalInterface
+interface MyFunction {
+  void myMethod(); // 추상메서드
+}
+```
+
+- 메서드의 매개변수가 MyFunction타입이면, 이 메서드를 호출할 때 람다식을 참조하는 참조변수를 매개변수로 지정해야 한다는 뜻이다.
+
+```
+void aMethod(MyFunction f) {
+  f.myMethod();
+}
+  ...
+MyFunction f = () -> System.out.println("myMethod()");
+aMethod(f);
+```
+
+- 또는 참조변수 없이 아래와 같이 직접 람다식을 매개변수로 지정하는 것도 가능
+
+```
+aMethod(() -> System.out.println("myMethod()")); // 람다식을 매개변수로 지정
+```
+
+- 그리고 메서드의 반환타입이 함수형 인터페이스타입이라면, 이 함수형 인터페이스의 추상메서드와 동등한 람다식을 가리키는 참조변수를 반환하거나 람다식을 직접 반환할 수 있다.
+
+```
+MyFunction myMethod() {
+  MyFunction f = () -> {};
+  return f;     // 이 줄과 윗 줄을 한 줄로 줄이면, return () -> {};
+}
+```
+
+- 이렇게 람다식을 참조변수로 다룰 수 있다는 것은 메서드를 통해 람다식을 주고받을 수 있다는 것을 의미한다. 즉, 변수처럼 메서드를 주고받는 것이 가능해진 것이다. 사실상 메서드가 아니라 객체를 주고받는 것이므로 근본적으로 달라진 것은 아무것도 없지만, 람다식 덕분에 예전보다 코드가 더 간결하고 이해하기 쉬워졌다.
+
+- 예제) 14-1
+
 # 4. java.util.function 패키지
 
 # 5. Function의 합성과 Predicate의 결합
