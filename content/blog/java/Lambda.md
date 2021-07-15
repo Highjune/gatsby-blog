@@ -379,7 +379,7 @@ MyFunction myMethod() {
 
 - 이렇게 람다식을 참조변수로 다룰 수 있다는 것은 메서드를 통해 람다식을 주고받을 수 있다는 것을 의미한다. 즉, 변수처럼 메서드를 주고받는 것이 가능해진 것이다. 사실상 메서드가 아니라 객체를 주고받는 것이므로 근본적으로 달라진 것은 아무것도 없지만, 람다식 덕분에 예전보다 코드가 더 간결하고 이해하기 쉬워졌다.
 
-- 예제) 14-1
+- 예제 14-1)
 
 ```
 @FunctionalInterface
@@ -425,8 +425,126 @@ f2.run()
 f3.run()
 f1.run()
 run()
+```
+
+## 람다식의 타입과 형변환
+
+- 함수형 인터페이스로 람다식을 참조할 수 있는 것일 뿐, 람다식의 타입이 함수형 인터페이스의 타입과 일치하는 것은 아니다. 람다식은 익명 객체이고 익명 객체는 타입이 없다. 정확히는 타입은 있지만 컴파일러가 임의로 이름을 정하기 때문에 알 수 없는 것이다. 그래서 대입 연산자의 양변의 타입을 일치시키기 위해 아래와 같이 형변환이 필요하다.
+
+- 참고) MyFunction은 `interface MyFunction {void method();}` 와 같이 정의되었다고 가정하였다.
 
 ```
+MyFunction f = (MyFunction) (() -> {}); // 양변의 타입이 다르므로 형변환이 필요
+```
+
+- 람다식은 MyFunction인터페이스를 직접 구현하지 않았지만, 이 인터페이스를 구현한 클래스의 객체와 완전히 동일하기 때문에 위와 같은 형변환을 허용한다. 그리고 이 형변환은 생략가능하다.
+- 람다식은 이름이 없을 뿐 분명히 객체인데도, 아래와 같이 Object타입으로 형변환 할 수 없다.람다식은 오직 함수형 인터페이스로만 형변환이 가능하다.
+
+```
+Object object = (Object) (() -> {}); // 에러. 함수형 인터페이스로만 형변환 가능
+```
+
+- 굳이 Object타입으로 형변환하려면, 먼저 함수형 인터페이스로 변환해야 한다.
+
+```
+Object obj = (Object)(MyFunction) (() -> {});
+String str = ((Object)(MyFunction) (() -> {})).toString();
+```
+
+- 예제 14-2)
+
+```
+
+@FunctionalInterface
+interface MyFunction {
+    void myMethod(); // public abstract void myMethod();
+}
+
+public class LambdaEx2 {
+    public static void main(String[] args) {
+        MyFunction f = () -> {}; // MyFunction f = (MyFunction)(() -> {});
+        Object obj = (MyFunction) (() -> {}); // Object 타입으로 형변환이 생략됨
+        String str = ((Object)(MyFunction)(() -> {})).toString();
+
+        System.out.println(f); // LambdaEx2$$Lambda$1/1324119927@3d075dc0
+        System.out.println(obj); // LambdaEx2$$Lambda$2/1078694789@214c265e
+        System.out.println(str); // LambdaEx2$$Lambda$3/1831932724@682a0b20
+
+//        System.out.println(() -> {}); // 에러. 람다식은 Object타입으로 형변환 안됨
+        System.out.println((MyFunction)(() -> {})); // LambdaEx2$$Lambda$4/1149319664@7cca494b
+//        System.out.println((MyFunction)(() -> {}).toString()); // 에러
+        System.out.println(((Object)(MyFunction)(() -> {})).toString()); // LambdaEx2$$Lambda$5/2074407503@3b9a45b3
+    }
+
+}
+```
+
+- 예제 14-2) 에서 볼 수 있듯이 실행결과를 보면, 컴파일러가 람다식의 타입을 어떤 형식으로 만들어 내는지 알 수 있다.
+  - 일반적인 익명 객체일 경우 객체의 타입 : `외부클래스$번호`
+  - 람다식의 타입 : `외부클래스$$Lambda$번호
+
+## 외부 변수를 참조하는 람다식
+
+- 람다식도 익명 객체, 즉 익명 클래스의 인스턴스이므로 람다식에서 외부에 선언된 변수에 접근하는 규칙은 익명 클래스에서 배운 것과 동일하다.
+
+- 예제 14-3)
+
+```
+import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
+
+@FunctionalInterface
+interface MyFunction {
+    void myMethod();
+}
+
+class Outer {
+    int val = 10;  // Outer.this.val
+
+    class Inner {
+        int val = 20; // this.val
+
+        void method(int i) { // void method(final int i) { 와 동일
+            int val = 30; // final int val = 30;
+//            i = 10; // 에러. 상수의 값을 변경할 수 없음.
+
+            MyFunction f = () -> {
+                System.out.println("                 i : " + i);  // 100
+                System.out.println("               val : " + val); // 30
+                System.out.println("          this.val : " + ++this.val); // 21
+                System.out.println("    Outer.this.val : " + ++Outer.this.val); // 11
+            };
+
+            f.myMethod();
+        }
+    } // Inner클래스 끝
+} // Outer 클래스 끝
+
+public class LambdaEx3 {
+    public static void main(String[] args) {
+        Outer outer = new Outer();
+        Outer.Inner inner = outer.new Inner();
+        inner.method(100);
+    }
+}
+```
+
+- 예제 14-3) 에서는, 람다식 내에서 참조하는 지역변수는 final이 붙지 않았어도 상수로 간주된다. 람다식 내에서 지역변수 i와 val을 참조하고 있으므로 람다식 내에서나 다른 어느 곳에서도 값을 변경하는 일은 허용되지 않는다. 반면에 Inner클래스와 Outer클래스의 인스턴스 변수인 this.val와 Outer.this.val은 상수로 간주되지 않으므로 값을 변경해도 된다.
+
+  - 외부 지역변수와 같은 이름의 람다식 매개변수는 허용되지 않는다. (아래에서 에러2)
+
+  ```
+  void method(int i) {
+    int val = 30; // final int val = 30;
+    i = 10; // 에러1. 상수의 값을 변경할 수 없음.
+
+    MyFunction f = (i) -> { // 에러2. 외부 지역변수와 이름이 중복됨.
+        System.out.println("                 i : " + i);
+        System.out.println("               val : " + val);
+        System.out.println("          this.val : " + ++this.val);
+        System.out.println("    Outer.this.val : " + ++Outer.this.val);
+    }
+  }
+  ```
 
 # 4. java.util.function 패키지
 
