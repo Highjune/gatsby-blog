@@ -579,13 +579,232 @@ if (isEmptyStr.test(s)) // if(s.length()) == 0
 - 매개변수의 개수가 2개인 함수형 인터페이스는 이름 앞에 접두사 'Bi'가 붙는다.
   - 참고) 매개변수의 타입으로 보통 `T`를 사용하므로, 알파벳에서 `T` 다음 문자인 `U`, `V`, `W`를 매개변수의 타입으로 사용하는 것일 뿐 별다른 의미는 없다.
 
-| 함수형 인터페이스   | 메서드 | 설명 |
-| ------------------- | ------ | ---- |
-| BiConsumer`<T,U>`   | d      | d    |
-| BiPredicate`<T,U>`  | d      | d    |
-| BiFunction`<T,U,R>` | d      | d    |
+| 함수형 인터페이스   | 메서드                                          | 설명                                                        |
+| ------------------- | ----------------------------------------------- | ----------------------------------------------------------- |
+| BiConsumer`<T,U>`   | --T, U--> `void accept(T t, U u)`               | 두 개의 매개변수만 있고, 반환값이 없음                      |
+| BiPredicate`<T,U>`  | --T, U--> `boolean test(T t, U u)` --boolean--> | 조건식을 표현하는데 사용됨. 매개변수는 둘, 반환값은 boolean |
+| BiFunction`<T,U,R>` | --T, U--> 'R apply(T t, U u)' --R-->            | 두 개의 매개변수를 받아서 하나의 결과를 반환                |
+
+- 참고) Supplier는 매개변수는 없고 반환값만 존재하는데, 메서드는 두 개의 값을 반환할 수 없으므로 BiSupplier가 없는 것이다.
+- 두 개 이상의 매개변수를 갖는 함수형 인터페이스가 필요하다면 직접 만들어서 써야한다. 만일 3개의 매개변수를 갖는 함수형 인터페이스를 선언한다면 다음과 같을 것이다.
+
+```
+@FunctionalInterface
+interface TriFunction<T, U, V, R> {
+  R apply(T t, U u, V v);
+}
+```
+
+## UnaryOperator와 BinaryOperator
+
+- Function의 또 다른 변형으로 UnaryOperator와 BinaryOperator가 있는데, 매개변수의 타입과 반환타입의 타입이 모두 일치한다는 점만 제외하고는 Function과 같다.
+- 참고) UnaryOperator와 BinaryOperator의 조상은 각각 Function와 BiFunction이다.
+
+| 함수형 인터페이스   | 메서드                               | 설명                                                                |
+| ------------------- | ------------------------------------ | ------------------------------------------------------------------- |
+| UnaryOperator`<T>`  | --T--> `T apply(T t) --T-->          | Function의 자손, Function과 달리 매개변수와 결과의 타입이 같다.     |
+| BinaryOperator`<T>` | --T, T--> `T apply(T t, T t)` --t--> | BiFunction의 자손, BiFunction과 달리 매개변수와 결과의 타입이 같다. |
+
+## 컬렉션 프레임웍과 함수형 인터페이스
+
+- 컬렉션 프레임웍의 인터페이스에 다수의 디폴트 메서드가 추가되었는데, 그 중의 일부는 함수형 인터페이스를 사용한다. 다음은 그 메서드들의 목록이다.(컬렉션 프레임웍의 함수형 인터페이스를 사용하는 메서드들)
+  - 참고) 단순화하기 위해 와일드 카드는 생략하였다.
+
+| 인터페이스 | 메서드                                             | 설명                             |
+| ---------- | -------------------------------------------------- | -------------------------------- |
+| Collection | boolean removeIf(Predicate`<E>` filter)            | 조건에 맞는 요소를 삭제          |
+| List       | void replaceAll(UnaryOperator`<E>` operator)       | 모든 요소를 변환하여 대체        |
+| Iterable   | void forEach(Consumer`<T>` action)                 | 모든 요소에 작업 action을 수행   |
+| Map        | V compute(K key, BiFunction`<K, V, V>` f)          | 지정된 키의 값에 작업 f를 수행   |
+| Map        | V computeIfAbsent(K key, Function`<K, V>` f)       | 키가 없으면, 작업 f 수행 후 추가 |
+| Map        | V computeIfPresent(K key, BiFunction`<K, V, V>` f) | 지정된 키가 있을 때, 작업 f 수행 |
+| Map        | V merge(K key, V value, BiFunction`<V, V, V>` f)   | 모든 요소에 병합작업 f를 수행    |
+| Map        | void forEach(BiConsumer`<K, V>` action)            | 모든 요소에 작업 action을 수행   |
+| Map        | void replaceAll(BiFunction`<K, V, V>` f)           | 모든 요소에 치환작업 f를 수행    |
+
+- 이름만 봐도 어떤 일을 하는 메서드인지 충분히 알 수 있을 것이다. Map인터페이스에 있는 'Compute'로 시작하는 메서드들은 맵의 value를 변환하는 일을 하고 merge()는 Map을 병합하는 일을 한다. 이 메서드들을 어떤 식으로 사용하는지는 다음의 예제를 보자.
+
+- 예제 14-4)
+
+```
+public class LambdaEx4 {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0 ; i < 10 ; i++) {
+            list.add(i);
+        }
+
+        // list 모든 요소 출력
+        list.forEach(i -> System.out.print(i + ",")); // 0,1,2,3,4,5,6,7,8,9,
+        System.out.println();
+
+        // list에서 2 또는 3의 배수를 제거한다.
+        list.removeIf(x -> x % 2==0 || x % 3 ==0); // [1, 5, 7]
+        System.out.println(list);
+
+        list.replaceAll(i -> i * 10); // list의 각 요소에 10을 곱한다.
+        System.out.println(list); // [10, 50, 70]
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("1", "1");
+        map.put("2", "2");
+        map.put("3", "3");
+        map.put("4", "4");
+
+        // map의 모든 요소를 {k, v} 의 형식으로 출력한다.
+        map.forEach((k, v) -> System.out.print("{" + k + " ," + v + "},")); // {1 ,1},{2 ,2},{3 ,3},{4 ,4},
+        System.out.println();
+    }
+}
+```
+
+- 메서드의 기본적인 사용법만 보여주는 간단한 예제. 예제의 람다식을 변형해서 다양하게 테스트해보기
+
+- 다음은 앞서 설명한 함수형 인터페이스들을 사용하는 예제.
+- 예제 14-5)
+
+```
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
+public class LambdaEx5 {
+
+    public static void main(String[] args) {
+        Supplier<Integer> s = () -> (int)(Math.random() * 100) + 1;
+        Consumer<Integer> c = i -> System.out.print(i + ", ");
+        Predicate<Integer> p = i -> i%2 == 0;
+        Function<Integer, Integer> f = i -> i/10*10; // i의 1의 자리를 없앤다.
+
+        List<Integer> list = new ArrayList<>();
+        makeRandomList(s, list);
+        System.out.println(list); //  랜덤숫자 뽑음 [79, 78, 84, 9, 39, 4, 15, 21, 99, 13]
+        printEvenNum(p, c, list); //  뽑은 것 중에서 짝수만 출력 [78, 84, 4, ]
+        List<Integer> newList = doSomething(f, list);
+        System.out.println(newList); // 랜덤숫자들 중 1의 자리 없앰[70, 70, 80, 0, 30, 0, 10, 20, 90, 10]
+    }
+
+    static <T> List<T> doSomething(Function<T, T> f, List<T> list) {
+        List<T> newList = new ArrayList<T>(list.size());
+
+        for (T i : list) {
+            newList.add(f.apply(i));
+        }
+        return newList;
+    }
+
+    static <T> void printEvenNum(Predicate<T> p, Consumer<T> c, List<T> list) {
+        System.out.print("[");
+        for (T i : list) {
+            if (p.test(i))
+                c.accept(i);
+        }
+        System.out.println("]");
+    }
+
+    static <T> void makeRandomList(Supplier<T> s, List<T> list) {
+        for (int i = 0 ; i < 10 ; i++) {
+            list.add(s.get());
+        }
+    }
+
+}
+```
+
+## 기본형을 사용하는 함수형 인터페이스
+
+- 지금까지 소개한 함수형 인터페이스는 매개변수와 반환값의 타입이 모두 지네릭 타입이었는데, 기본형 타입의 값을 처리할 때도 래퍼(wrapper)클래스를 사용해왔다. 그러나 기본형 대신 래퍼클래스를 사용하는 것은 당연히 비효율적이다. 그래서 보다 효율적으로 처리할 수 있도록 기본형을 사용하는 함수형 인터페이스들이 제공된다.
+
+| 인터페이스            | 메서드                                         | 설명                                                 |
+| --------------------- | ---------------------------------------------- | ---------------------------------------------------- |
+| Double TolIntFunction | --double--> `int applyAsInt(double d)`--int--> | `A`To`B`Function은 입력이 A타입 출력이 B타입         |
+| ToIntFunction`<T>`    | --T--> `int applyAsInt(T value)` --int-->      | To`B`Function은 출력이 B타입이다. 입력은 지네릭 타입 |
+| IntFunction`<T>`      | --int--> `R apply(T t, U u)` --R-->            | `A`Function은 입력이 A타입이고 출력은 지네릭 타입    |
+| ObjIntConsumer`<T>`   | --T, int--> `void accept(T t, U u)`            | Obj`A`Function은 입력이 T, A타입이고 출력은 없다.    |
+
+- 예제 14-6) 예제 14-5를 기본형을 사용하는 함수형 인터페이스로 변경한 것
+
+```
+import java.util.Arrays;
+import java.util.function.IntConsumer;
+import java.util.function.IntPredicate;
+import java.util.function.IntSupplier;
+import java.util.function.IntUnaryOperator;
+
+public class LambdaEx6 {
+    public static void main(String[] args) {
+        IntSupplier s = () -> (int)(Math.random()*100) + 1;
+        IntConsumer c = i -> System.out.print(i + ", ");
+        IntPredicate p = i -> i % 2 == 0;
+        IntUnaryOperator op = i -> i/10*10; // i의 일의 자리를 없앤다.
+
+        int[] arr = new int[10];
+
+        makeRandomList(s, arr);
+        System.out.println(Arrays.toString(arr)); // [27, 29, 54, 82, 71, 91, 62, 63, 51, 8]
+        printEvenNum(p, c, arr); // [54, 82, 62, 8, ]
+        int[] newArr = doSomething(op, arr);
+        System.out.println(Arrays.toString(newArr)); // [20, 20, 50, 80, 70, 90, 60, 60, 50, 0]
+    }
+
+
+    static void makeRandomList (IntSupplier s, int[] arr) {
+        for (int i = 0 ; i < arr.length ; i++) {
+            arr[i] = s.getAsInt(); // get() 이 아니라 getAsInt() 임에 주의
+        }
+    }
+
+    static void printEvenNum (IntPredicate p, IntConsumer c, int[] arr) {
+        System.out.print("[");
+        for (int i : arr) {
+            if (p.test(i))
+                c.accept(i);
+        }
+        System.out.println("]");
+    }
+
+    static int[] doSomething(IntUnaryOperator op, int[] arr) {
+        int[] newArr = new int[arr.length];
+
+        for (int i = 0 ; i < newArr.length ; i++) {
+            newArr[i] = op.applyAsInt(arr[i]); // apply()가 아님에 주의
+        }
+
+        return newArr;
+    }
+}
+```
+
+- 위 예제에서 만일 아래와 같이 IntUnaryOperator 대신 Function 을 사용하면 에러가 발생한다.
+
+```
+Function f = (a) -> 2*a; // 에러. a의 타입을 알 수 없으므로 연산불가
+```
+
+- 매개변수 a와 반환 값의 타입을 추정할 수 없기 때문이다. 그래서 아래와 같이 타입을 지정해 주어야 한다.
+
+```
+// OK, 매개변수 타이봐 반환타입이 Integer
+Function<Integer, Integer> f = (a) -> 2*a;
+```
+
+- 또는 아래와 같이 Function 대신 IntFunction을 사용할 수도 있지만, IntUnaryOperator 가 Function이나 IntFunction보다 오토박싱&언박싱의 횟수가 줄어들어 더 성능이 좋다.
+
+```
+// OK, 매개변수 타입은 int, 반환타입은 Integer
+IntFunction<Integer> f = (a) -> 2 * a;
+```
+
+- IntFunction, ToIntFunction, IntToLongFunction은 있어도 IntToIntFunction은 없는데, 그 이유는 IntUnaryOperator가 그 역할을 하기 때문이다. 매개변수의 타입과 반환타입이 일치할 때는 앞서 배운 것처럼 Function 대신 UnaryOperator를 사용하자.
 
 # 5. Function의 합성과 Predicate의 결합
+
+- 앞서 소개한
 
 # 6. 메서드 참조
 
