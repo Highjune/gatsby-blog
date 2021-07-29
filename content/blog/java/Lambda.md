@@ -1,11 +1,11 @@
 ---
-title: 'Optional'
-date: 2021-07-07 13:43:00
+title: 'Lambda(자바의 정석 3판 책 정리)'
+date: 2021-07-29 14:42:00
 category: 'java'
 draft: false
 ---
 
-#### 자바의 정석을 공부하면서 정리한 것
+#### 자바의 정석(3판, 책)을 공부하면서 정리한 것
 
 # Lambda Expression(람다식)
 
@@ -848,8 +848,177 @@ IntFunction<Integer> f = (a) -> 2 * a;
 
 ## Predicate의 결합
 
--
+- 여러 조건식을 논리 연산자인 &&(and), ||(or), !(not)으로 연결해서 하나의 식을 구성할 수 있는 것처럼, 여러 Predicate를 and(), or(), negate()로 연결해서 하나의 새로운 Predicate로 결합할 수 있다.
+
+```
+Predicate<Integer> p = i -> i < 100;
+Predicate<Integer> q = i -> i < 200;
+Predicate<Integer> r = i -> i % 2 == 0;
+Predicate<Integer> notP = p.negate(); // i >= 100
+
+// 100 <= i && (i < 200 || i%2 ==0)
+Predicate<Integer> all = notP.and(q.or(t));
+System.out.println(all.test(150)); // true
+```
+
+- 이처럼 and(), or(), negate()로 여러 조건식을 하나로 합칠 수 있다. 물론 아래와 같이 람다식을 직접 넣어도 된다.
+
+```
+Predicate<Integer> all = notP.and(i -> i < 200).or(i -> i % 2 == 0);
+```
+
+- 주의) Predicate의 끝에 negate()를 붙이면 조건식 전체가 부정이 된다.
+- 그리고 static 메서드인 isEqual()은 두 대상을 비교하는 Predicate를 만들 때 사용한다. 먼저 isEqual()의 매개변수로 비교대상을 하나 지정하고, 또 다른 비교대상은 test()의 매개변수로 지정한다.
+
+```
+Predciate<String> p = Predicate.isEqual(str1);
+boolean result = p.test(str2); // str1과 str2과 같은지 비교하여 결과를 반환
+```
+
+- 위의 두 문장을 합치면 아래와 같다. 오히려 아래의 문장이 이해하기 더 쉬울 것이다.
+
+```
+// str1과 str2가 같은지 비교
+boolean result = Predicate.isEqual(str1).test(str2);
+```
+
+- 예제 14-7)
+
+```
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+public class LambdaEx7 {
+    public static void main(String[] args) {
+        Function<String, Integer> f = (s) -> Integer.parseInt(s, 16);
+        Function<Integer, String> g = (i) -> Integer.toBinaryString(i);
+
+        Function<String, String> h = f.andThen(g);
+        Function<Integer, Integer> h2 = f.compose(g);
+
+        System.out.println(h.apply("FF")); // "FF" -> 255 -> "11111111"
+        System.out.println(h2.apply(2)); // 2 -> "10" -> 16
+
+        Function<String, String> f2 = x -> x; // 항등함수(identity function)
+        System.out.println(f2.apply("AAA")); // AAA가 그대로 출력됨
+
+        Predicate<Integer> p = i -> i < 100;
+        Predicate<Integer> q = i -> i < 200;
+        Predicate<Integer> r = i -> i % 2 == 0;
+        Predicate<Integer> notP = p.negate(); // i >= 100
+
+        Predicate<Integer> all = notP.and(q.or(r));
+        System.out.println(all.test(150)); // true
+
+        String str1 = "abc";
+        String str2 = "abc";
+
+        // str1과 str2가 같은지 비교한 결과를 반환
+        Predicate<String> p2 = Predicate.isEqual(str1);
+        boolean result = p2.test(str2);
+        System.out.println(result); // true
+    }
+}
+
+```
 
 # 6. 메서드 참조
+
+- 람다식으로 메서드를 이처럼 간결하게 표현할 수 있는 것만 해도 장점. 그러나 람다식을 더욱 간결하게 표현할 수 있는 방법이 잇다. 항상 그런 것은 아니고, 람다식이 하나의 메서드만 호출하는 경우에는 `메서드 참조(method reference)`라는 방법으로 람다식을 간략히 할 수 있다. 예를 들어 문자열을 정수로 변환하는 람다식은 아래와 같이 작성할 수 있다.
+
+```
+Function<String, Integer> f = (String s) -> Integer.parseInt(s);
+```
+
+- 보통은 위처럼 람다식을 작성하는데, 이 람다식을 메서드로 표현하면 아래와 같다.
+  - 참고) 람다식은 엄밀히 말하자면 익명클래스의 객체지만 간단히 메서드만 적었다.
+  ```
+  Integer wrapper(String s) { // 이 메서드의 이름은 의미없다.
+    return Integer.parseInt(s);
+  }
+  ```
+- 위의 wrapper 메서드는 별로 하는 일이 없다.그저 값을 받아서 Integer.parseInt()에게 넘겨주는 일만 할 뿐이다. 차라리 이 거추장스러운 메서드를 벗겨내고 Integer.parseInt()를 직접 호출하는 것이 더 낫지 않을까?
+
+  - 즉 아래를,
+
+  ```
+  Function<String, Integer> f = (String s) -> Integer.parseInt(s);
+  ```
+
+  - 아래와 같이 변경
+
+  ```
+  Function<String, Integer> f = Integer::parseInt; // 메서드 참조
+  ```
+
+- 위 메서드 참조에서 람다식의 일부가 생략되었지만, 컴파일러는 생략된 부분을 우변의 parseInt메서드의 선언부로부터, 또는 좌변의 Function인터페이스에 지정된 지네릭 타입으로부터 쉽게 알아낼 수 있다.
+- 한 가지 예를 더 보자. 아래의 람다식을 메서드 참조로 변경한다면, 어떻게 되겠는가? 람다식에서 생략해도 좋을 만한 부분이 어디인지 한번 생각해 보자.
+
+```
+BiFunction<String, String, Boolean> f = (s1, s2) -> s1.equals(s2);
+```
+
+- 참조변수 f의 타입만 봐도 람다식이 두 개의 String타입의 매개변수를 받는다는 것을 알 수 있으므로, 람다식의 매개변수들은 없어도 된다. 위의 람다식에서 매개변수들을 제거해서 메서드 참조로 변경하면 아래와 같다.
+
+  - 즉, 아래의 식에서.
+
+  ```
+  BiFunction<String, String, Boolean> f = (s1, s2) -> s1.equals(s2);
+  ```
+
+  - 아래의 식으로 변경.
+
+  ```
+  BiFunction<String, String, Boolean> f = String::equals; // 메서드 참조
+  ```
+
+- 매개변수 s1과 s2을 생략해버리고 나면 equals만 남는데, 두 개의 String을 받아서 Boolean을 반환하는 equals라는 이름의 메서드는 다른 클래스에도 존재할 수도 있기 때문에 equals 앞에 클래스 이름은(여기서는 String) 반드시 필요하다.
+- 메서드 참조를 사용할 수 있는 경우가 한 가지 더 있는데, 이미 생성된 객체의 메서드를 람다식에서 사용한 경우에는 클래스 이름 대신 그 객체의 참조변수를 적어줘야 한다.
+
+```
+MyClass obj = new MyClass();
+Function<String, Boolean> f = (x) -> obj.equals(x); // 람다식
+Function<String, Boolean> f2 = obj::equals; // 메서드 참조
+```
+
+- 지금까지 3가지 경우의 메서드 참조에 대해서 알아봤는데, 정리하면 다음과 같다.
+  (람다식을 메서드 참조로 변환하는 방법)
+
+| 종류                          | 람다                       | 메서드 참조       |
+| ----------------------------- | -------------------------- | ----------------- |
+| static메서드 참조             | (x) -> ClassName.method(x) | ClassName::method |
+| 인스턴스메서드 참조           | (obj, x) -> obj.method(x)  | className::method |
+| 특정 객체 인스턴스메서드 참조 | (x) -> obj.method(x)       | obj::method       |
+
+- 정리
+  - `하나의 메서드만 호출하는 람다식은 '클래스이름::메서드이름' 또는 '참조변수::메서드이름'으로 바꿀 수 있다.`
+
+## 생성자의 메서드 참조
+
+- 생성자를 호출하는 람다식도 메서드 참조로 변환할 수 있다.
+
+```
+Supplier<MyClass> s = () -> new MyClass(); // 람다식
+Supplier<MyClass> s = Myclass:new; // 메서드 참조
+```
+
+- 매개변수가 있는 생성자라면, 매개변수의 개수에 따라 알맞은 함수형 인터페이스를 사용하면 된다. 필요하다면 함수형 인터페이스를 새로 정의해야 한다.
+
+```
+Function<Integer, MyClass> f = (i) -> new MyClass(i); // 람다식
+Function<Integer, Myclass> f2 = MyClass::new; // 메서드 참조
+
+BiFunction<Integer, String, MyClass> bf = (i, s) -> new MyClass(i, s);
+BiFunction<Integer, String, Myclass> bf2 = MyClass::new; // 메서드 참조
+```
+
+- 그리고 배열을 생성할 때는 아래와 같이 하면 된다.
+
+```
+Function<Integer, int[]> f = x -> new int[x]; // 람다식
+Function<Integer, int[]> f2 = int[]::new; // 메서드 참조
+```
+
+- 메서드 참조는 람다식을 마치 static변수처럼 다룰 수 있게 해준다. 메서드 참조는 코드를 간략히 하는데 유용해서 많이 사용된다. 람다식을 메서드 참조로 변환하는 연습을 많이해서 빨리 익숙해지기 바란다.
 
 #
