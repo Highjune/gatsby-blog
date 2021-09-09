@@ -21,6 +21,7 @@ draft: false
 1. (상시)Pro git 2/E
 1. (JAVA) 프로그래밍 면접 이렇게 준비한다
    - 이동욱님 추천
+1.
 
 ## `completed`
 
