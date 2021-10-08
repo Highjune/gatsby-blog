@@ -949,3 +949,6 @@ int min = intStream.reduce(Integer.MAX_VALUE, (a, b) -> a < b ? a : b); // min()
 ```
 
 ## 실습
+
+https://www.youtube.com/watch?v=M_4a4tUCSPU&list=PLW2UjW795-f6xWA2_MUhEVgPauhGl3xIp&index=169
+25:00
