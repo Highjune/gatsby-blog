@@ -18,11 +18,11 @@ public final class Optional<T> {
 }
 ```
 
-- 어떤 타입이든지 다 저장할 수 있다. 심지어 null도 가능.
+- 어떤 타입이든지 다 T에 저장할 수 있다. 심지어 null도 가능.
 - 왜 필요한가?
-  1. null을 직접 다루는 것은 위험하기 때문에. nullPointerException 가능성
+  1. null을 직접 다루는 것은 위험하기 때문에. nullPointerException 가능성 배제
   2. null을 체크하기 위해서 if문을 사용하면 코드가 길어진다.
-- 간접적으로 null을 다루는 것. null을 Optional 객체로 감싸는것. Optional은 객체이므로 주소가 존재한다. 그 객체(주소존재)가 가지고 있는 값이 null이라는 것. Optional이란 객체는 반드시 존재하기에 null일 없는 것
+- 간접적으로 null을 다루는 것. null을 Optional 객체로 감싸는것. Optional은 객체이므로 주소가 존재한다. 그 객체(주소존재)가 가지고 있는 값이 null이라는 것. Optional이란 객체는 반드시 존재하기에 null일 수는 없는 것
 - 그림참조
 
 ```
@@ -50,6 +50,8 @@ String str = "";
 String str = new char[0];
 ```
 
+그래서 `if(str!=null) {}` 와 같은 로직이 필요없다.
+
 - 참고2) 배열 역시 마찬가지. 배열이 인스턴스 변수일 때 null로 초기화 하지 않고 빈 배열로 초기화 하는 것이 더 옳다.
 
 ```
@@ -69,7 +71,7 @@ String str = "abc";
 Optional<String> optVal = Optional.of(str); // of는 static메서드.
 Optional<String> optVal = Optional.of("abc");
 Optional<String> optVal = Optional.of(null); // 에러임. NullPointerException 발생.
-Optional<String> optVal = Optional.ofNullable(null) // 주로 이렇게 사용
+Optional<String> optVal = Optional.ofNullable(null) // OK. 주로 이렇게 사용
 ```
 
 ## null대신 빈 Optional`<T>` 객체를 사용하자
@@ -83,14 +85,21 @@ Optional<String> optVal = Optional.empty();
 
 ## Optional 객체의 값 가져오기 - get(), orElse(), orElseGet(), orElseThrow()
 
-- 이중에서 orElsE(), orElseGet() 을 많이 사용한다.
+- 이중에서 orElse(), orElseGet() 을 많이 사용한다.
 
 ```
 Optional<String> optVal = Optional.of("abc");
 String str1 = OptVal.get(); // optVal에 저장된 값을 반환, null이면 예외발생
 String str2 = OptVal.orElse(""); // optVal에 저장된 값이 null일 때는, ""를 반환
 String str3 = OptVal.orElseGet(String::new); // 람다식 사용가능 () -> new String()
-String str4 = OptVal.orElseThrow(NullPointerException::new) // 널이면 예외발생, 예외종류 지정가능
+String str4 = OptVal.orElseThrow(NullPointerException::new) // 널이면 예외발생, 대신 예외종류 지정가능
+```
+
+- orElseGet, orElseThrow 메서드 선언부 살펴보기
+
+```
+T orElseGet(Supplier<? extends T> other)
+T orElseThrow(Supplier<? extends X> exceptionSupplier)
 ```
 
 ## isPresent() - Optional객체의 값이 null이면 false, 아니면 true를 반환. null이 아닐때만 실행
@@ -113,7 +122,7 @@ if(Optional.ofnullable(str).isPresent()) { // if (str!=null)  와 같은 의미
 - 초기화
 
 ```
-//    int[] arr = null; // 이렇게 하면 NullPointerException 발생할 가능성 높음
+//    int[] arr = null; // 이렇게 하면 NullPointerException 발생할 가능성 존재
       int[] arr = new int[0]; // 바람직O
       System.out.println("arr.length" + arr.length);
 
@@ -129,7 +138,7 @@ Optional<String> opt = Optional.empty();
 System.out.println("opt=" + opt.get()); // 에러(NoSuchElementException). 이렇게 쓰면 안된다.
 ```
 
-원래 잘 사용하진 않는 get()을 굳이 사용하기 위해서는?
+원래 잘 사용하진 않는 get()을 굳이 사용하기 위해서는? 예외처리 해줘야 함(번거로움)
 
 ```
 Optional<String> opt = Optional.empty();
@@ -139,16 +148,20 @@ String str = "";
       } catch (Exception e) {
           str = ""; // 예외가 발생하면 빈 문자열("") 로 초기화
       }
+
+      System.out.println("str=" + str); // 빈 문자열
 ```
 
 - 번거로운 get() 대신에 orElse() 사용
 
-```
-Optional<String> opt = Optional.empty();
-String str = "";
-str = opt.orElse(""); // Optional 에 저장된 값이 null이면 빈 문자열 반환
-str = opt.elElse("Empty 문자열");
-```
+  ```
+  Optional<String> opt = Optional.empty();
+  String str = "";
+  str = opt.orElse(""); // Optional 에 저장된 값이 null이면 빈 문자열 반환
+  str = opt.orElse("Empty 문자열"); // Optional 에 저장된 값이 null이면 "Empty 문자열" 반환
+  ```
+
+  - orElse() 선언부 보면 삼항 연산자로 되어 있음. 삼항 연산자를 내부로 넣으니(if문 로직) 간결해진 것
 
 - orElseGet() - 람다 사용가능
 
@@ -168,8 +181,7 @@ str = opt.orElseGet(() -> new String()); // 위를 이렇게 람다식으로 바
 public final class OptionalInt {
   ...
   private final boolean isPresent; // 값이 저장되어 있으면 true
-  private final int value; // int타입의 변수
-  ...
+  private final int value; // int타입의 변수, 기본형으로 선언되어 있다(Optional<T>에서 final T value선언에서 보면 T는 기본형이 아니라 참조형임)
 }
 
 ```
@@ -208,7 +220,7 @@ value는 결과적으로 0으로 같지만, isPresent() 값까지 같아야만 e
 
 ```
   Optional<String> optStr = Optional.of("abcde");
-//  Optional<Integer> optInt = optStr.map(s->s.length());
+//  Optional<Integer> optInt = optStr.map(String::length); // Optional에도 map메서드를 지원해서 String -> Int 로 변경한 것
   Optional<Integer> optInt = optStr.map(s->s.length()); // 위와 같음
   System.out.println("optStr = " + optStr.get()); // "optStr = abcde"
   System.out.println("optInt = " + optInt.get()); // "optInt = 5"
@@ -217,15 +229,18 @@ value는 결과적으로 0으로 같지만, isPresent() 값까지 같아야만 e
 
 ```
 int result1 = Optional.of("123")
-                    .filter(x->x.length() > 0)
-                    .map(Integer::parseInt).orElse(-1);
+                    .filter(x->x.length() > 0) // 스트링 길이가 0보다 큰 지 확인
+                    .map(Integer::parseInt).get(); // "123" -> 123
 
 int result2 = Optional.of("")
                     .filter(x->x.length() > 0)
                     .map(Integer::parseInt).orElse(-1); // 조건에 안 맞으니 map(Integer::parseInt)가 null이다. 그래서 -1반환
 
-System.out.println("result1 = " + result1); // "result1 = 123"
-System.out.println("result2 = " + result2); // "result1 = -1"
+System.out.println("result1 = " + result1); // result1 = 123
+System.out.println("result2 = " + result2); // result1 = -1
+
+Optional.of("456").map(Integer::parseInt)
+                  .ifPresent(x->System.out.printf("result3=%d%n", x); // result3=456
 ```
 
 ```
@@ -237,9 +252,9 @@ System.out.println(optInt2.isPresent()); // false
 
 System.out.println(optInt1.getAsInt()); // 0
 //  System.out.println(optInt2.getAsInt()); // 에러(NoSuchElementException)
-System.out.println("optInt1=" + optInt1);
-System.out.println("optInt2=" + optInt2);
-System.out.println("optInt1.equals(optInt2)?" + optInt1.equals(optInt2));
+System.out.println("optInt1=" + optInt1); // optInt1=OptionalInt[0]
+System.out.println("optInt2=" + optInt2); // optInt2=OptionalInt.empty
+System.out.println("optInt1.equals(optInt2)?" + optInt1.equals(optInt2)); // false
 ```
 
 - [Optional을 람다식과 함께(올바른사용법)](https://www.daleseo.com/java8-optional-after/)
