@@ -866,7 +866,7 @@ IntStream.range(1, 10).parellel().forEach(System.out::print); // 523857172, 섞�
 IntStream.range(1, 10).parellel().forEachOrdered(System.out::print) // 123456789, 병렬처리함에도 순서보장이 됨
 ```
 
-## 조건 검사 - allMatch(), anyMatch(), noneMatch()
+### 조건 검사 - allMatch(), anyMatch(), noneMatch()
 
 ```
 boolean allMatch (Predicate<? super T> predicate) // 모든 요소가 조건을 만족시키면 true
@@ -881,7 +881,7 @@ Stream<Student> stuStream = new ~~(생략)~~
 boolean hasFailedStu = stuStream.anyMatch(s -> s.getTotalScore() <= 100); // 한 명이라도 있으면 true
 ```
 
-## 조건에 일치하는 요소 찾기 - findFirst(), findAny()
+### 조건에 일치하는 요소 찾기 - findFirst(), findAny()
 
 - 조건에 맞는 것이 없을 수도 있으므로, 즉 결과가 null을 반환할 수도 있으므로 Optional`<T>`로 반환
 
@@ -896,7 +896,7 @@ Optional<Student> result = stuStream.filter(s -> s.getTotalScore() <= 100).findF
 Optional<Student> result = parallelStream.filter(s -> s.getTotalScore() <= 100).findAny(); // 병렬스트림일 경우 여러 요소중에 먼저 발견한 쓰레드가 반환하는 요소 반환
 ```
 
-## 스트림의 요소를 하나씩 줄여가며 누적연산(accumulator) 수행 - reduce()
+### 스트림의 요소를 하나씩 줄여가며 누적연산(accumulator) 수행 - reduce()
 
 - 매우 중요
 - 스트림의 최종 연산은 모두 reduce()로 만들어져 있다. ex) count(), max(), min(), collect() 등
@@ -948,7 +948,681 @@ int max = intStream.reduce(Integer.MIN_VALUE, (a, b) -> a > b ? a : b); // max()
 int min = intStream.reduce(Integer.MAX_VALUE, (a, b) -> a < b ? a : b); // min()
 ```
 
-## 실습
+### 실습
 
-https://www.youtube.com/watch?v=M_4a4tUCSPU&list=PLW2UjW795-f6xWA2_MUhEVgPauhGl3xIp&index=169
-25:00
+```
+public class Test {
+    public static void main(String[] args) {
+        String[] strArr = {
+                "Inheritance", "Java", "Lambda", "stream",
+                "OptionalDouble", "IntStream", "count", "sum"
+        };
+
+        Stream.of(strArr)
+                .parallel() // 병렬로 처리하면 출력 순서 보장X. 실행시마다 다름
+//                .forEach(System.out::println);
+                .forEachOrdered(System.out::println); // 병렬로 처리하면서 순서도 유지하고자 한다면
+
+        boolean noEmptyStr = Stream.of(strArr).noneMatch(s -> s.length() == 0);
+        Optional<String> sWord = Stream.of(strArr)
+                                    .parallel() // 랜덤으로 처리
+                                    .filter(s -> s.charAt(0) == 's')
+//                                    .findFirst(); // Stream 나옴
+                                    .findAny();
+
+        System.out.println("noEmptyStr = " + noEmptyStr); // noEmptyStr = true
+        System.out.println("sWord = " + sWord.get()); // sWord = stream (parallel() 때문에 sum, stream 중 랜덤으로 나옴, 병렬로 처리하니깐 어떤 것이 발견될지 모름)
+
+        // Stream<String>을 Stream<Integer>으로 변환, 각 요소를 객체로 다룸. (s) -> s.length()
+        Stream<Integer> intStream0 = Stream.of(strArr).map(String::length);  // IntStream {11, 4, 6, 6, 14, 9, 5, 3} 생성
+
+        // Stream<String >을 IntStream으로 변환. IntStream기본형 스트림. (성능 때문에). 각 요소를 기본형으로 다룸
+        IntStream intStream1 = Stream.of(strArr).mapToInt(String::length);
+        IntStream intStream2 = Stream.of(strArr).mapToInt(String::length);
+        IntStream intStream3 = Stream.of(strArr).mapToInt(String::length);
+        IntStream intStream4 = Stream.of(strArr).mapToInt(String::length);
+
+        int count = intStream1.reduce(0, (a, b) -> a + 1); // count = 8, 요소 수
+        int sum = intStream2.reduce(0, (a, b) -> a + b); // sum = 58, 단어수 합
+
+//        OptionalInt max = intStream3.reduce(Integer::max); // 초기값이 없어 산출값이 없을수도 있으므로 Optional로 반환
+        OptionalInt max = IntStream.empty().reduce(Integer::max); // 초기값이 없어 산출값이 없을수도 있으므로 Optional로 반환
+        OptionalInt min = intStream3.reduce(Integer::min);
+
+        System.out.println("count = " + count);
+        System.out.println("sum = " + sum);
+//        System.out.println("min = " + max.getAsInt()); // 안에 요소 없으면 에러 반환
+        System.out.println("max = " + max.orElse(0)); //  그래서 요소가 없으면 0을 반환하는 것으로 수정
+        System.out.println("min = " + min.getAsInt()); // 안에 요소가 없으면 에러 반환
+
+
+    }
+}
+
+```
+
+## collect() 와 Collector
+
+### collect()는 Collector 를 매개변수로 하는 스트림의 최종연산
+
+- collect() : 최종연산
+- Collector는 인터페이스
+- Collectors : 클래스(Collector는 구현)
+
+```
+Object collect(Collector collector) // Collector를 구현한 클래스의 객체를 매개변수로
+object colelct(Supplier supplier, BiConsumer accumulator, BiConsumer combiner) // 잘 안 쓰임
+```
+
+- reduce() 와 collect() 의 차이는?
+
+  - reduce() 전체 리듀싱
+  - collect() 그룹별 리듀싱, 전체도 가능
+  - 사실 둘은 거의 같은 것
+
+### Collector는 수집(collect)에 필요한 메서드를 정의해 놓은 인터페이스
+
+![image](https://user-images.githubusercontent.com/57219160/136884247-e9a0e75b-2d8f-4e55-aa09-46ae58ccdad5.png)
+
+- combiner() 는 쓰레드가 각각 병렬작업했을 때 다 합치는 것
+- supplier() 와 accumulator()가 핵심
+  - StringBuilder::new -> 초기화
+  - (sb, s) -> sb.append(s) -> 누적
+  - 즉, reduce(identity, accumulator)에서 identity-초기화, accumulator-누적수행작업 과 동일
+  - combiner()는 병렬작업일 때 합치는 것이고, finisher()는 변환이 필요하면 쓰는 것.
+  - 그래서 위의 메서드들을 사용하려면 Collector인터페이스를 구현해야 한다. 하지만 아래의 Collectors 클래스가 이미 다 구현해놨다.
+  - 직접 구현할 일이 거의 없다.
+  - Collectors 클래스 사용만 잘하면 된다.
+
+### Collectors클래스는 다양한 기능의 컬렉터(Collector를 구현한 클래스) 를 제공
+
+![image](https://user-images.githubusercontent.com/57219160/136885145-2b995712-51f5-4e3e-86bb-f1503db2f977.png)
+
+### 스트림을 컬렉션으로 변환 - toList(), toSet(), toMap(), toCollection()
+
+- collect() 메서드를 통해 스트림 -> 컬렉션으로 변환
+  ![image](https://user-images.githubusercontent.com/57219160/136885593-7e1a66ba-4459-405a-9500-f5e20f6a1963.png)
+
+### 스트림을 배열로 변환 - toArray()
+
+```
+Student[] stuNames = studentStream.toArray(Student[]::new); // OK
+Student[] stuNames = studentStream.toArray(); // 에러, 반환타입이 Object임.
+Student[] stuNames = (Student[])studentStream.toArray(); // OK. 자동 형변환이 안된다는 뜻
+Object[] stuNames = studentStream.toArray(); // OK
+```
+
+### 스트림의 통계정보 제공 - counting(), summingInt(), maxBy(), minBy(), ...
+
+- `갯수`
+  - stream에서 count()를 통해서 얻을 수 있었듯이, collect 메서드를 통해서도 얻을 수 있다.
+    - stream의 count()는 전체만 가능한데, collect로 카운팅을 하면 그룹별로 카운팅할 수 있으므로 유용
+    - ex) 남자 xx명, 여자 xx명
+
+```
+long count = stuStream.count();
+long count = stuStream.collect(counting()); // Collectors.counting(), 즉 static import 한 것.
+```
+
+- `합계`
+  - stream에서 sum을 할 수 있지만 collect()메서드를 통해서도 마찬가지. 그룹별로 할 수 있어 유용
+    - sum()은 전체만 가능한데, collect()는 그룹별 합계가 가능
+
+```
+long totalScore = stuStream.mapToInt(Student::getTotalScore).sum(); // IntStream의 sum()
+long totalScore = stuStream.collect(summingInt(Student::getTotalScore));
+```
+
+- `최대값`
+  - max()는 전체요소 중 최대값, collect()는 그룹별로 가능. ex) 남자1등, 여자1등
+  - Comparator는 비교기준. 여기서는 총점(getTotalScore)
+
+```
+OptionalInt topScore = studentStream.mapToInt(Student::getTotalScore).max();
+Optional<Student> topStudent = stuStream
+                                .max(Comparator.comparingInt(Student::getTotalScore));
+Optional<Studnet> topStudent = stuStream
+                              .collect(maxBy(Comparator.comparingInt(Student::getTotalScore)));
+```
+
+### 스트림을 리듀싱 - reducing()
+
+- Collectors 클래스가 가지고 있는 메서드
+- reduce()와 기능이 같다.
+  - reduce()는 전체요소에 대한 리듀싱(sum, count 같은 것)
+  - Collectors.reducing()은 그룹별 리듀싱, 전체도 가능
+
+```
+Collector reducing(BinaryOperator<T> op)
+Collector reducing(T identity, BinaryOperator<T> op) // T identity 는 초기화, BinaryOperator<T> op 은 누적작업을 의미
+Collector reducing(U identity, Function<T, U> mapper, BinaryOperator<U> op) // map + reduce. 리듀싱하기 전에 변환(ex. map)이 필요할 경우 사용
+```
+
+- `Collector reducing(T identity, BinaryOperator<T> op)` 를 대부분 사용한다.
+
+```
+IntStream intStream = new Random().ints(1, 46).distinct().limit(6);
+
+OptionalInt max = intStream.reduce(Integer::max); // 전체 리듀싱
+Optional<Integer> max = intStream.boxed().collect(reducing(Integer::max)); // 그룹별 리듀싱 가능
+```
+
+```
+long sum = intStream.reduce(0, (a, b) -> a + b);
+long sum = intStream.boxed().collect(reducing(0, (a, b) -> a + b));
+```
+
+```
+int grandTotal = stuStream.map(Student::getTotalScore).reduce(0, Integer::sum);
+int grandTotal = stuStream.collect(reducing(0, Student::getTotalScore, Integer::sum));
+```
+
+### 문자열 스트림의 요소를 모두 연결 - joining()
+
+- joining() 반환타입이 Collector
+- joining()은 앞에 Collectors가 가지고 있는 메서드. static import해서 클래스명 생략
+
+```
+String studentNames = stuStream.map(Student::getName).collect(joining()); //  Stream<Studnet> -> Stream<String>.
+String studentNames = stuStream.map(Student::getName).collect(joining(",")); // 구분자임. 김자바, 이자바, 박자바, ...
+String studentNames = stuStream.map(Student::getName).collect(joining(",", "[", "]")); // ,는 구분자, [와 ]는 앞뒤로. 그래서 [김자바, 이자바, 박자바, ...]
+String studentInfo = stuStream.collect(joining(",")); // Student의 toString()으로 결합
+```
+
+## 스트림의 그룹화와 분할
+
+- 분할을 해서 그룹별로 원하는 값을 얻는다. 그런데 분할을 하는 방법이 크게 2가지. 2분할, n분할
+
+### 1. partitioningBy()는 스트림을 2분할한다.
+
+- Collectors 클래스에 있는 메서드
+
+```
+Collector partitioningBy(Predicate predicate)
+Colelctor partitioningBy(Predicate predicate, Collector downstream)
+```
+
+```
+Map<Boolean, List<Student>> stuBySex = stuStream
+                              .collect(partitioningBy(Student::isMale)); // 학생들을 성별로 분할, 남/여로 나눠진다 (2분할). 여기서 사실 groupingBy를 사용해도 되지만 굳이. 그리고 2분할이라면 partitioningBy가 더 빠르다.
+List<Student> maleStudent = stuBySex.get(true); // Map에서 남학생 목록을 얻는다.
+List<Student> maleStudent = stuBySex.get(false); // Map에서 여학생 목록을 얻는다.
+```
+
+- 분할(남/녀)한 것을 count
+  - counting()도 Collectors.counting()이다. static import됨
+  - count된 것이 Long타입으로 나옴
+
+```
+Map<Boolean, Long> stuNumBySex = stuStream
+                                  .collect(partitioningBy(Student::isMale, counting())); // 분할 + 통게
+System.out.println("남학생 수 :" + stuNumBySex.get(true)); // 남학생 수 : 8
+System.out.println("여학생 수 :" + stuNumBySex.get(false)); // 여학생 수 : 10
+```
+
+- 학생을 성별로 나누고 최대값
+  - 최대값을 구하는 기준은 성적. getScore
+
+```
+Map<Boolean, Optional<Student>> topScoreBySex = stuStream
+        .collect(partitioningBy(Student::isMale, maxBy(comparingInt(Student::getScore))));
+System.out.println("남학생 1등 : " + topScoreBySex.get(true)); // 남학생 1등 : Optional[[나바자, 남, 1, 1, 300]]
+System.out.println("여학생 1등 : " + topScoreBySex.get(false)); // 여학생 1등 : Optional[[김지미, 여, 1, 1, 250]]
+```
+
+```
+Map<Boolean, Map<Boolean, List<Student>>> failedStuBySex = stuStream // 다중 분할 (학생을 남/녀로 나누고 각각에서 합/불로 또 나눔)
+                                                          .collect(partitioningBy(Student::isMale // 1. 성별로 분할(남/녀)
+                                                          , partitioningBy(s -> s.getScore() < 150))); // 2. 성적으로 분할(불합격/합격)
+List<Student> failedMaleStu = failedStuBySex.get(true).get(true); // 불합격이 true. 위에서 불합격조건을 주었기 때문에.(150점 밑)
+List<Student> failedFemaleStu = failedStuBySex.get(false).get(true);
+```
+
+- 실습
+
+```
+class Student2 {
+    String name;
+    boolean isMale; // 성별
+    int hak;        // 학년
+    int ban;        // 반
+    int score;
+
+    Student2(String name, boolean isMale, int hak, int ban, int score) {
+        this.name = name;
+        this.isMale = isMale;
+        this.hak = hak;
+        this.ban = ban;
+        this.score = score;
+    }
+
+    String getName() { return name; }
+    boolean isMale() { return isMale; }
+    int getHak() { return hak; }
+    int getBan() { return ban; }
+    int getScore() { return score; }
+
+    public String toString() {
+        return String.format("[%s, %s, %d학년 %d반, %3d점]",
+                name, isMale ? "남" : "여", hak, ban, score);
+    }
+
+    // groupingBy()에서 사용
+    enum Level {HIGH, MId, LOW} // 성적을 상, 중, 하 세 단계로 분류
+
+}
+
+class Test {
+    public static void main(String[] args) {
+
+        Student2[] stuArr = {
+                new Student2("나자바", true, 1, 1, 300),
+                new Student2("김지미", false, 1, 1, 250),
+                new Student2("김자바", true, 1, 1, 200),
+                new Student2("이지미", false, 1, 2, 150),
+                new Student2("남자바", true, 1, 2, 100),
+
+                new Student2("안지미", false, 1, 2, 50),
+                new Student2("황지미", false, 1, 3, 100),
+                new Student2("강지미", false, 1, 3, 150),
+                new Student2("이자바", true, 1, 3, 200),
+                new Student2("나자바", true, 2, 1, 300),
+
+                new Student2("김지미", false, 2, 1, 250),
+                new Student2("김자바", true, 2, 1, 200),
+                new Student2("이지미", false, 2, 2, 150),
+                new Student2("남자바", true, 2, 2, 100),
+                new Student2("안지미", false, 2, 2, 50),
+
+                new Student2("황지미", false, 2, 3, 100),
+                new Student2("강지미", false, 2, 3, 150),
+                new Student2("이자바", true, 2, 3, 200)
+        };
+
+        System.out.printf("1. 단순분할(성별로 분할)%n");
+        Map<Boolean, List<Student2>> stuBysex = Stream.of(stuArr)
+                      .collect(partitioningBy(Student2::isMale));
+
+        List<Student2> maleStudent = stuBysex.get(true);
+        List<Student2> femaleStudent = stuBysex.get(false);
+
+        for(Student2 s : maleStudent) System.out.println(s);
+        for(Student2 s : femaleStudent) System.out.println(s);
+
+        System.out.printf("%n2. 단순분할 + 통계(성별 학생수)%n");
+        Map<Boolean, Long> stuNumBySex = Stream.of(stuArr)
+                .collect(partitioningBy(Student2::isMale, counting()));
+
+        System.out.println("남학생 수 : " + stuNumBySex.get(true));
+        System.out.println("여학생 수 : " + stuNumBySex.get(false));
+
+        System.out.printf("%n3. 단순분할 + 통계(성별 1등)%n");
+        Map<Boolean, Optional<Student2>> topScoreBySex = Stream.of(stuArr)
+                        .collect(partitioningBy(Student2::isMale,
+                            maxBy(comparingInt(Student2::getScore))
+                        ));
+        System.out.println("남학생 1등 : " + topScoreBySex.get(true));
+        System.out.println("여학생 1등 : " + topScoreBySex.get(false));
+
+        Map<Boolean, Student2> topScoreBySex2 = Stream.of(stuArr)
+            .collect(partitioningBy(Student2::isMale,
+                   collectingAndThen(
+                           maxBy(comparingInt(Student2::getScore)), Optional::get
+                   )
+            ));
+        System.out.println("남학생 1등 : " + topScoreBySex2.get(true));
+        System.out.println("여학생 1등 : " + topScoreBySex2.get(false));
+
+        System.out.printf("%n4. 다중분할(성별 불합격자, 100점 이하)%n");
+
+        Map<Boolean, Map<Boolean, List<Student2>>> failedStuBySex =
+                Stream.of(stuArr).collect(partitioningBy(Student2::isMale,  // 성별로 먼저 나누고
+                    partitioningBy(s -> s.getScore() <= 100))               // 100점 이하인지 또 나누고
+            );
+        List<Student2> failedMaleStu = failedStuBySex.get(true).get(true);      // 남자 & 100점 이하
+        List<Student2> failedFemaleStu = failedStuBySex.get(false).get(true);   // 여자 & 100점 이하
+
+        for(Student2 s : failedMaleStu) System.out.println(s);
+        for(Student2 s : failedFemaleStu) System.out.println(s);
+    }
+}
+
+
+```
+
+- 실습 결과
+
+```
+1. 단순분할(성별로 분할)
+[나자바, 남, 1학년 1반, 300점]
+[김자바, 남, 1학년 1반, 200점]
+[남자바, 남, 1학년 2반, 100점]
+[이자바, 남, 1학년 3반, 200점]
+[나자바, 남, 2학년 1반, 300점]
+[김자바, 남, 2학년 1반, 200점]
+[남자바, 남, 2학년 2반, 100점]
+[이자바, 남, 2학년 3반, 200점]
+[김지미, 여, 1학년 1반, 250점]
+[이지미, 여, 1학년 2반, 150점]
+[안지미, 여, 1학년 2반,  50점]
+[황지미, 여, 1학년 3반, 100점]
+[강지미, 여, 1학년 3반, 150점]
+[김지미, 여, 2학년 1반, 250점]
+[이지미, 여, 2학년 2반, 150점]
+[안지미, 여, 2학년 2반,  50점]
+[황지미, 여, 2학년 3반, 100점]
+[강지미, 여, 2학년 3반, 150점]
+
+2. 단순분할 + 통계(성별 학생수)
+남학생 수 : 8
+여학생 수 : 10
+
+3. 단순분할 + 통계(성별 1등)
+남학생 1등 : Optional[[나자바, 남, 1학년 1반, 300점]]
+여학생 1등 : Optional[[김지미, 여, 1학년 1반, 250점]]
+남학생 1등 : [나자바, 남, 1학년 1반, 300점]
+여학생 1등 : [김지미, 여, 1학년 1반, 250점]
+
+4. 다중분할(성별 불합격자, 100점 이하)
+[남자바, 남, 1학년 2반, 100점]
+[남자바, 남, 2학년 2반, 100점]
+[안지미, 여, 1학년 2반,  50점]
+[황지미, 여, 1학년 3반, 100점]
+[안지미, 여, 2학년 2반,  50점]
+[황지미, 여, 2학년 3반, 100점]
+```
+
+### 2. groupingBy()는 스트림을 n분할한다.
+
+- Collectors 클래스에 있는 메서드
+
+```
+Collector groupingBy(Function classifier)
+Collector groupingBy(Function classifier, Collector downstream)
+Collector groupingBy(Function classifier, Supplier mapFactory, Collector downstream)
+```
+
+### 스트림의 요소를 그룹화
+
+- 반으로 나눔
+
+```
+Map<Integer, List<Student>> stuByBan = stuStream                // 학생을 반별로 그룹화
+              .collect(groupingBy(Student::getBan, toList()));  // toList() 생략가능
+```
+
+- 학년으로 나누고 다시 반별로 그룹화
+
+```
+Map<Integer, Map<Integer, List<Student>>> stuByHakAndBan = stuStream // 다중 그룹화
+                .collect(groupingBy(Student::getHak),                 // 1. 학년별 그룹화
+                         groupingBy(Student::getBan                   // 2. 반별 그룹화
+                  ));
+```
+
+- 학년으로 나누고 반으로 나눈 후 학생들 성적을 map을 사용하여 등급 나눔
+
+```
+Map<Integer, Map<Integer, Set<Student.Level>>> stuByHakAndBan = stuStream
+    .collect(
+      groupingBy(Student::getHak, groupingBy(Student::getBan,     // 다중 그룹화(학년별, 반별)
+            mapping(s -> {    // 성적등급(Level)으로 변환. List<Student> -> Set<Student.Level>
+              if (s.getScore() >= 200) return Student.Level HIGH,
+              else if (s.getScore() >= 100) return Student.Level MID,
+              else                          return Student.Level LOW;
+            }, toSet()) // mapping()              // enum Level {HIGH, MID, LOW}
+      )) // groupingBy()
+  ); // collect()
+```
+
+- 실습
+
+```
+class Student3 {
+    String name;
+    boolean isMale; // 성별
+    int hak;        // 학년
+    int ban;        // 반
+    int score;
+
+    Student3(String name, boolean isMale, int hak, int ban, int score) {
+        this.name = name;
+        this.isMale = isMale;
+        this.hak = hak;
+        this.ban = ban;
+        this.score = score;
+    }
+
+    String getName() { return name; }
+    boolean isMale() { return isMale; }
+    int getHak() { return hak; }
+    int getBan() { return ban; }
+    int getScore() { return score; }
+
+    public String toString() {
+        return String.format("[%s, %s, %d학년 %d반, %3d점]",
+                name, isMale ? "남" : "여", hak, ban, score);
+    }
+
+    // groupingBy()에서 사용
+    enum Level {HIGH, MID, LOW} // 성적을 상, 중, 하 세 단계로 분류
+
+}
+
+class Test {
+    public static void main(String[] args) {
+
+        Student3[] stuArr = {
+                new Student3("나자바", true, 1, 1, 300),
+                new Student3("김지미", false, 1, 1, 250),
+                new Student3("김자바", true, 1, 1, 200),
+                new Student3("이지미", false, 1, 2, 150),
+                new Student3("남자바", true, 1, 2, 100),
+
+                new Student3("안지미", false, 1, 2, 50),
+                new Student3("황지미", false, 1, 3, 100),
+                new Student3("강지미", false, 1, 3, 150),
+                new Student3("이자바", true, 1, 3, 200),
+                new Student3("나자바", true, 2, 1, 300),
+
+                new Student3("김지미", false, 2, 1, 250),
+                new Student3("김자바", true, 2, 1, 200),
+                new Student3("이지미", false, 2, 2, 150),
+                new Student3("남자바", true, 2, 2, 100),
+                new Student3("안지미", false, 2, 2, 50),
+
+                new Student3("황지미", false, 2, 3, 100),
+                new Student3("강지미", false, 2, 3, 150),
+                new Student3("이자바", true, 2, 3, 200)
+        };
+
+        System.out.printf("1. 단순그룹화(반별로 그룹화)%n");
+        Map<Integer, List<Student3>> stubyBan = Stream.of(stuArr)
+                .collect(groupingBy(Student3::getBan));
+
+        for (List<Student3> ban : stubyBan.values()) {
+            for (Student3 s : ban) {
+                System.out.println(s);
+            }
+        }
+
+        System.out.printf("%n2. 단순그룹화(성적별로 그룹화)%n");
+        Map<Student3.Level, List<Student3>> stuByLevel = Stream.of(stuArr)
+                    .collect(groupingBy(s -> {
+                        if (s.getScore() >= 200) return Student3.Level.HIGH;
+                    else if(s.getScore() >= 100) return Student3.Level.MID;
+                    else                         return Student3.Level.LOW;
+                    }));
+
+        TreeSet<Student3.Level> keySet = new TreeSet<>(stuByLevel.keySet());
+
+        for (Student3.Level key : keySet) {
+            System.out.println("[" + key + "]");
+
+            for (Student3 s : stuByLevel.get(key))
+                System.out.println(s);
+            System.out.println();
+        }
+
+        System.out.printf("%n3. 단순그룹화 + 통계(성적별 학생수)%n");
+        Map<Student3.Level, Long> stuCntByLevel = Stream.of(stuArr)
+                .collect(groupingBy(s -> {
+                    if (s.getScore() >= 200) return Student3.Level.HIGH;
+                else if (s.getScore() >= 100) return Student3.Level.MID;
+                else                         return Student3.Level.LOW;
+                }, counting()));
+        for (Student3.Level key : stuCntByLevel.keySet())
+            System.out.printf("[%s] - %d명, ", key, stuCntByLevel.get(key));
+        System.out.println();
+
+        System.out.printf("%n4. 다중그룹화(학년별, 반별)");
+        Map<Integer, Map<Integer, List<Student3>>> stuByHakAndBan =
+                Stream.of(stuArr)
+                .collect(groupingBy(Student3::getHak,
+                        groupingBy(Student3::getBan)
+                ));
+
+        for (Map<Integer, List<Student3>> hak : stuByHakAndBan.values()) {
+            for (List<Student3> ban : hak.values()) {
+                System.out.println();
+                for (Student3 s : ban)
+                    System.out.println(s);
+            }
+        }
+
+        System.out.printf("%n5. 다중그룹화 + 통계(학년별, 반별1등)%n");
+        Map<Integer, Map<Integer, Student3>> topStuByHakAndBan =
+                Stream.of(stuArr)
+                    .collect(groupingBy(Student3::getHak,
+                            groupingBy(Student3::getBan,
+                                    collectingAndThen(
+                                            maxBy(comparingInt(Student3::getScore))
+                                            , Optional::get
+                                    )
+                            )
+                    ));
+
+        for (Map<Integer, Student3> ban : topStuByHakAndBan.values())
+            for (Student3 s : ban.values())
+                System.out.println(s);
+
+        System.out.printf("%n6. 다중그룹화 + 통계(학년별, 반별 성적그룹)%n");
+        Map<String, Set<Student3.Level>> stuByScoreGroup = Stream.of(stuArr)
+                .collect(groupingBy(s -> s.getHak() + "-" + s.getBan(),
+                        mapping(s -> {
+                            if (s.getScore() >= 200) return Student3.Level.HIGH;
+                        else if (s.getScore() >= 100) return Student3.Level.MID;
+                            else                       return Student3.Level.LOW;
+                        }, toSet())
+                ));
+
+        Set<String> keySet2 = stuByScoreGroup.keySet();
+
+        for (String key : keySet2) {
+            System.out.println("[" + key + "]" + stuByScoreGroup.get(key));
+        }
+    }
+}
+
+```
+
+- 결과
+
+```
+1. 단순그룹화(반별로 그룹화)
+[나자바, 남, 1학년 1반, 300점]
+[김지미, 여, 1학년 1반, 250점]
+[김자바, 남, 1학년 1반, 200점]
+[나자바, 남, 2학년 1반, 300점]
+[김지미, 여, 2학년 1반, 250점]
+[김자바, 남, 2학년 1반, 200점]
+[이지미, 여, 1학년 2반, 150점]
+[남자바, 남, 1학년 2반, 100점]
+[안지미, 여, 1학년 2반,  50점]
+[이지미, 여, 2학년 2반, 150점]
+[남자바, 남, 2학년 2반, 100점]
+[안지미, 여, 2학년 2반,  50점]
+[황지미, 여, 1학년 3반, 100점]
+[강지미, 여, 1학년 3반, 150점]
+[이자바, 남, 1학년 3반, 200점]
+[황지미, 여, 2학년 3반, 100점]
+[강지미, 여, 2학년 3반, 150점]
+[이자바, 남, 2학년 3반, 200점]
+
+2. 단순그룹화(성적별로 그룹화)
+[HIGH]
+[나자바, 남, 1학년 1반, 300점]
+[김지미, 여, 1학년 1반, 250점]
+[김자바, 남, 1학년 1반, 200점]
+[이자바, 남, 1학년 3반, 200점]
+[나자바, 남, 2학년 1반, 300점]
+[김지미, 여, 2학년 1반, 250점]
+[김자바, 남, 2학년 1반, 200점]
+[이자바, 남, 2학년 3반, 200점]
+
+[MID]
+[이지미, 여, 1학년 2반, 150점]
+[남자바, 남, 1학년 2반, 100점]
+[황지미, 여, 1학년 3반, 100점]
+[강지미, 여, 1학년 3반, 150점]
+[이지미, 여, 2학년 2반, 150점]
+[남자바, 남, 2학년 2반, 100점]
+[황지미, 여, 2학년 3반, 100점]
+[강지미, 여, 2학년 3반, 150점]
+
+[LOW]
+[안지미, 여, 1학년 2반,  50점]
+[안지미, 여, 2학년 2반,  50점]
+
+
+3. 단순그룹화 + 통계(성적별 학생수)
+[LOW] - 2명, [HIGH] - 8명, [MID] - 8명,
+
+4. 다중그룹화(학년별, 반별)
+[나자바, 남, 1학년 1반, 300점]
+[김지미, 여, 1학년 1반, 250점]
+[김자바, 남, 1학년 1반, 200점]
+
+[이지미, 여, 1학년 2반, 150점]
+[남자바, 남, 1학년 2반, 100점]
+[안지미, 여, 1학년 2반,  50점]
+
+[황지미, 여, 1학년 3반, 100점]
+[강지미, 여, 1학년 3반, 150점]
+[이자바, 남, 1학년 3반, 200점]
+
+[나자바, 남, 2학년 1반, 300점]
+[김지미, 여, 2학년 1반, 250점]
+[김자바, 남, 2학년 1반, 200점]
+
+[이지미, 여, 2학년 2반, 150점]
+[남자바, 남, 2학년 2반, 100점]
+[안지미, 여, 2학년 2반,  50점]
+
+[황지미, 여, 2학년 3반, 100점]
+[강지미, 여, 2학년 3반, 150점]
+[이자바, 남, 2학년 3반, 200점]
+
+5. 다중그룹화 + 통계(학년별, 반별1등)
+[나자바, 남, 1학년 1반, 300점]
+[이지미, 여, 1학년 2반, 150점]
+[이자바, 남, 1학년 3반, 200점]
+[나자바, 남, 2학년 1반, 300점]
+[이지미, 여, 2학년 2반, 150점]
+[이자바, 남, 2학년 3반, 200점]
+
+6. 다중그룹화 + 통계(학년별, 반별 성적그룹)
+[1-1][HIGH]
+[2-1][HIGH]
+[1-2][LOW, MID]
+[2-2][LOW, MID]
+[1-3][HIGH, MID]
+[2-3][HIGH, MID]
+```
+
+### 스트림의 변환
+
+- 정리
+
+![image](https://user-images.githubusercontent.com/57219160/136909140-d014debc-baa8-496c-8e2b-2f5c88c67e9e.png)
+![image](https://user-images.githubusercontent.com/57219160/136909172-c949e0c4-4936-4bdd-9b77-004b78092d0b.png)
