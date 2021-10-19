@@ -227,3 +227,204 @@ public class Test {
     }
 }
 ```
+
+## 함수형 인터페이스
+
+### 함수형 인터페이스 - 단 하나의 추상 메서드만 선언된 인터페이스
+
+- 람다식을 다루기 위해서 사용됨
+- 추상 메서드가 2개 이상이면 에러남(@FunctionalInterface 애너테이션을 붙인다면)
+
+```
+@FunctionalInterface // 애너테이션은 안 붙여도 되는데 붙이면, 붙이면 함수형 인터페이스를 올바르게 작성했는지를 체크해준다. 그래서 붙여주는 게 좋다
+interface MyFunction {
+  public abstract int max(int a, int b);
+}
+```
+
+- 위를 아래처럼 구현
+
+```
+MyFunction f = new MyFunction() { // 익명클래스{}의 선언과 객체 생성을 동시에
+                  public int max(int a, int b) {
+                      return a > b ? a : b;
+                  }
+              };
+```
+
+- 그러면 아래처럼 사용가능
+  - Object로 선언하지 않았기 때문에 가능
+  ```
+  int value = f.max(3, 5); // OK. MyFunction에 max() 가 있음
+  ```
+
+### 함수형 인터페이스 타입의 참조변수로 람다식을 참조할 수 있음
+
+- 단, 함수형 인터페이스의 메서드와 람다식의 `매개변수 개수, 타입`와 `반환타입`이 일치해야 함. 즉 람다(익명 객체이자 메서드)는 이름을 없앴기 때문에 상기 조건을 일치시켜야만 함수형 인터페이스의 메서드와 연결해서 사용할 수 있다(무슨 메서드인지는 알아야 하므로). 추상 메서드를 통해서 람다식을 호출하는 것
+
+```
+MyFunction f = (a, b) -> a > b ? a : b;
+int value = f.max(3, 5);  // 실제로는 람다식(익명 함수)이 호출됨
+```
+
+- 람다식이 익명객체, 즉 객체이므로 참조변수(f)가 필요하다.(람다식을 다루려면)
+  - 그 참조변수의 타입이 되는 것이 바로 함수형 인터페이스 타입
+
+### 실습
+
+```
+public class Test {
+    public static void main(String[] args) {
+//        MyFunction f = new MyFunction() { // 람다식. 익명객체
+//
+//            @Override
+//            public int max(int a, int b) { // public붙인 이유는 오버라이딩시 접근제어자를 좁게 못 바꾸기 때문에
+//                return a > b ? a : b;
+//            }
+//        };
+
+        // 람다식(익명 객체) 을 다루기 위한 참조변수의 타입은 함수형 인터페이스로 한다.
+        MyFunction f = (a, b) -> a > b ? a : b; // 람다식. 익명객체
+
+        int value = f.max(3, 5);
+        System.out.println("value = " + value);
+    }
+}
+
+@FunctionalInterface
+interface MyFunction {
+    int max(int a, int b); // public abstract int max(int a, int b); 와 동일.
+}
+
+```
+
+## 함수형 인터페이스의 예
+
+### 익명 객체를 람다식으로 대체
+
+- 원래는 아래처럼 구현했어야 했다
+
+```
+List<String> list = Arrays.asList("abc", "aaA", "bbb", "ddd", "aaa");
+
+Collections.sort(list, new Comparator<String>() {
+                        public int compare(String s1, String s2) {
+                          return s2.compareTo(s1);
+                        }
+                      });
+```
+
+```
+// Comparator<T> 참고
+
+// @FunctionalInterface 생략되어 있음
+interface Comparator<T> {
+  int compare(T o1, T o2);
+}
+```
+
+- 아래로 변환 가능 (간단히)
+  - Comparator가 함수형 인터페이스라 가능
+
+```
+List<String> list = Arrays.asList("abc", "aaA", "bbb", "ddd", "aaa");
+Collections.sort(list, (s1, s2) -> s2.compareTo(s1));
+```
+
+## 함수형 인터페이스 타입의 매개변수, 반환타입
+
+### 함수형 인터페이스 타입의 매개변수
+
+- 파라미터가 함수형 인터페이스(MyFunction) 이란 것은 즉, 람다식을 받겠다는 뜻
+
+```
+@FunctionalInterface
+interface MyFunction {
+  void myMethod();
+}
+```
+
+```
+void aMethod(MyFunction f) {
+  f.myMethod(); // MyFunction에 정의된 메서드 호출. 즉 람다식 호출
+}
+```
+
+- 그래서 아래와 같이 사용가능하다
+
+```
+MyFunction f = () -> System.out.println("myMethod()");
+aMethod(f);
+```
+
+- 위를 아래처럼 변경가능. 람다식을 직접 넣은 것
+
+```
+aMethod(() -> System.out.println("myMethod()");
+```
+
+### 함수형 인터페이스 타입의 반환타입
+
+- 반환타입이 함수형 인터페이스라는 것은 즉, 람다식을 반환하겠다는 것
+
+```
+MyFunction myMethod() {
+  MyFunction f = () -> {}'
+  return f;
+}
+```
+
+- 위는 아래처럼 변경가능
+
+```
+MyFunction myMethod() {
+  return () -> {};
+}
+```
+
+### 실습 (람다식 주고받는)
+
+```
+@FunctionalInterface
+interface MyFunction {
+    void run(); // public abstarct void run();
+}
+
+public class Test {
+    static void execute(MyFunction f) { // 매개변수의 타입이 MyFunction(함수형 인터페이스) 인 메서드
+        f.run();
+    }
+
+    static MyFunction getMyFunction() { // 반환 타입이 MyFunction인 메서드. 즉 람다식을 반환
+//        MyFunction f = () -> System.out.println("f3.run()");
+//        return f;
+        // 위 2줄을 아래 1줄로 변환 가능
+        return () -> System.out.println("f3.run()");
+    }
+
+    public static void main(String[] args) {
+        // 1. 람다식으로 MyFunction의 run()을 구현
+        MyFunction f1 = () -> System.out.println("f1.run()"); // void run()과 파라미터가 없다는 것, 반환타입도 없다는 것 다 일치.
+
+        // 2. 익명클래스로 MyFunction의 run()을 구현
+        MyFunction f2 = new MyFunction() { //
+            @Override // @Override 안 붙여도 되긴 함
+            public void run() { // public을 반드시 붙여야 함
+                System.out.println("f2.run()");
+            }
+        };
+
+        // 3. MyFunction 인터페이스의 run()을 구현한 것을 반환(람다로) 하는 것을 받기
+        MyFunction f3 = getMyFunction();
+
+        f1.run();   // f1.run();
+        f2.run();   // f2.run();
+        f3.run();   // f3.run();
+
+        execute(f1);    // f1.run(); , execute(() -> System.out.println("f1.run()")); 와 동일하다
+        execute(() -> System.out.println("run()")); // run()
+    }
+}
+
+
+```
