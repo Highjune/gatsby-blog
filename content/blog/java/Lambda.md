@@ -428,3 +428,129 @@ public class Test {
 
 
 ```
+
+## java.util.function 패키지
+
+### 자주 사용되는 다양한 함수형 인터페이스를 제공
+
+![image](https://user-images.githubusercontent.com/57219160/138211525-05aa2d59-f78c-4899-9aa6-6c11feeca350.png)
+
+- 사실 우리가 사용하는 함수의 종류가 많지 않으므로 그것들을 미리 만들어 놓은 것. 매번 만드는 것보다 자바가 만든 것을 우리가 사용하는 것이 더 편리. 그러면 표준화가 된다는 장점
+- Supplier는 공급자, Consumer 는 소비자, Function은 함수, Predicate는 조건식
+
+- Predicate`<T>` 사용예제
+
+  ```
+  Predicate<String> isEmptyStr = s -> s.length() == 0;
+  String s = "";
+
+  if (isEmptyStr.test(s)) // if(s.length() == 0)
+    System.out.println("This is an empty String.");
+  ```
+
+  - 조건식이 boolean타입이어야 한다.
+    - s.length() == 0;
+  - `String s`가 아니라 `s`인 이유는 앞에서 Predicate`<String>` 이미 String인 것을 알고 있으므로
+  - `if (isEmptyStr.test(s))` 에서 test는 `s -> s.length() == 0;` 식을 말한 것이다. 이 식에 test라는 이름이 붙은 것임. 이 람다식을 사용하려면 test라는 이름을 사용해야만 하는 것
+
+- 예시(퀴즈)
+  - 4개의 람다식을 다루기 위한 함수형 인터페이스(java.util.function 패키지)를 적으시오
+  1. `Supplier<Integer>` f = () -> (int)(Math.Random()\*100) + 1; // Integer인 이유는 반환타입이 Integer이므로. int -> Integer로 오토박싱되어서 반환(지네릭스는 primitive 타입 못 씀)
+  2. `Consumer<i>` f = i -> System.out.print(i + ", "); // 반환값 없음. 그냥 콘솔에 출력뿐. i 타입이므로 Integer
+  3. `Predicate<Integer>` f = i -> i % 2 == 0; // 조건식이므로 Predicate. 원래는 Function`<T, R>`처럼 Predicate`<Integer, Boolean>`이라고 써야 하지만 반환타입이 항상 Boolean 이기 때문에 Boolean은 쓰지 않는다.
+  4. `Function<Integer, Integer>` f = i -> i / 10 \* 10; // Integer를 넣으면 Integer가 반환되어서 `<Integer, Integer>`
+
+### 매개변수가 2개인 함수형 인터페이스
+
+![image](https://user-images.githubusercontent.com/57219160/138213857-4948277d-f83c-44c6-80f2-6516eaf248d9.png)
+
+- 매개변수가 2개면 앞에 `Bi`가 붙는다.
+- BiSupplier는 2개를 반환해야 하므로, 불가능하기에 없다.
+
+- BiConsumer`<T, U>`는 T, U를 받기만 할 뿐 반환은 없고, BiPredicate`<T, U>`는 T, U를 받아서 Boolean을 반환하고, BiFunction`<T, U, R>`은 T, U를 받아서 R을 반환한다.
+
+- 매개변수 3개부터는 없다. 만약 3개 이상이 필요하다면 아래처럼 직접 만들어야 한다.
+  - T, U, V 3개를 받는 인터페이스를 아래처럼 만들어야 한다.
+  ```
+  @FunctionalInterface
+  interface TriFunction<T, U, V, R> {
+    R apply(T t, U u, V v);
+  }
+  ```
+- 매개변수가 1~2개일 경우에는 직접 만들어서 쓰지 말고 기존의 제공하는 것 사용하기.
+
+### 매개변수의 타입과 반환타입이 일치하는 함수형 인터페이스
+
+![image](https://user-images.githubusercontent.com/57219160/138214559-c8c4f70a-27b7-4218-bc71-ee07e8c4d66a.png)
+
+- UnaryOperator`<T>` 는 단항연산자, BinaryOperator`<T>`는 이항연산자는 뜻
+  - int -> int 처럼 단항연산자, int + int -> int 처럼 이항연산자
+- UnaryOperator`<T>` 소스코드
+
+```
+@FunctionalInterface
+public interface UnaryOperator<T> extends Function<T, T> {
+
+  static <T> UnaryOperator<T> identity() {
+    return t -> t;  // 항등함수
+  }
+}
+```
+
+- Function`<T, R>` 소스코드
+
+```
+@FunctionalInterface
+pubic interface Function<T, R> {
+
+  R apply(T t);
+  ....
+}
+```
+
+### 실습
+
+```
+public class Test {
+    public static void main(String[] args) {
+        Supplier<Integer> s = () -> (int)(Math.random()*100) + 1; // 1~100난수
+        Consumer<Integer> c = i -> System.out.print(i + ", ");
+        Predicate<Integer> p = i -> i % 2==0; // 짝수인지 검사
+        Function<Integer, Integer> f = i -> i / 10 * 10; // i의 일의 자리를 없앤다.
+
+        List<Integer> list = new ArrayList<>();
+        makeRandomList(s, list); // s를 이용해 list를 1~100 랜덤값으로 채운다.
+        System.out.println(list);
+
+        printEvenNum(p, c, list); // 짝수를 출력
+        List<Integer> newList = doSomething(f, list);
+        System.out.println(newList);
+    }
+
+    static <T> List<T> doSomething(Function<T, T> f, List<T> list) {
+        List<T> newList = new ArrayList<T>(list.size());
+
+        for (T i : list) {
+            newList.add(f.apply(i)); // 일의 자리를 없애서 새로운 list에 저장
+        }
+
+        return newList;
+    }
+
+    static <T> void printEvenNum(Predicate<T> p, Consumer<T> c, List<T> list) {
+        System.out.print("[");
+        for (T i : list) {
+            if(p.test(i)) { // Predicate<Integer> p = i -> i % 2==0; // 짝수인지 검사
+                c.accept(i); //    Consumer<Integer> c = i -> System.out.print(i + ", ");
+            }
+            System.out.println("]");
+        }
+    }
+
+    static <T> void makeRandomList(Supplier<T> s, List<T> list) {
+        for (int i = 0 ; i < 10 ; i++) {
+            list.add(s.get()); // Supplier로부터 1~100의 난수를 받아서 list에 추가
+        }
+    }
+}
+```
