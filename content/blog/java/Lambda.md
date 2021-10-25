@@ -641,5 +641,20 @@ public class Test {
 ```
 
 ## 컬렉션 프레임워크와 함수형 인터페이스
-https://www.youtube.com/watch?v=Kk1ZIrVZnqw&list=PLW2UjW795-f6xWA2_MUhEVgPauhGl3xIp&index=161
-19:12 분 볼 차례
+
+### 함수형 인터페이스를 사용하는 컬렉션 프레임웍의 메서드(와일드 카드 생략)
+
+![image](https://user-images.githubusercontent.com/57219160/138637466-49347b8d-24f6-47bd-b437-24f0cd28cdd4.png)
+
+```
+list.forEach(i -> System.out.print(i + ",")); // list의 모든 요소를 출력
+list.removeIf(x -> x%2 == 0 || x % 3 == 0); // 2 또는 3의 배수를 제거
+list.replaceAll(i -> i * 10); // 모든 요소에 10을 곱한다.
+
+// map의 모든 요소를 {k, v} 의 형식으로 출력
+map.forEach((k, v) -> System.out.println("{" + k + "," + v + "} , "));
+```
+
+- 그동안 컬렉션 프레임워크가 그대로 사용하기에는 불편한 점들이 많았는데(코드들도 길고), JDK 1.8부터 람다식을 이용해서 사용할 수 있는 메서드들이 제공되어서 덕분에 코드가 간단해진다.
+
+### 실습
