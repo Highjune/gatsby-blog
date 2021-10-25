@@ -554,3 +554,92 @@ public class Test {
     }
 }
 ```
+
+## Predicate의 결합
+
+### and(), or(), negate()로 두 Predicate를 하나로 결합(default메서드)
+
+```
+Predciate<Integer> p = i -> i < 100;
+Predciate<Integer> q = i -> i < 200;
+Predciate<Integer> r = i -> i%2 == 0;
+```
+
+- 위의 조건들을 아래와 같이 결합할 수 있다.
+
+```
+Predciate<Integer> notP = p.negate(); // i >= 100
+Predicate<Integer> all = notP.and(q).or(r); // 100 <= i && i < 200 || i % 2 == 0
+Predicate<Integer> all2 = notP.and(q.or(r)); // 100 <= i && (i < 200 || i % 2 == 0)
+```
+
+- Predicate 가 가지고 있는 추상 메서드인 test로 테스트해볼 수 있다.
+
+```
+System.out.println(all.test(2)); // true
+System.out.println(all2.test(2)); // false
+```
+
+### 등가비교를 위한 Predicate의 작성에는 isEqual() 를 사용(static 메서드)
+
+- 참고) 인터페이스에는 default 메서드, static 메서드, 추상 메서드 3가지를 가질 수 있다. 추상메서드가 메인
+- 아래처럼 사용가능
+
+```
+Predicate<String> p = Predicate.isEqual(str1); // isEquals() 은 static메서드
+Boolean result = p.test(str2); // str1과 str2가 같은지 비교한 결과를 반환
+```
+
+- 위는 아래 1줄로 축약 가능
+
+```
+boolean reuslt = Predicate.isEqual(str1).test(str2);
+```
+
+### 실습
+
+```
+public class Test {
+    public static void main(String[] args) {
+        // 위에서 개념 설명은 없었지만 문제를 통해서 설명
+        // 함수 2개를 합치는 것. f함수와 g를 합치려면 f의 출력(Integer)과 g의 입력(Integer)가 동일해야 한다.
+
+        Function<String, Integer> f = (s) -> Integer.parseInt(s, 16); // String s를 16진수로 변경
+        Function<Integer, String> g = (i) -> Integer.toBinaryString(i); // 2진수 문자열로 변경
+
+        // h는 f와 g를 합친 새로운 함수 h를 만든 것임 (String -> Integer -> String)
+        Function<String, String> h = f.andThen(g); // f 적용 후 g를 적용 하는 것이 andThen (함수를 2개 붙인 것)
+        // h2는 g와 f를 합친 새로운 함수 h2를 만든 것임 (Integer -> String -> Integer)
+        Function<Integer, Integer> h2 = f.compose(g); // g 적용 후 f를 적용 (즉, g.andThen(f)와 같고 andThen을 쓰는 것이 더 가독성 좋음)
+
+        System.out.println(h.apply("FF")); // "FF" -> 255 -> "11111111"
+        System.out.println(h2.apply(2)); // 2 -> "10" -> 16
+
+        Function<String, String> f2 = x -> x; // 항등 함수(identity function)
+        System.out.println(f2.apply("AAA")); // AAA가 그대로 출력됨
+
+        Predicate<Integer> p = i -> i < 100;
+        Predicate<Integer> q = i -> i < 200;
+        Predicate<Integer> r = i -> i % 2 == 0;
+        Predicate<Integer> notP = p.negate(); // i >= 100
+
+        Predicate<Integer> all = notP.and(q.or(r)); // (i>=100) && (i<200 || i%2==0)
+        System.out.println(all.test(150)); // true
+
+        String str1 = "abc";
+        String str2 = "abc";
+
+        // str1과 str2가 같은지 비교한 결과를 반환
+        Predicate<String> p2 = Predicate.isEqual(str1);
+        boolean result = p2.test(str2);  // 위 2줄을 boolean result = Predicate.isEqual(str1).test(str2); 와 같다. 이것은 boolean result = str1.equals(str2); 와 역시 같다.
+        System.out.println(result); // True
+        // 위에서 String str1 = new String("abc");, String str2 = new String("abc"); 해도 결과는 똑같다. 그 말은 등가비교(==) 를 하는 것이 아니라 equals로 비교한다는 것을 의미
+
+    }
+}
+
+```
+
+## 컬렉션 프레임워크와 함수형 인터페이스
+https://www.youtube.com/watch?v=Kk1ZIrVZnqw&list=PLW2UjW795-f6xWA2_MUhEVgPauhGl3xIp&index=161
+19:12 분 볼 차례
