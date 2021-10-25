@@ -658,3 +658,52 @@ map.forEach((k, v) -> System.out.println("{" + k + "," + v + "} , "));
 - 그동안 컬렉션 프레임워크가 그대로 사용하기에는 불편한 점들이 많았는데(코드들도 길고), JDK 1.8부터 람다식을 이용해서 사용할 수 있는 메서드들이 제공되어서 덕분에 코드가 간단해진다.
 
 ### 실습
+
+```
+public class Test {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0 ; i < 10 ; i++) {
+            list.add(i);
+        }
+
+        // 1. list의 모든 요소를 출력. (물론 System.out.println(list); 만 해도 잘 나오긴 함.)
+        // 기존에는 아래처럼 코드가 길었음.
+/*
+        Iterator<Integer> it = list.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+         }
+*/
+        // 람다식 이용할 수 있는 메서드 덕분에 간결해짐
+        list.forEach(i -> System.out.println(i + ",")); // forEach는 consumer들어가니 받기만 하는 것
+
+        // 2. list에서 2 또는 3의 배수를 제거한다.
+        list.removeIf(x -> x%2 == 0 || x%3 == 0);
+        System.out.println(list);
+
+        // 3. list의 각 요소에 10을 곱한다.
+        list.replaceAll(i -> i*10);
+        System.out.println(list);
+
+        // 4. map의 모든 요소를 {k, v} 의 형식으로 출력한다.
+        Map<String, String> map = new HashMap<>();
+        map.put("1", "1");
+        map.put("2", "2");
+        map.put("3", "3");
+        map.put("4", "4");
+
+        // 출력
+        // 기존코드는 매우 길다
+/*
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
+*/
+        // 람다식 이용할 수 있는 메서드 덕분에 간결해짐
+        map.forEach((k, v) -> System.out.println("{" + k + "," + v + "},"));
+        System.out.println();
+    }
+}
+```
