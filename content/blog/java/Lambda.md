@@ -707,3 +707,141 @@ public class Test {
     }
 }
 ```
+
+## 메서드 참조(method reference)
+
+### 하나의 메서드만 호출하는 람다식은 '메서드 참조'로 간단히 할 수 있다.
+
+- `클래스이름::메서드이름`
+- 람다식을 더 간단하게.
+- 아래 3가지 중 특정 객체 인스턴스메서드 참조는 잘 안 씀
+
+![image](https://user-images.githubusercontent.com/57219160/138809128-a6064e6b-eefe-46bc-949f-311bc50bc17a.png)
+
+### static메서드 참조
+
+- A
+
+```
+Integer method(String s) { // 그저 Integer.parseInt(String s)만 호출
+  return Integer.parseInt(s);
+}
+```
+
+- 즉, 아래 메서드는.
+
+```
+int result = obj.method("123");
+```
+
+- 아래와 동일하다는 것.(어차피 하나의 메서드만 호출하므로)
+
+```
+int result = Integer.parseInt("123");
+```
+
+- 따라서 A는 아래처럼 차례로 변할 수 있다. (람다식 <--> 메서드 참조, 양방향 변환을 연습해야 한다)
+  - 우선 람다식으로 변환
+  ```
+  Function<String, Integer> f = (String s) -> Integer.parseInt(s); // 람다식
+  ```
+  - 메서드 참조로 다시 변환(람다식에서 어차피 입력값이 String인 것 아니까 `(String s)` 와 parseInt(s)의 `(s)`는 생략해도 됨, 특히 parseInt(s)는 컴파일러가 애초에 무엇을 받는지 미리 다 알고 있으므로.
+    ), 그래서 다 지우면 Integer.paserInt; 가 남는데 .를 ::로 문법상 약속
+  ```
+  Function<String, Integer> f = Integer::parseInt; // 메서드 참조
+  ```
+
+### 실습
+
+```
+public class Test {
+    public static void main(String[] args) {
+//        Function<String, Integer> f = (String s) -> Integer.parseInt(s); // 람다식
+        Function<String, Integer> f = Integer::parseInt; // 위의 람다식을 메서드 참조로 변환
+        System.out.println(f.apply("100"));
+    }
+}
+```
+
+## 생성자의 메서드 참조
+
+### 생성자와 메서드 참조
+
+- 생성자에 매개변수가 없는 경우
+
+  - 람다식
+
+    - 제공만 하는 Supplier니까 입력이 없이 출력(여기서는 클래스)만 있음.
+    - 입력이 없으니까 람다식에서 ()
+
+    ```
+    Supplier<Myclass> s = () -> new MyClass();
+    ```
+
+  - 메서드 참조(위의 람다식을 변환)
+
+    - 입력 자체가 없으므로 () 다 삭제. 그리고 메서드 이름은 new니까 new
+
+    ```
+    Supplier<MyClass> s = MyClass::new;
+    ```
+
+- 생성자에 매개변수가 있는 경우
+  - 람다식
+    - 입력값 Integer타입 i를 주고 출력이 MyClass 클래스
+    ```
+    Function<Integer, MyClass> s = (i) -> new Myclass(i);
+    ```
+  - 메서드 참조(위의 람다식을 변환)
+    - 어차피 입력값 Integer인 것을 아니까 (i)삭제, new Myclass에서도 입력값인 i를 받을 것을 아니까 (Function에서 준다고 했으니까) 삭제
+    - 매개변수가 2개면 BiFunction`<T, U, R>` 사용하면 됨. T, U가 입력값, R이 반환값
+    ```
+    Function<Integer, MyClass> s = MyClass::new;
+    ```
+
+### 배열과 메서드 참조 (자주 사용)
+
+- 람다식
+  - 배열길이(x, 입력값) 가 필요하므로 Function 써야 한다.
+  ```
+  Function<Integer, int[]> f = x -> new int[x]; // 람다식
+  ```
+- 메서드 참조(위의 람다식을 변환)
+  - 어차피 입력값 Integer를 아니까
+  ```
+  Function<Integer, int[]> f2 = int[]::new; // 메서드 참조
+  ```
+
+### 실습
+
+```
+public class Test {
+    public static void main(String[] args) {
+        // Supplier은 입력X, 출력O
+        Supplier<MyClass> s1 = () -> new MyClass(); // 람다식(파라미터 X)
+        Supplier<MyClass> s2 = MyClass::new; // 메서드 참조(파라미터 X)
+        System.out.println(s2.get()); // MyClass mc = s2.get();로 객체 얻어서 System.out.println(mc); 한 것임
+
+        // Function은 입력O, 출력O
+        Function<Integer, MyClass> f1 = (i) -> new MyClass(i); // 람다식(파라미터 O)
+        Function<Integer, MyClass> f2 = MyClass::new; // 메서드 참조(파라미터 O)
+        MyClass mc = f1.apply(100);
+        System.out.println(f1.apply(100).iv);  //100, System.out.println(mc.iv); 와 같음
+
+        // 배열. 배열을 반환(출력)하려면 배열의 길이(입력)를 줘야 하니까 Function
+        Function<Integer, int[]> r1 = (k) -> new int[k]; // 람다
+        Function<Integer, int[]> r2 = int[]::new;   // 메서드 참조
+        System.out.println(r2.apply(100).length); // 100
+    }
+}
+
+class MyClass {
+    int iv;
+
+    MyClass(int iv) {
+        this.iv = iv;
+    }
+
+    MyClass() {}
+}
+```
