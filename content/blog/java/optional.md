@@ -1,6 +1,6 @@
 ---
 title: 'Optional'
-date: 2021-05-11 20:43:00
+date: 2021-11-02 11:05:00
 category: 'java'
 draft: false
 ---
@@ -257,5 +257,10 @@ System.out.println("optInt2=" + optInt2); // optInt2=OptionalInt.empty
 System.out.println("optInt1.equals(optInt2)?" + optInt1.equals(optInt2)); // false
 ```
 
+## Reference & good data
+
 - [Optional을 람다식과 함께(올바른사용법)](https://www.daleseo.com/java8-optional-after/)
+- [26 Reasons Why Using Optional Correctly Is Not Optional](https://dzone.com/articles/using-optional-correctly-is-not-optional)
+- [Java Optional 바르게 쓰기](http://homoefficio.github.io/2019/10/03/Java-Optional-%EB%B0%94%EB%A5%B4%EA%B2%8C-%EC%93%B0%EA%B8%B0/)
+- [Optional Anti-Patterns](https://dzone.com/articles/optional-anti-patterns)
 - 참고 : 자바의 정석 - 남궁성
