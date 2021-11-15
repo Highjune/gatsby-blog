@@ -15,7 +15,7 @@ draft: false
 ## `Watching`
 
 1. [인프런(한정수) - 비전공자를 위한 개발자 취업 올인원 가이드(통합편)](https://www.inflearn.com/course/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%B7%A8%EC%97%85-%ED%86%B5%ED%95%A9%ED%8E%B8/dashboard)
-1. [실전! 스프링 웹 MVC - 1편](https://www.inflearn.com/course/스프링-mvc-1?utm_source=inflearn&utm_medium=social&utm_campaign=share#)
+1. [승지니어 기술면접 라이브코딩 실전편](https://www.youtube.com/watch?v=go8y4-vVg3Y&list=PL2mzT_U4XxDl8PP-jMk4rt6BPzBtS__pQ)
 
 ## `completed`
 
@@ -40,6 +40,9 @@ draft: false
 1. [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
 1. [스프링 핵심 원리 - 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8#)
 1. [모든 개발자를 위한 HTTP 웹 기본 지식](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC#)
+1. [실전! 스프링 웹 MVC - 1편](https://www.inflearn.com/course/스프링-mvc-1?utm_source=inflearn&utm_medium=social&utm_campaign=share#)
+1. [실전! 스프링 웹 MVC - 2편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-2/dashboard)
+1. [승지니어 기술면접 라이브코딩 기본편](https://www.youtube.com/watch?v=Bt11jaoqt_Y&list=PL2mzT_U4XxDm7p6g1o3KeQMsyRLfzSaVW)
 
 ### 2020
 
@@ -53,12 +56,6 @@ draft: false
 
 ## `shopping-cart`
 
-1. [인프런(김영한) - 강의 5개짜리 로드맵](https://www.inflearn.com/roadmaps/373)
-   1. (완료) [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#)
-   1. (완료) [스프링 핵심 원리 - 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8#)
-   1. (완료) [모든 개발자를 위한 HTTP 웹 기본 지식](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC#)
-   1. (watching) [실전! 스프링 웹 MVC - 1편](https://www.inflearn.com/course/스프링-mvc-1?utm_source=inflearn&utm_medium=social&utm_campaign=share#)
-   1. [실전! 스프링 웹 MVC - 2편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-2/dashboard)
 1. [인프런 - 자바 스프링 프레임워크(renew ver.) - 신입 프로그래머를 위한 강좌](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC_renew/dashboard)
 1. [인프런(김영한) - 강의 5개짜리, 김영한의 스프링 부트와 JPA 실무 완전 정복 로드맵](https://www.inflearn.com/roadmaps/149)
 
@@ -83,18 +80,14 @@ draft: false
 1. [인프런. 리눅스 커맨드라인 툴(Full ver.)](https://www.inflearn.com/course/%EB%A6%AC%EB%88%85%EC%8A%A4-%EC%BB%A4%EB%A7%A8%EB%93%9C%EB%9D%BC%EC%9D%B8-%ED%88%B4#)
    - 유료지만 아깝지 않음
 1. [CS50](https://www.edwith.org/search/index?categoryId=72)
+
    - 하버드 대학교의 컴퓨터 기초 강의
    - 교양 수업 중에 가장 쉬운 것
    - 딱딱하지 않고 재미있는 수업
    - 한글자막 지원함
    - edwith의 `모두를 위한 컴퓨터 과학` 이라는 강의
    - 정수는 국비다닐 때 다 본 것. 지하철에서.
-1. [승지니어 기술면접 라이브코딩 기본편](https://www.youtube.com/watch?v=Bt11jaoqt_Y&list=PL2mzT_U4XxDm7p6g1o3KeQMsyRLfzSaVW)
-1. [승지니어 기술면접 라이브코딩 실전편](https://www.youtube.com/watch?v=go8y4-vVg3Y&list=PL2mzT_U4XxDl8PP-jMk4rt6BPzBtS__pQ)
-   - 문제 푸는 과정을 직접 말로 하면서 하기 때문에 실전에 매우 도움이 많이 됨
-   - 문과분인데 현재 실리콘밸리에 있기
-   - 실제로 문제를 푸는 기간에 매우 도움이 많이 됨
-   - 강의 먼저 보지 말고 leetcode문제를 보고 혼자 풀고 나서 강의 보면 도움 더 많이 됨. 혼자 푸는 것보다 다른 사람의 자세한 풀이를 보는 것도 크게 도움이 된다.
+
 1. [Taehoon의 유투브 채널](https://www.youtube.com/results?search_query=taehoon)
    - 프런트앤드 개발자인데 설명이 매우 좋음
    - 영상이 더 올라오진 않지만 이전의 영상들이 너무 좋음
