@@ -1,6 +1,6 @@
 ---
 title: '책'
-date: 2022-04-19 14:07:00
+date: 2022-04-27 14:07:00
 category: 'etc'
 draft: false
 ---
@@ -102,7 +102,6 @@ draft: false
    - 처음에 보면 좀 어려움
    - 김영한님 강의 다 듣고 정리하는 식으로 공부하면 레벨 업 가능
 1. 쉽게 배우는 운영체제
-
    - 조성호, 한빛아카데미
    - [여기](https://velog.io/@lky9303/%EC%B9%B4%EC%B9%B4%EC%98%A4-FE-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%B5%9C%EC%A2%85-%ED%95%A9%EA%B2%A9feat-%ED%8C%A8%EC%8A%A4%ED%8A%B8%EC%BA%A0%ED%8D%BC%EC%8A%A4-%EB%84%A4%EC%B9%B4%EB%9D%BC%EC%BF%A0%EB%B0%B0-%EA%B3%BC%EC%A0%95?fbclid=IwAR0JRZg41U2Fc5NCo7JMsAD-4-owo0Rk39LPCnuf1c82O4Wt3MBUvd9SYpw) 이 글에서 엄청 강추
 
@@ -132,6 +131,16 @@ draft: false
 
    - WAS 구현 등
 
+1. Java 언어로 배우는 디자인 패턴 입문
+   - 패턴마다 뒤에 연습문제들이 있음
+1. 임파워드
+   - 종립님 추천, 인터뷰가 모든 여성 IT 리더들 대상
+   - 개발자로 커리어 시작해서 트위터 PM, 슬랙 부사장 등
+1. 자바 퍼즐러
+   - 조슈아 블로흐가 쓴 책
+   - 종립님 추천, 필독
+1. 스프링 입문을 위한 자바 객체 지향의 원리와 의해
+
 1. [책추천1](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/) 에서 참고 후 좀 더 추가하기
    [책추천2, 강의](https://github.com/cheese10yun/dev-info) 에서도 참고하기
    [이종립님 추천 책](https://johngrib.github.io/wiki/my-favorite-books/)
@@ -157,3 +166,4 @@ draft: false
 1. 배민다움
 1. 아침청소의 힘
 1. 절대 성공하지 못할거야
+
