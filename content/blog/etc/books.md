@@ -20,7 +20,6 @@ draft: false
    - 관계형 데이터베이스에 대해서 전혀 모르거나, SQL 문법만 알고 있다면 관계형 데이터베이스에 대한 개념과 관점을 새롭게 얻을 수 있다
 1. 프로그래밍 면접 이렇게 준비한다.
 1. (상시)Pro git 2/E
-1. (비개발) 위기주도학습
 
 ## `completed`
 
@@ -111,6 +110,7 @@ draft: false
    - 처음에 보면 좀 어려움
    - 김영한님 강의 다 듣고 정리하는 식으로 공부하면 레벨 업 가능
 1. 쉽게 배우는 운영체제
+
    - 조성호, 한빛아카데미
    - [여기](https://velog.io/@lky9303/%EC%B9%B4%EC%B9%B4%EC%98%A4-FE-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%B5%9C%EC%A2%85-%ED%95%A9%EA%B2%A9feat-%ED%8C%A8%EC%8A%A4%ED%8A%B8%EC%BA%A0%ED%8D%BC%EC%8A%A4-%EB%84%A4%EC%B9%B4%EB%9D%BC%EC%BF%A0%EB%B0%B0-%EA%B3%BC%EC%A0%95?fbclid=IwAR0JRZg41U2Fc5NCo7JMsAD-4-owo0Rk39LPCnuf1c82O4Wt3MBUvd9SYpw) 이 글에서 엄청 강추
 
@@ -152,7 +152,6 @@ draft: false
 1. 따라하며 배우는 AWS 네트워크 입문 - 김원일, 서종호
 1. JAVA 객체지향 디자인 패턴
 
-
 1. [책추천1](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/) 에서 참고 후 좀 더 추가하기
    [책추천2, 강의](https://github.com/cheese10yun/dev-info) 에서도 참고하기
    [이종립님 추천 책](https://johngrib.github.io/wiki/my-favorite-books/)
@@ -165,6 +164,7 @@ draft: false
 ### 2022
 
 1. 예언자
+1. 위기주도학습법
 
 ### 2020
 
@@ -172,11 +172,14 @@ draft: false
 1. 21세기를 위한 21가지 제언
 1. 사피엔스
 
-## `contain`
+## `reading`
 
 1. 더 해빙
+
+## `contain`
+
 1. THINK AGAIN
-1. 사람은 무엇ㄷ으로 사는가
+1. 사람은 무엇으로 사는가
 1. 스물아홉 생일, 1년 후 죽기로 결심했다.
 1. 태도에 관하여
 1. 1984
@@ -194,4 +197,3 @@ draft: false
 1. 아침청소의 힘
 1. 절대 성공하지 못할거야
 1. 서울 자가에 대기업 다니는 김 부장 이야기
-
