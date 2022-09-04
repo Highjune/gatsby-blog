@@ -1,6 +1,6 @@
 ---
 title: 'Lambda'
-date: 2021-10-25 14:00:00
+date: 2022-09-04 21:34:00
 category: 'java'
 draft: false
 ---
@@ -543,8 +543,8 @@ public class Test {
             if(p.test(i)) { // Predicate<Integer> p = i -> i % 2==0; // 짝수인지 검사
                 c.accept(i); //    Consumer<Integer> c = i -> System.out.print(i + ", ");
             }
-            System.out.println("]");
         }
+        System.out.println("]");
     }
 
     static <T> void makeRandomList(Supplier<T> s, List<T> list) {
