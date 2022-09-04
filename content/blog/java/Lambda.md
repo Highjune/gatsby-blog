@@ -597,6 +597,7 @@ boolean reuslt = Predicate.isEqual(str1).test(str2);
 ```
 
 ### 실습
+- andThen(), compose() 함수 포함
 
 ```
 public class Test {
