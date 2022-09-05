@@ -1,6 +1,6 @@
 ---
 title: 'Stream'
-date: 2021-10-07 17:26:00
+date: 2022-09-05 16:45:00
 category: 'java'
 draft: false
 ---
@@ -45,9 +45,9 @@ IntStream intStream2 = new Random().ints(5); // 난수 스트림(크기가 5);
 
 - ex)
 
-  ```
-  stream.distinct().limit(5).sorted().forEach(System.out::println)
-  ```
+```
+stream.distinct().limit(5).sorted().forEach(System.out::println)
+```
 
   - distinct()
     - 중간연산(중복제거)
@@ -58,16 +58,16 @@ IntStream intStream2 = new Random().ints(5); // 난수 스트림(크기가 5);
   - forEach(System.out::println)
     - 최종연산(출력)
 
-  ```
-  String[] strArr = {"dd", "aaa", "CC", "cc", "b"};
+```
+String[] strArr = {"dd", "aaa", "CC", "cc", "b"};
 
-  Stream<String> stream = Stream.of(strArr); // 문자열 배열이 소스인 스트림
-  Stream<String> filteredStream = stream.filter(); // 걸러내기 (중간 연산)
-  Stream<String> distinctedStream = stream.distinct(); // 중복제거 (중간 연산)
-  Stream<String> sortedStream = stream.sort(); // 정렬 (중간 연산)
-  Stream<String> limitedStream = stream.limit(5); // 스트림 자르기 (중간 연산)
-  int total = stream.count(); // 요소 개수 세기(최종연산)
-  ```
+Stream<String> stream = Stream.of(strArr); // 문자열 배열이 소스인 스트림
+Stream<String> filteredStream = stream.filter(); // 걸러내기 (중간 연산)
+Stream<String> distinctedStream = stream.distinct(); // 중복제거 (중간 연산)
+Stream<String> sortedStream = stream.sort(); // 정렬 (중간 연산)
+Stream<String> limitedStream = stream.limit(5); // 스트림 자르기 (중간 연산)
+int total = stream.count(); // 요소 개수 세기(최종연산)
+```
 
 ## 스트림의 특징
 
