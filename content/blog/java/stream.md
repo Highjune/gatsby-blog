@@ -248,7 +248,7 @@ intStream.limit(5).forEach(System.out::println); // 5개의 요소만 출력한�
 IntStream intStream = new Random().ints(5); // 크기가 5인 난수 스트림을 반환
 ```
 
-- RanDom() 함수의 범위
+- Random() 함수의 범위
 
 ```
 Integer.MIN_VALUE <= ints() <= Integer.MAX_VALUE
