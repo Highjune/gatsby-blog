@@ -658,7 +658,8 @@ filenameStream.forEach(System.out::println); // 스트림의 모든 파일의 �
 fileStream.map(File::getName)                   // Stream<File> -> Stream<String>
   .filter(s->s.indexOf('.')!=-1)                // 확장자가 없는 것은 제외
   .map(s->s.substring(s.indexOf('.')+1))        // Stream<String> -> Stream<String>, 확장자만 뽑아낸 것. Ex1.bak -> bak
-  .distinct()                                   // Stream<String> -> Stream<String>, 대문자로 변경
+  .map(String::toUpperCase)                     // Stream<String> -> Stream<String>, 대문자로 변경
+  .distinct()                                   // 중복 제거
   .forEach(System.out::println); // JAVABAKTXT
 ```
 
