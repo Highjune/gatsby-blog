@@ -461,24 +461,15 @@ stream.distinct().limit(5).sorted().forEach(System.out::println)
 
 ## 스트림의 중간연산 1
 
-1. skip()
-
+- skip()
   - 건너뛰기
-
-2. limit()
-
+- limit()
   - 잘라내기
-
-3. distinct()
-
+- distinct()
   - 중복제거
-
-4. filter()
-
+- filter()
   - 걸러내기
-
-5. sorted()
-
+- sorted()
   - 정렬
 
 ### 스트림 자르기 - skip(), limit()
@@ -638,17 +629,12 @@ studentStream.sorted(Comparator.comparing(Student::getBan).reversed() // 1. 반�
 
 ## 스트림의 중간연산 2
 
-6. map()
-
-- 변환
-
-7. peek()
-
-- forEach()와 비슷하지만 peek()는 중간연산, forEach()는 최종연산
-
-8. flatmap()
-
-- 변환, 스트림의 스트림 -> 스트림으로 변환
+- map()
+  - 변환
+- peek()
+  - forEach()와 비슷하지만 peek()는 중간연산, forEach()는 최종연산
+- flatmap()
+  - 변환, 스트림의 스트림 -> 스트림으로 변환
 
 ### 스트림의 요소 변환하기 - map()
 
