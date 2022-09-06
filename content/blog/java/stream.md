@@ -694,14 +694,14 @@ public class Test2 {
 
 ### 스트림의 요소를 소비하지 않고 엿보기 - peek()
 
-- 작업 중간에 잘 진행되고 있는지 확인시 사용. 디버깅 용도
+- 작업 중간에 잘 진행되고 있는지 확인시 사용. `디버깅 용도`
 
 ```
 Stream<T> peek(Consumer<? super T> action) // 중간 연산(스트림의 요소를 소비x)
 void      forEach(Consumer<? super T> action) // 최종 연산(스트림의 요소를 소비O)
 ```
 
-- 아래처럼 여러작업을 수행할 떄 중간중간에 잘 진행되고 있는지 확인할 때 사용한다. 디버깅 용도
+- 아래처럼 여러작업을 수행할 때 중간중간에 잘 진행되고 있는지 확인할 때 사용한다. 
 
 ```
 fileStream.map(File::getName)     // Stream<File> -> Stream<String>
