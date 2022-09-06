@@ -463,23 +463,23 @@ stream.distinct().limit(5).sorted().forEach(System.out::println)
 
 1. skip()
 
-- 건너뛰기
+  - 건너뛰기
 
 2. limit()
 
-- 잘라내기
+  - 잘라내기
 
 3. distinct()
 
-- 중복제거
+  - 중복제거
 
 4. filter()
 
-- 걸러내기
+  - 걸러내기
 
 5. sorted()
 
-- 정렬
+  - 정렬
 
 ### 스트림 자르기 - skip(), limit()
 
