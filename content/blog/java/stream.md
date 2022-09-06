@@ -1,6 +1,6 @@
 ---
 title: 'Stream'
-date: 2022-09-05 16:45:00
+date: 2022-09-06 19:13:00
 category: 'java'
 draft: false
 ---
@@ -397,9 +397,9 @@ long count = emptyStream.count(); // count의 값은 0
 - 중간 연산 - 연산결과가 `스트림`인 연산. 반복적으로 적용가능
 - 최종 연산 - 연산결과가 스트림이 아닌 연산. 단 한번만 적용가능(스트림의 요소를 소모)
 
-  ```
-  stream.distinct().limit(5).sorted().forEach(System.out::println)
-  ```
+```
+stream.distinct().limit(5).sorted().forEach(System.out::println)
+```
 
   - distinct()
     - 중간연산(중복제거)
