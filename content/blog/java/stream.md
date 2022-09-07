@@ -953,7 +953,7 @@ public class Test {
         Optional<String> sWord = Stream.of(strArr)
                                     .parallel() // 랜덤으로 처리
                                     .filter(s -> s.charAt(0) == 's')
-//                                    .findFirst(); // Stream 나옴
+//                                    .findFirst(); // "stream" 나옴
                                     .findAny();
 
         System.out.println("noEmptyStr = " + noEmptyStr); // noEmptyStr = true
@@ -997,7 +997,7 @@ public class Test {
 
 ```
 Object collect(Collector collector) // Collector를 구현한 클래스의 객체를 매개변수로
-object colelct(Supplier supplier, BiConsumer accumulator, BiConsumer combiner) // 잘 안 쓰임
+object collect(Supplier supplier, BiConsumer accumulator, BiConsumer combiner) // 잘 안 쓰임
 ```
 
 - reduce() 와 collect() 의 차이는?
