@@ -893,15 +893,15 @@ Optional<Student> result = parallelStream.filter(s -> s.getTotalScore() <= 100).
   U           reduce(U identity, BiFunction<U,T,U> accumulator, BinaryOperator<U> combiner)
   ```
 
-  - identity
-    - 초기값
-    - 핵심
-  - accumulator
-    - 이전 연산결과와 스트림의 요소에 수행할 연산
-    - 핵심
-  - combiner
-    - 병렬처리된 결과를 합치는데 사용할 연산(병렬 스트림)
-    - 크게 중요치 않음
+- identity
+  - 초기값
+  - 핵심
+- accumulator
+  - 이전 연산결과와 스트림의 요소에 수행할 연산
+  - 핵심
+- combiner
+  - 병렬처리된 결과를 합치는데 사용할 연산(병렬 스트림)
+  - 크게 중요치 않음
 
 - `Optional<T> reduce(BinaryOperator<T> accumulator)`
 
