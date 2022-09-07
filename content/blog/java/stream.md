@@ -1,6 +1,6 @@
 ---
 title: 'Stream'
-date: 2022-09-06 19:13:00
+date: 2022-09-07 10:48:00
 category: 'java'
 draft: false
 ---
@@ -812,7 +812,7 @@ Stream<String> strStrStrm = strArrStrm.flatMap(Arrays::stream); // Arrays.stream
 
 ## Optional<T>
 
-- [링크](https://highjune.dev/java/optional/)
+- [Here](https://highjune.dev/java/optional/)
 
 ## 스트림의 최종연산
 
