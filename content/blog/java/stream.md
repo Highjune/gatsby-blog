@@ -1016,9 +1016,9 @@ object collect(Supplier supplier, BiConsumer accumulator, BiConsumer combiner) /
   - (sb, s) -> sb.append(s) -> 누적
   - 즉, reduce(identity, accumulator)에서 identity-초기화, accumulator-누적수행작업 과 동일
   - combiner()는 병렬작업일 때 합치는 것이고, finisher()는 변환이 필요하면 쓰는 것.
-  - 그래서 위의 메서드들을 사용하려면 Collector인터페이스를 구현해야 한다. 하지만 아래의 Collectors 클래스가 이미 다 구현해놨다.
-  - 직접 구현할 일이 거의 없다.
-  - Collectors 클래스 사용만 잘하면 된다.
+- 그래서 위의 메서드들을 사용하려면 Collector인터페이스를 구현해야 한다. 하지만 아래의 Collectors 클래스가 이미 다 구현해놨다.
+- 직접 구현할 일이 거의 없다.
+- Collectors 클래스 사용만 잘하면 된다.
 
 ### Collectors클래스는 다양한 기능의 컬렉터(Collector를 구현한 클래스) 를 제공
 
