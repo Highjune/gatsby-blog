@@ -1,6 +1,6 @@
 ---
 title: 'Stream'
-date: 2022-09-07 10:48:00
+date: 2022-09-08 16:14:00
 category: 'java'
 draft: false
 ---
@@ -1494,8 +1494,8 @@ class Test {
 
         System.out.printf("%n6. 다중그룹화 + 통계(학년별, 반별 성적그룹)%n");
         Map<String, Set<Student3.Level>> stuByScoreGroup = Stream.of(stuArr)
-                .collect(groupingBy(s -> s.getHak() + "-" + s.getBan(),
-                        mapping(s -> {
+                .collect(groupingBy(s -> s.getHak() + "-" + s.getBan(), //  "학년-반" 처럼 문자열을 만들어서 이것을 기준으로 grouping 할 수 있다.
+                        mapping(s -> {    // 성적등급(Level) 으로 변환. List<Student> -> Set<Student.Level>
                             if (s.getScore() >= 200) return Student3.Level.HIGH;
                         else if (s.getScore() >= 100) return Student3.Level.MID;
                             else                       return Student3.Level.LOW;
@@ -1598,11 +1598,11 @@ class Test {
 [이자바, 남, 2학년 3반, 200점]
 
 6. 다중그룹화 + 통계(학년별, 반별 성적그룹)
-[1-1][HIGH]
+[1-1][HIGH] // 상위권만 있음
 [2-1][HIGH]
-[1-2][LOW, MID]
+[1-2][LOW, MID] // 중위궈, 하위궈 다 있음
 [2-2][LOW, MID]
-[1-3][HIGH, MID]
+[1-3][HIGH, MID]  
 [2-3][HIGH, MID]
 ```
 
