@@ -1,6 +1,6 @@
 ---
 title: 'Stream'
-date: 2022-09-08 16:14:00
+date: 2022-09-12 22:16:00
 category: 'java'
 draft: false
 ---
@@ -1341,9 +1341,9 @@ Map<Integer, List<Student>> stuByBan = stuStream                // 학생을 반
 
 ```
 Map<Integer, Map<Integer, List<Student>>> stuByHakAndBan = stuStream // 다중 그룹화
-                .collect(groupingBy(Student::getHak),                 // 1. 학년별 그룹화
-                         groupingBy(Student::getBan                   // 2. 반별 그룹화
-                  ));
+                .collect(groupingBy(Student::getHak,                  // 1. 학년별 그룹화
+                            groupingBy(Student::getBan                   // 2. 반별 그룹화
+                  )));
 ```
 
 - 학년으로 나누고 반으로 나눈 후 학생들 성적을 map을 사용하여 등급 나눔
