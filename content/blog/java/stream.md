@@ -771,44 +771,44 @@ Stream<String> strStrStrm = strArrStrm.flatMap(Arrays::stream); // Arrays.stream
 
 - 실습
 
-  ```
-  public class Test {
-      public static void main(String[] args) {
-          Stream<String[]> strArrStrm = Stream.of(
-              new String[]{"abc", "def", "jkl"},
-              new String[]{"ABC", "GHI", "JKL"}
-          );
+```
+public class Test {
+    public static void main(String[] args) {
+        Stream<String[]> strArrStrm = Stream.of(
+            new String[]{"abc", "def", "jkl"},
+            new String[]{"ABC", "GHI", "JKL"}
+        );
 
-  //        Stream<Stream<String>> strStrmStrm = strArrStrm.map(Arrays::stream); // 이렇게 하면 Stream 안에 Stream이 존재하게 되어 우리가 원하는 결과가 나오지 않는다.
-          Stream<String> strStrm = strArrStrm.flatMap(Arrays::stream);
+//        Stream<Stream<String>> strStrmStrm = strArrStrm.map(Arrays::stream); // 이렇게 하면 Stream 안에 Stream이 존재하게 되어 우리가 원하는 결과가 나오지 않는다.
+        Stream<String> strStrm = strArrStrm.flatMap(Arrays::stream);
 
-          strStrm.map(String::toLowerCase)    // 스트림의 요소를 모두 소문자로 변경
-                  .distinct() // 중복제거
-                  .sorted()   // 정렬
-                  .forEach(System.out::println);
-          System.out.println();
+        strStrm.map(String::toLowerCase)    // 스트림의 요소를 모두 소문자로 변경
+                .distinct() // 중복제거
+                .sorted()   // 정렬
+                .forEach(System.out::println);
+        System.out.println();
 
-          String[] lineArr = {
-                  "Believe or not It is true",
-                  "Do or do not There is no try"
-          };
+        String[] lineArr = {
+                "Believe or not It is true",
+                "Do or do not There is no try"
+        };
 
-          Stream<String> lineStream = Arrays.stream(lineArr); // 두 문장에 있는 단어 하나하나(String)를 Stream의 요소로 만들고 싶은 것
-          lineStream.flatMap(line -> Stream.of(line.split(" +")))
-                  .map(String::toLowerCase)
-                  .distinct()
-                  .sorted()
-                  .forEach(System.out::println);
-          System.out.println();
-      }
-  }
-  ```
+        Stream<String> lineStream = Arrays.stream(lineArr); // 두 문장에 있는 단어 하나하나(String)를 Stream의 요소로 만들고 싶은 것
+        lineStream.flatMap(line -> Stream.of(line.split(" +")))
+                .map(String::toLowerCase)
+                .distinct()
+                .sorted()
+                .forEach(System.out::println);
+        System.out.println();
+    }
+}
+```
 
-  - `lineStream.flatMap(line -> Stream.of(line.split(" +")))`
-    - line을 split하면 String -> String[]로 바꾸는 것. " +"는 정규식(Regular Expression)인데 하나이상의 공백. 이라는 뜻. cf) " " 는 공백하나
-    - Stream`<String>` ---map()을 사용하면--> Stream`<Stream<String>>` 이 되버린다.
-    - Stream`<String>` ---flatMap()을 사용하면--> Stream`<String>` 이 된다.
-    - 그래서 공백을 제외한 Believe, or, not 등의 단일 단어들로 이루어진 Stream`<String>`이 나온다.
+- (위 코드) `lineStream.flatMap(line -> Stream.of(line.split(" +")))`
+  - line을 split하면 String -> String[]로 바꾸는 것. " +"는 정규식(Regular Expression)인데 하나이상의 공백. 이라는 뜻. cf) " " 는 공백하나
+  - Stream`<String>` ---map()을 사용하면--> Stream`<Stream<String>>` 이 되버린다.
+  - Stream`<String>` ---flatMap()을 사용하면--> Stream`<String>` 이 된다.
+  - 그래서 공백을 제외한 Believe, or, not 등의 단일 단어들로 이루어진 Stream`<String>`이 나온다.
 
 ## Optional<T>
 
