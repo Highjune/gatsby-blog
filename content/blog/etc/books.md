@@ -20,6 +20,7 @@ draft: false
 1. Pro git 2/E
    - 회사 점심시간 꾸준하게 보기
 1. 나는 LINE 개발자입니다.
+1. 카오스멍키
 
 
 > 비개발
@@ -104,7 +105,6 @@ draft: false
 # `shopping-cart`
 > 개발
 1. Effective java
-1. 카오스멍키
 1. 자바프로그래밍 언어
    - 객체지향적 사고를 가르치는 책이고 대학 1, 2학년의 java 전공책을 꼽으라면 이것 할 정도로 굿
 1. Thinking in Java
