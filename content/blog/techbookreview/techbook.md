@@ -1,6 +1,6 @@
 ---
 title: '모든개발서적리뷰'
-date: 2022-12-17 23:40:00
+date: 2022-12-19 23:40:00
 category: 'bookreview'
 draft: false
 ---
@@ -14,7 +14,7 @@ order by createAt DESC
 
 
 ## Pro Git 2/E
-- (사진)
+- ![KakaoTalk_Photo_2022-12-19-23-33-49](https://user-images.githubusercontent.com/57219160/208450871-cd7ac853-750c-46ac-a0a3-825ab40b8b4e.jpeg)
 - 지은이 / 출판사
     - 스캇 샤콘, 벤 스트라웁 / 인사이트
 - 읽은 시기(when)   
