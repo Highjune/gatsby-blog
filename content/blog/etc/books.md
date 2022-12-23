@@ -191,6 +191,7 @@ draft: false
 1. 스프링 입문을 위한 자바 객체 지향의 원리와 의해
 1. 따라하며 배우는 AWS 네트워크 입문 - 김원일, 서종호
 1. JAVA 객체지향 디자인 패턴
+1. Practical Vim
 
 1. [책추천1](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/) 에서 참고 후 좀 더 추가하기
    [책추천2, 강의](https://github.com/cheese10yun/dev-info) 에서도 참고하기
