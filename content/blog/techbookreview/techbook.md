@@ -1,6 +1,6 @@
 ---
 title: '모든개발서적리뷰'
-date: 2022-12-19 23:40:00
+date: 2022-12-31 23:59:00
 category: 'bookreview'
 draft: false
 ---
