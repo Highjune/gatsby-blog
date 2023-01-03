@@ -13,6 +13,9 @@ order by createAt DESC
 # 2022년
 
 
+## 운영체제
+- ![KakaoTalk_Photo_2023-01-01-23-51-13](https://user-images.githubusercontent.com/57219160/210174905-aed0de96-5c6f-4e13-a187-5c65e1f096f5.jpeg)
+
 ## Pro Git 2/E
 - ![KakaoTalk_Photo_2022-12-19-23-33-49](https://user-images.githubusercontent.com/57219160/208450871-cd7ac853-750c-46ac-a0a3-825ab40b8b4e.jpeg)
 - 지은이 / 출판사
