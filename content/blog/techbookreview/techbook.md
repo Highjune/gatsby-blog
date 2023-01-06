@@ -15,6 +15,20 @@ order by createAt DESC
 
 ## 운영체제
 - ![KakaoTalk_Photo_2023-01-01-23-51-13](https://user-images.githubusercontent.com/57219160/210174905-aed0de96-5c6f-4e13-a187-5c65e1f096f5.jpeg)
+- 지은이 / 출판사
+    - 반효경 / 이화여자대학교출판문화원
+- 읽은 시기(when)   
+    - 2022년 11월 ~ 12월
+- 구매(how, where, why)  
+    - 누가 어디서 어떻게
+        - 회사 도서지원비로 구매
+    - 왜 구매
+        - 예전부터 반효경 교수님의 강의 & 책이 좋다고 정평이 나 있엇다.
+- 후기(what)
+    - Computer science 에 대한 기본책을 누군가에게 추천을 한다면 무조건 이 책을 제일 먼저 해줄 것 같다.
+    - 책 분량(294p)이 길지도 않으면서 아주 쉽게 설명을 잘해준다. 그리고 아주 깊은 내용은 다루지 않으면서도 각 챕터별로 반복해서 설명을 해주기 때문에 책이 잘 읽힌다.
+    - 비유도 잘한 설명 덕분에 도움이 많이 되었다.
+    - 추후에 시간이 난다면 꼭 반복해서 읽고 싶은 책이다.
 
 ## Pro Git 2/E
 - ![KakaoTalk_Photo_2022-12-19-23-33-49](https://user-images.githubusercontent.com/57219160/208450871-cd7ac853-750c-46ac-a0a3-825ab40b8b4e.jpeg)
