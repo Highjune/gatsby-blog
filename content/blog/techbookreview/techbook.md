@@ -1,7 +1,7 @@
 ---
 title: '모든개발서적리뷰'
-date: 2023-11-05 23:59:00
-category: 'bookreview'
+date: 2023-01-17 12:44:00
+category: 'techbookreview'
 draft: false
 ---
 > 개발 모든 책들 리뷰(2022년 중반부터 자세히)
@@ -10,16 +10,6 @@ draft: false
 order by createAt DESC
 ```
 # 2023년
-
-## sadfsdaf
-
-
-
-
-
-
-# 2022년
-
 ## 자바와 JUnit을 활용한 실용주의 단위테스트
 - 지은이 / 출판사
     - 제프 랭어, 앤디 헌트, 데이브 토마스
@@ -32,6 +22,7 @@ order by createAt DESC
         - 
 - 후기(what)
     - 
+# 2022년
 
 ## 운영체제
 - ![KakaoTalk_Photo_2023-01-01-23-51-13](https://user-images.githubusercontent.com/57219160/210174905-aed0de96-5c6f-4e13-a187-5c65e1f096f5.jpeg)
