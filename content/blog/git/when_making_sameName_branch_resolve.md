@@ -4,4 +4,4 @@ date: 2023-01-17 14:38:00
 category: 'git'
 draft: false
 ---
-- [좋은 링크](https://eastash.me/delete-git-and-create-same-name-branch)
+- [좋은 링크](https://eastash.me/delete-git-and-create-same-name-branch
