@@ -71,21 +71,6 @@ git config -global alias.lg log --oneline --decorate --graph --all
   - 명령어를 잘못 입력하면 Git은 추측할 수 있는 메시지를 보여주긴 하지만 직접 실행하진 않는다. 그러나 help.autocorrect를 1로 설정하면 명령어를 잘못 입력해도 Git 이 자동을 해당 명령어를 찾아서 실행해준다.
   - 0.1 seconds 라는 것이 뜨는데, 사실 help.autocorrect 설정에 사용하는 값은 1/10초 단위의 숫자를 나타낸다. 만약 50이라는 값으로 설정한다면 자동으로 고친 명령을 실행할 때 Git은 5초간 명령을 실행하지 않고 기다려줄 수 있다.
 
-## git diff, 두 트리 개체 차이 보여주기
-- 워킹 디렉터리와 Staging Area 비교
-  - 그래서 작업한 내용을 `git add` 명령어로 Staging Area로 옮기면 당연히 아무내용도 안 뜸
-```
-git diff
-```
-- Staging Area와 마지막 커밋 비교
-```
-git diff --staged
-```
-- 두 커밋 비교
-```
-git diff master branchB
-```
-
 ## 파일 삭제
 - git 에서 파일을 지우려면 `git rm`
   - 삭제한 파일은 staged 상태가 바로 되고, 커밋하면 파일은 삭제 & Git 이 추적하지 않음.
