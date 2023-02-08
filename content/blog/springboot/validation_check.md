@@ -13,23 +13,24 @@ draft: false
 
 - 예를 들어 아래와 같은 Dto 객체가 있다고 하자.
 ```java
-public class UserDto {
+    public class UserDto {
 
-    public static class UserRequest {
-        
-        @NotEmpty(message = "이름 정보는 필수입니다.")
-        private String name;
+        public static class UserRequest {
+            
+            @NotEmpty(message = "이름 정보는 필수입니다.")
+            private String name;
 
-        @NotEmpty(message = "이메일 정보는 필수입니다.")
-        private String email;
+            @NotEmpty(message = "이메일 정보는 필수입니다.")
+            private String email;
 
-        ...(중략)...
+            ...(중략)...
+        }
+
     }
-
-}
 ```
 
 - 위의 객체를 아래처럼 별도로 유효성 검증을 할 수 있다.
+
 ```java
 
 public void checkValidation () {
