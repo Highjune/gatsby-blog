@@ -11,43 +11,106 @@ draft: false
 
 - 그럴 때는 `javax.validation.*`의 객체를 사용한다.
 
-- 예를 들어 아래와 같은 Dto 객체가 있다고 하자.
+
+- validationCheckForRequestBodyDto 함수
 ```java
-    public class UserDto {
+public class ValidationCheckTest {
 
-        public static class UserRequest {
-            
-            @NotEmpty(message = "이름 정보는 필수입니다.")
-            private String name;
+	//	(..중략..)
 
-            @NotEmpty(message = "이메일 정보는 필수입니다.")
-            private String email;
+	private void validationCheckForRequestBodyDto(Object object) {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<Object>> violations = validator.validate(object);
+		StringBuilder stringBuilder = new StringBuilder();
+		String field = "";
+		String defaultMessage = "";
+		if (violations.size() > 0) {
+			for (ConstraintViolation<Object> violation : violations) {
+				stringBuilder.append(String.format("%s : %s \r\n", violation.getInvalidValue(), violation.getMessage()));
+				field = violation.getPropertyPath().toString();
+				defaultMessage = violation.getMessage();
+			}
+			log.warn(stringBuilder.toString());
+			FieldError fieldError = new FieldError(SingleDto.CreateRequest.class.getName(), field, defaultMessage);
+			throw new BindingException(fieldError);
+		}
+	}
 
-            ...(중략)...
-        }
+	// 밑에서 동작할 테스트 함수
+	@Test
+	public void validationCheckTest() {
+		// 생략
 
-    }
-```
+	}
 
-- 위의 객체를 아래처럼 별도로 유효성 검증을 할 수 있다.
-
-```java
-
-public void checkValidation () {
-    
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<RequestDto.Member>> violations = validator.validate(memberDto);
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (ConstraintViolation<RequestDto.Member> violation : violations) {
-            stringBuilder.append(String.format("%s : %s \r\n", violation.getInvalidValue(), violation.getMessage()));
-        }
-        
-        if (violations.size() > 0) {
-            log.error(stringBuilder.toString());
-            throw new CommonException(Errors.GENERAL_WRONG_PARAM);
-        }
 }
-    
 ```
+
+
+- 테스트할 Dto 객체들
+
+```java
+@Data
+	static class MemberDto {
+		@NotNull(message = "MemberDto.name 값은 반드시 필요합니다.")
+		private String name;
+		@NotNull(message = "MemberDto.home 값은 반드시 필요합니다.")
+		private String home;
+	}
+
+	@Data
+	static class ItemDto {
+		@NotNull(message = "ItemDto.company 값은 반드시 필요합니다.")
+		private String company;
+		@NotNull(message = "ItemDto.price 값은 반드시 필요합니다.")
+		private Integer price;
+	}
+```
+
+- 테스트 코드
+
+```java
+public class ValidationCheckTest {
+	// (..중략..)
+
+		private void validationCheckForRequestBodyDto(Object object) {
+			// (..생략..)
+		}
+
+	
+		@Test
+		public void validationCheckTest() {
+			MemberDto memberDto = new MemberDto();
+			memberDto.setHome("seoul");    // name 값도 필수값인데 넣지 않았음.
+			Assertions.assertThatThrownBy(() -> this.validationCheckForRequestBodyDto(memberDto))
+					.isInstanceOf(BindingException.class);
+	
+			ItemDto itemDto = new ItemDto();
+			itemDto.setCompany("google");    // price 값도 필수값인데 넣지 않았음.
+			Assertions.assertThatThrownBy(() -> this.validationCheckForRequestBodyDto(itemDto))
+					.isInstanceOf(BindingException.class);
+		}
+
+}
+```
+
+- validationCheckTest() 함수 실행 후 로그
+
+```markdown
+2023-04-07 14:42:21 WARN  EtcTest.validationCheckForRequestBodyDto - null : MemberDto.name 값은 반드시 필요합니다. 
+
+2023-04-07 14:42:21 WARN  EtcTest.validationCheckForRequestBodyDto - null : ItemDto.price 값은 반드시 필요합니다.
+```
+
+- Validator 함수
+    
+    ```markdown
+    Set<ConstraintViolation<Object>> violations = validator.validate(검증할 객체);
+    ```
+    
+    - `<ConstraintViolation<Object>>`  violation 의 함수
+        - getInvalidValue()
+            - 유효하지 않은 값. 필수값이지만 안 넣었다면 null과 같은 값
+        - getMessage()
+            - 유효성 체크에 넣은 message 또는 default 메시지
