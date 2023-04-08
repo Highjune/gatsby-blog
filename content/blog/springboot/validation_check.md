@@ -14,37 +14,37 @@ draft: false
 
 - validationCheckForRequestBodyDto 함수
 ```java
-public class ValidationCheckTest {
+	public class ValidationCheckTest {
 
-	//	(..중략..)
+		//	(..중략..)
 
-	private void validationCheckForRequestBodyDto(Object object) {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<Object>> violations = validator.validate(object);
-		StringBuilder stringBuilder = new StringBuilder();
-		String field = "";
-		String defaultMessage = "";
-		if (violations.size() > 0) {
-			for (ConstraintViolation<Object> violation : violations) {
-				stringBuilder.append(String.format("%s : %s \r\n", violation.getInvalidValue(), violation.getMessage()));
-				field = violation.getPropertyPath().toString();
-				defaultMessage = violation.getMessage();
+		private void validationCheckForRequestBodyDto(Object object) {
+			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+			Validator validator = factory.getValidator();
+			Set<ConstraintViolation<Object>> violations = validator.validate(object);
+			StringBuilder stringBuilder = new StringBuilder();
+			String field = "";
+			String defaultMessage = "";
+			if (violations.size() > 0) {
+				for (ConstraintViolation<Object> violation : violations) {
+					stringBuilder.append(String.format("%s : %s \r\n", violation.getInvalidValue(), violation.getMessage()));
+					field = violation.getPropertyPath().toString();
+					defaultMessage = violation.getMessage();
+				}
+				log.warn(stringBuilder.toString());
+				FieldError fieldError = new FieldError(SingleDto.CreateRequest.class.getName(), field, defaultMessage);
+				throw new BindingException(fieldError);
 			}
-			log.warn(stringBuilder.toString());
-			FieldError fieldError = new FieldError(SingleDto.CreateRequest.class.getName(), field, defaultMessage);
-			throw new BindingException(fieldError);
 		}
+
+		// 밑에서 동작할 테스트 함수
+		@Test
+		public void validationCheckTest() {
+			// 생략
+
+		}
+
 	}
-
-	// 밑에서 동작할 테스트 함수
-	@Test
-	public void validationCheckTest() {
-		// 생략
-
-	}
-
-}
 ```
 
 
