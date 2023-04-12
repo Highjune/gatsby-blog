@@ -1,6 +1,6 @@
 ---
 title: '모든개발서적리뷰'
-date: 2023-02-08 22:44:00
+date: 2023-04-12 20:53:00
 category: 'techbookreview'
 draft: false
 ---
@@ -12,11 +12,27 @@ order by readCompletedAt DESC
 
 # 2023년
 
+## 실용주의 프로그래머
+- ![KakaoTalk_Photo_2023-04-12-20-53-25](https://user-images.githubusercontent.com/57219160/231449159-c6ac6c13-91c6-4adc-a4a3-66109974203c.jpeg)
+- 지은이 / 출판사
+    - 데이비드 토머스, 앤드류 헌트 / 인사이트
+- 읽은 시기(when)
+    - 2023년 1월 ~ 2023년 3월
+- 구매(how, where, why)
+    - 누가 어디서 어떻게
+        - 회사 도서지원비로 구매. 지하철 왕복하면서 읽었음.
+    - 왜 구매
+        - 워낙 여기저기서 추천한 곳 많아서
+- 후기(what)
+    - 말 그대로 실용적인 팁을 많이 알려주었다. 
+    - 분량이 많고 뜬구름 잡는 얘기만 있을 줄 알았는데 그렇지 않았고, 퀴즈 등을 통해 생각해볼 수 있는 시간들도 있어서 좋았다.
+    - 아직 내가 여러 언어들을 잘 아는 것이 아니라서 모르는 언어가 나오면 습관적으로 대충 넘겼지만, 조금씩 의식적으로 보려고 노력했다.
+    
 
 ## 개발자 원칙
 - ![KakaoTalk_Photo_2023-02-08-22-45-23](https://user-images.githubusercontent.com/57219160/217547560-e8c66986-d502-4f2b-83f6-83e0febce25a.jpeg)
 - 지은이 / 출판사
-    - 이동욱, 박미정 등 9명, 골든 래빗(golden rabbit)
+    - 이동욱, 박미정 등 9명 / 골든 래빗(golden rabbit)
 - 읽은 시기(when)   
     - 2022년 12월 ~ 2023 1월
 - 구매(how, where, why)  
@@ -41,7 +57,7 @@ order by readCompletedAt DESC
 ## 자바와 JUnit을 활용한 실용주의 단위테스트
 - ![KakaoTalk_Photo_2023-02-08-22-45-35](https://user-images.githubusercontent.com/57219160/217547540-a080d19a-bda5-4014-910d-673db51f37b8.jpeg)
 - 지은이 / 출판사
-    - 제프 랭어, 앤디 헌트, 데이브 토마스
+    - 제프 랭어, 앤디 헌트 / 데이브 토마스
 - 읽은 시기(when)   
     - 2022년 11월 ~ 1월
 - 구매(how, where, why)  
