@@ -1,7 +1,7 @@
 ---
 title: 'TDD란 무엇인가'
 date: 2023-04-13 18:00:00
-category: 'tdd'
+category: 'TDD'
 draft: false
 ---
 

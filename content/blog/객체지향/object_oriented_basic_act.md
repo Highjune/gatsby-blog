@@ -1,7 +1,7 @@
 ---
 title: '객체지향 생활 체조 원칙'
 date: 2023-04-13 18:10:00
-category: 'tdd'
+category: '객체지향'
 draft: false
 ---
 
