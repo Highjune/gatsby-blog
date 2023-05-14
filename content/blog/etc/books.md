@@ -1,6 +1,6 @@
 ---
 title: '책'
-date: 2023-04-12 21:00:00
+date: 2023-05-14 20:55:00
 category: 'etc'
 draft: false
 ---
@@ -17,6 +17,7 @@ draft: false
 > 개발
 1. SQL 레벨업
 1. 모던 자바 인 액션
+1. 이펙티브 자바
 
 > 비개발
 
@@ -115,7 +116,6 @@ draft: false
 # `shopping-cart`
 > 개발
 1. 프로그래밍 면접 이렇게 준비한다.
-1. Effective java
 1. 자바프로그래밍 언어
    - 객체지향적 사고를 가르치는 책이고 대학 1, 2학년의 java 전공책을 꼽으라면 이것 할 정도로 굿
 1. Thinking in Java
@@ -208,6 +208,9 @@ draft: false
    - 개발자 원칙 책에서 추천
 1. 켄트 벡의 구현 패턴
    - 개발자 원칙 책에서 추천
+1. 아마존 웹 서비스를 다루는 기술
+1. 성공과 실패를 결정하는 1%의 네트워크 원리
+   - https://yeonyeon.tistory.com/243 에서 봄
 
 
 1. [책추천1](http://blog.devjoshua.me/2017/12/28/171228-2017%EB%85%84%ED%9A%8C%EA%B3%A0/) 에서 참고 후 좀 더 추가하기
