@@ -14,6 +14,7 @@ draft: false
 - 각각의 @Test, @RepeatedTest, @ParameterizedTest 등의 어노테이션이 붙은 테스트가 실행되기 전에 실행.
 - [@BeforeEach](https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/BeforeEach.html)
 - 활용
+
 ```java
 @BeforeEach
 void setUp() {
@@ -27,6 +28,7 @@ void setUp() {
 
 ## containsExactly()
 - 해당 인자의 유무를 떠나서 순서까지 정확해야 함.
+
 ```java
 @Test
 @DisplayName("String을 split 했을시 배열 검증")
@@ -45,6 +47,7 @@ void split() {
 	- CsvSource
 	- 등등
 - 활용1
+
 ```java
 @ParameterizedTest
 @DisplayName("Set 안에 포함된 요소들 확인하기 : @ViewSource ")
@@ -55,6 +58,7 @@ void contains(int input) {
 ```
 
 - 활용2
+
 ```java
 @ParameterizedTest
 @DisplayName("Set 안에 포함된 요소들 확인하기 : @CsvSource ")
@@ -65,6 +69,7 @@ void contains(int input, boolean expected) {
 ```
 
 - 활용3
+
 ```java
 @ParameterizedTest
 @DisplayName("Set 안에 포함된 요소들 확인하기(예제) : @CsvSource(true, false 둘 다 사용해보기)")
@@ -80,6 +85,7 @@ void contains(String input, String expected) {
 
 
 ## 예외확인
+
 ```java
 @Test
 @DisplayName("유효하지 않은 위치의 스트링 값을 가져올 때 에러가 발생할 것이다.")
