@@ -1,6 +1,6 @@
 ---
 title: 'Stream'
-date: 2022-09-12 22:16:00
+date: 2023-06-11 18:37:00
 category: 'java'
 draft: false
 ---
@@ -625,6 +625,35 @@ public class Test {
 studentStream.sorted(Comparator.comparing(Student::getBan).reversed() // 1. 반별 정렬
         .thenComparing(Comparator.naturalOrder()).reversed()) // 2. 기본정렬
         .forEach(System.out::println);
+```
+
+
+- 특정 값을 기준으로 정렬
+  - 만약 재고 품목들에서 상태값(status)이 1(판매중), 0(판매종료), 2(일시품절) 순으로 보여주고 싶다면?
+```java
+// 생략. StockService.class 임
+
+public List<Stock> getStockListSorted() {
+
+  // repository 에서 stockList 들고옴.
+  stockList = stockList.stream()
+                      .sorted(Comparator.comparingInt(StockService::getOrderNumber))
+                      .collect(Collectors.toList());
+
+  return stockList;
+}
+
+public static int getOrderNumber(Stock stockList) {
+  byte status = stock.getStatus();
+
+  if (status == 1) {
+    return -1;
+  } else if (status == 2) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
 ```
 
 ## 스트림의 중간연산 2
