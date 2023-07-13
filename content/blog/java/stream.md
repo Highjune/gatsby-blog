@@ -621,7 +621,7 @@ public class Test {
 
 - 만약 역순으로 하고 싶다면 각각 뒤에 reverse() 붙이면 됨
 
-```
+```java
 studentStream.sorted(Comparator.comparing(Student::getBan).reversed() // 1. 반별 정렬
         .thenComparing(Comparator.naturalOrder()).reversed()) // 2. 기본정렬
         .forEach(System.out::println);
@@ -630,7 +630,9 @@ studentStream.sorted(Comparator.comparing(Student::getBan).reversed() // 1. 반�
 
 - 특정 값을 기준으로 정렬
   - 만약 재고 품목들에서 상태값(status)이 1(판매중), 0(판매종료), 2(일시품절) 순으로 보여주고 싶다면?
+
 ```java
+
 // 생략. StockService.class 임
 
 public List<Stock> getStockListSorted() {
@@ -656,6 +658,8 @@ public static int getOrderNumber(Stock stockList) {
 }
 ```
 
+
+
 ## 스트림의 중간연산 2
 
 - map()
@@ -667,11 +671,11 @@ public static int getOrderNumber(Stock stockList) {
 
 ### 스트림의 요소 변환하기 - map()
 
-```
+```java
 Stream<R> map(Function<? super T, ? extends R> mapper) // Stream<T> -> Stream<R>
 ```
 
-```
+```java
 Stream<File> fileStream = Stream.of(new File("Ex1.java"), new File("Ex1")),
             new File("Ex1.bak"), new File("Ex2.java"), new File("Ex1.txt"));
 
@@ -683,7 +687,7 @@ filenameStream.forEach(System.out::println); // 스트림의 모든 파일의 �
 
 - ex) 파일 스트림(Stream`<File>`)에서 파일 확장자(대문자)를 중복없이 뽑아내기
 
-```
+```java
 fileStream.map(File::getName)                   // Stream<File> -> Stream<String>
   .filter(s->s.indexOf('.')!=-1)                // 확장자가 없는 것은 제외
   .map(s->s.substring(s.indexOf('.')+1))        // Stream<String> -> Stream<String>, 확장자만 뽑아낸 것. Ex1.bak -> bak
@@ -694,7 +698,7 @@ fileStream.map(File::getName)                   // Stream<File> -> Stream<String
 
 - 실습
 
-```
+```java
 public class Test2 {
     public static void main(String[] args) {
         File[] fileArr = { new File("Ex1.java"), new File("Ex1.bak"),
@@ -725,14 +729,14 @@ public class Test2 {
 
 - 작업 중간에 잘 진행되고 있는지 확인시 사용. `디버깅 용도`
 
-```
+```java
 Stream<T> peek(Consumer<? super T> action) // 중간 연산(스트림의 요소를 소비x)
 void      forEach(Consumer<? super T> action) // 최종 연산(스트림의 요소를 소비O)
 ```
 
 - 아래처럼 여러작업을 수행할 때 중간중간에 잘 진행되고 있는지 확인할 때 사용한다. 
 
-```
+```java
 fileStream.map(File::getName)     // Stream<File> -> Stream<String>
       .filter(s -> s.indexOf('.')!=-1) // 확장자가 없는 것은 제외
       .peek(s -> System.out.printf("filename=%s%n", s)) // 파일명을 출력한다.(중간작업결과 확인)
@@ -743,7 +747,7 @@ fileStream.map(File::getName)     // Stream<File> -> Stream<String>
 
 - 실습
 
-```
+```java
 public class Test {
     public static void main(String[] args) {
         File[] fileArr = { new File("Ex1.java"), new File("Ex1.bak"),
@@ -777,14 +781,14 @@ public class Test {
 
 - 스트림의 하나하나가 스트링 배열
 
-```
+```java
 Stream<String[]> strArrStrm = Stream.of(new String[]{"abc", "def", "ghi"},
                                         new String[]{"ABC", "GHI", "JKLMN"});
 ```
 
 - 스트림의 스트림
 
-```
+```java
 Stream<Stream<String>> strStrStrm = strArrStrm.map(Arrays::stream);
 ```
 
@@ -792,7 +796,7 @@ Stream<Stream<String>> strStrStrm = strArrStrm.map(Arrays::stream);
 
 - 하지만 원래 내가 원했던 것은, 문자의 배열들을 하나로 합치고 싶었던 것(자주 발생함). 위처럼 각각을 하나의 스트림으로 따로 만들지 말고.
 
-```
+```java
 Stream<String> strStrStrm = strArrStrm.flatMap(Arrays::stream); // Arrays.stream(T[])
 ```
 
@@ -800,7 +804,7 @@ Stream<String> strStrStrm = strArrStrm.flatMap(Arrays::stream); // Arrays.stream
 
 - 실습
 
-```
+```java
 public class Test {
     public static void main(String[] args) {
         Stream<String[]> strArrStrm = Stream.of(
@@ -856,7 +860,7 @@ public class Test {
 
 ### 스트림의 모든 요소에 지정된 작업을 수행 - forEach(), forEachOrdered()
 
-```
+```java
 void forEach()(Consumer<? super T> action) // 병렬스트림인 경우 순서가 보장되지 않음, 꼭 순서를 유지하지 않아도 되는 경우에는 forEachOrdered 보다 더 빠름
 void forEachOrdered(Consumer<? super T> action) // 병렬스트림인 경우에도 순서가 보장됨
 ```
@@ -866,7 +870,7 @@ void forEachOrdered(Consumer<? super T> action) // 병렬스트림인 경우에�
   - 스트림의 작업을 직렬로 처리하라는 뜻
   - 하나의 쓰레드가 순서대로 처리
 
-```
+```java
 IntStream.range(1, 10).sequential().forEach(System.out::print); // 123456789
 IntStream.range(1, 10).sequential().forEachOrdered(System.out::print) // 123456789
 ```
@@ -876,14 +880,14 @@ IntStream.range(1, 10).sequential().forEachOrdered(System.out::print) // 1234567
   - 여러 쓰레드가 나눠서 작업하는 것
   - 데이터가 많을때는 병렬로 처리할 수도 있다.
 
-```
+```java
 IntStream.range(1, 10).parellel().forEach(System.out::print); // 523857172, 섞여서 나옴. 여러 쓰레드가 나눠서 처리하므로 순서보장x
 IntStream.range(1, 10).parellel().forEachOrdered(System.out::print) // 123456789, 병렬처리함에도 순서보장이 됨
 ```
 
 ### 조건 검사 - allMatch(), anyMatch(), noneMatch()
 
-```
+```java
 boolean allMatch (Predicate<? super T> predicate) // 모든 요소가 조건을 만족시키면 true
 boolean anyMatch (Predicate<? super T> predicate) // 한 요소라도 조건을 만족시키면 true
 boolean noneMatch (Predicate<? super T> predicate) // 모든 요소가 조건을 만족시키지 않으면 true
@@ -891,7 +895,7 @@ boolean noneMatch (Predicate<? super T> predicate) // 모든 요소가 조건을
 
 - 100점 이하의 낙제자가 있는지?
 
-```
+```java
 Stream<Student> stuStream = new ~~(생략)~~
 boolean hasFailedStu = stuStream.anyMatch(s -> s.getTotalScore() <= 100); // 한 명이라도 있으면 true
 ```
@@ -900,12 +904,12 @@ boolean hasFailedStu = stuStream.anyMatch(s -> s.getTotalScore() <= 100); // 한
 
 - 조건에 맞는 것이 없을 수도 있으므로, 즉 결과가 null을 반환할 수도 있으므로 Optional`<T>`로 반환
 
-```
+```java
 Optional<T> findFirst() // 첫 번째 요소를 반환. 순차 스트림에 사용. 찾다가 처음으로(first) 조건에 맞는 것을 반환.
 Optional<T> findAny() // 아무거나 하나를 반환. 병렬 스트림에 사용. 여러 쓰레드들 중에서 조건을 먼저 발견한 쓰레드가 결과를 반환. 조건에 맞는 것들이 여러개 있다고 해도 각각에 해당하는 쓰레드들 중에서 무엇이 반환할지 모르니까 any.
 ```
 
-```
+```java
 Stream<Student> stuStream = new ~~(생략)~~
 Optional<Student> result = stuStream.filter(s -> s.getTotalScore() <= 100).findFirst(); // 낙제자 중 첫번째 요소 반환
 Optional<Student> result = parallelStream.filter(s -> s.getTotalScore() <= 100).findAny(); // 병렬스트림일 경우 여러 요소중에 먼저 발견한 쓰레드가 반환하는 요소 반환
@@ -916,7 +920,7 @@ Optional<Student> result = parallelStream.filter(s -> s.getTotalScore() <= 100).
 - 매우 중요
 - 스트림의 최종 연산은 모두 reduce()로 만들어져 있다. ex) count(), max(), min(), collect() 등
 
-  ```
+  ```java
   Optional<T> reduce(BinaryOperator<T> accumulator)
   T           reduce(T identity, BinaryOperator<T> accumulator)
   U           reduce(U identity, BiFunction<U,T,U> accumulator, BinaryOperator<U> combiner)
@@ -942,7 +946,7 @@ Optional<Student> result = parallelStream.filter(s -> s.getTotalScore() <= 100).
 
 - count, sum
 
-```
+```java
 // int reduce(int identity, IntBinaryOperator op)
 int count = intStream.reduce(0, (a, b) -> a + 1);
 int sum = intStream.reduce(0, (a, b) -> a + b);
@@ -950,7 +954,7 @@ int sum = intStream.reduce(0, (a, b) -> a + b);
 
 - 위의 작업은 아래와 같다.(reduce의 핵심 연산. 중요)
 
-```
+```java
 int a = identity; // 초기값이자 누적결과를 저장할 변수
 for (int b : stream)
     a = a + b; // sum(), 이곳에 연산식이 들어간다. min()이든, count()든, 새로운 식이든
@@ -958,14 +962,14 @@ for (int b : stream)
 
 - max, min
 
-```
+```java
 int max = intStream.reduce(Integer.MIN_VALUE, (a, b) -> a > b ? a : b); // max()
 int min = intStream.reduce(Integer.MAX_VALUE, (a, b) -> a < b ? a : b); // min()
 ```
 
 ### 실습
 
-```
+```java
 public class Test {
     public static void main(String[] args) {
         String[] strArr = {
@@ -1060,7 +1064,7 @@ object collect(Supplier supplier, BiConsumer accumulator, BiConsumer combiner) /
 
 ### 스트림을 배열로 변환 - toArray()
 
-```
+```java
 Student[] stuNames = studentStream.toArray(Student[]::new); // OK
 Student[] stuNames = studentStream.toArray(); // 에러, 반환타입이 Object임.
 Student[] stuNames = (Student[])studentStream.toArray(); // OK. 자동 형변환이 안된다는 뜻
@@ -1074,7 +1078,7 @@ Object[] stuNames = studentStream.toArray(); // OK
     - stream의 count()는 전체만 가능한데, collect로 카운팅을 하면 그룹별로 카운팅할 수 있으므로 유용
     - ex) 남자 xx명, 여자 xx명
 
-```
+```java
 long count = stuStream.count();
 long count = stuStream.collect(counting()); // Collectors.counting(), 즉 static import 한 것.
 ```
@@ -1083,7 +1087,7 @@ long count = stuStream.collect(counting()); // Collectors.counting(), 즉 static
   - stream에서 sum을 할 수 있지만 collect()메서드를 통해서도 마찬가지. 그룹별로 할 수 있어 유용
     - sum()은 전체만 가능한데, collect()는 그룹별 합계가 가능
 
-```
+```java
 long totalScore = stuStream.mapToInt(Student::getTotalScore).sum(); // IntStream의 sum()
 long totalScore = stuStream.collect(summingInt(Student::getTotalScore));
 ```
@@ -1092,7 +1096,7 @@ long totalScore = stuStream.collect(summingInt(Student::getTotalScore));
   - max()는 전체요소 중 최대값, collect()는 그룹별로 가능. ex) 남자1등, 여자1등
   - Comparator는 비교기준. 여기서는 총점(getTotalScore)
 
-```
+```java
 OptionalInt topScore = studentStream.mapToInt(Student::getTotalScore).max();
 Optional<Student> topStudent = stuStream
                                 .max(Comparator.comparingInt(Student::getTotalScore));
@@ -1107,7 +1111,7 @@ Optional<Studnet> topStudent = stuStream
   - reduce()는 전체요소에 대한 리듀싱(sum, count 같은 것)
   - Collectors.reducing()은 그룹별 리듀싱, 전체도 가능
 
-```
+```java
 Collector reducing(BinaryOperator<T> op)
 Collector reducing(T identity, BinaryOperator<T> op) // T identity 는 초기화, BinaryOperator<T> op 은 누적작업을 의미
 Collector reducing(U identity, Function<T, U> mapper, BinaryOperator<U> op) // map + reduce. 리듀싱하기 전에 변환(ex. map)이 필요할 경우 사용
@@ -1115,19 +1119,19 @@ Collector reducing(U identity, Function<T, U> mapper, BinaryOperator<U> op) // m
 
 - `Collector reducing(T identity, BinaryOperator<T> op)` 를 대부분 사용한다.
 
-```
+```java
 IntStream intStream = new Random().ints(1, 46).distinct().limit(6);
 
 OptionalInt max = intStream.reduce(Integer::max); // 전체 리듀싱
 Optional<Integer> max = intStream.boxed().collect(reducing(Integer::max)); // 그룹별 리듀싱 가능
 ```
 
-```
+```java
 long sum = intStream.reduce(0, (a, b) -> a + b);
 long sum = intStream.boxed().collect(reducing(0, (a, b) -> a + b));
 ```
 
-```
+```java
 int grandTotal = stuStream.map(Student::getTotalScore).reduce(0, Integer::sum);
 int grandTotal = stuStream.collect(reducing(0, Student::getTotalScore, Integer::sum));
 ```
@@ -1137,7 +1141,7 @@ int grandTotal = stuStream.collect(reducing(0, Student::getTotalScore, Integer::
 - joining() 반환타입이 Collector
 - joining()은 앞에 Collectors가 가지고 있는 메서드. static import해서 클래스명 생략
 
-```
+```java
 String studentNames = stuStream.map(Student::getName).collect(joining()); //  Stream<Studnet> -> Stream<String>.
 String studentNames = stuStream.map(Student::getName).collect(joining(",")); // 구분자임. 김자바, 이자바, 박자바, ...
 String studentNames = stuStream.map(Student::getName).collect(joining(",", "[", "]")); // ,는 구분자, [와 ]는 앞뒤로. 그래서 [김자바, 이자바, 박자바, ...]
@@ -1152,12 +1156,12 @@ String studentInfo = stuStream.collect(joining(",")); // Student의 toString()�
 
 - Collectors 클래스에 있는 메서드
 
-```
+```java
 Collector partitioningBy(Predicate predicate)
 Colelctor partitioningBy(Predicate predicate, Collector downstream)
 ```
 
-```
+```java
 Map<Boolean, List<Student>> stuBySex = stuStream
                               .collect(partitioningBy(Student::isMale)); // 학생들을 성별로 분할, 남/여로 나눠진다 (2분할). 여기서 사실 groupingBy를 사용해도 되지만 굳이. 그리고 2분할이라면 partitioningBy가 더 빠르다.
 List<Student> maleStudent = stuBySex.get(true); // Map에서 남학생 목록을 얻는다.
@@ -1168,7 +1172,7 @@ List<Student> maleStudent = stuBySex.get(false); // Map에서 여학생 목록�
   - counting()도 Collectors.counting()이다. static import됨
   - count된 것이 Long타입으로 나옴
 
-```
+```java
 Map<Boolean, Long> stuNumBySex = stuStream
                                   .collect(partitioningBy(Student::isMale, counting())); // 분할 + 통게
 System.out.println("남학생 수 :" + stuNumBySex.get(true)); // 남학생 수 : 8
@@ -1178,14 +1182,14 @@ System.out.println("여학생 수 :" + stuNumBySex.get(false)); // 여학생 수
 - 학생을 성별로 나누고 최대값
   - 최대값을 구하는 기준은 성적. getScore
 
-```
+```java
 Map<Boolean, Optional<Student>> topScoreBySex = stuStream
         .collect(partitioningBy(Student::isMale, maxBy(comparingInt(Student::getScore))));
 System.out.println("남학생 1등 : " + topScoreBySex.get(true)); // 남학생 1등 : Optional[[나바자, 남, 1, 1, 300]]
 System.out.println("여학생 1등 : " + topScoreBySex.get(false)); // 여학생 1등 : Optional[[김지미, 여, 1, 1, 250]]
 ```
 
-```
+```java
 Map<Boolean, Map<Boolean, List<Student>>> failedStuBySex = stuStream // 다중 분할 (학생을 남/녀로 나누고 각각에서 합/불로 또 나눔)
                                                           .collect(partitioningBy(Student::isMale // 1. 성별로 분할(남/녀)
                                                           , partitioningBy(s -> s.getScore() < 150))); // 2. 성적으로 분할(불합격/합격)
@@ -1195,7 +1199,7 @@ List<Student> failedFemaleStu = failedStuBySex.get(false).get(true);
 
 - 실습
 
-```
+```java
 class Student2 {
     String name;
     boolean isMale; // 성별
@@ -1351,7 +1355,7 @@ class Test {
 
 - Collectors 클래스에 있는 메서드
 
-```
+```java
 Collector groupingBy(Function classifier)
 Collector groupingBy(Function classifier, Collector downstream)
 Collector groupingBy(Function classifier, Supplier mapFactory, Collector downstream)
@@ -1361,14 +1365,14 @@ Collector groupingBy(Function classifier, Supplier mapFactory, Collector downstr
 
 - 반으로 나눔
 
-```
+```java
 Map<Integer, List<Student>> stuByBan = stuStream                // 학생을 반별로 그룹화
               .collect(groupingBy(Student::getBan, toList()));  // toList() 생략가능
 ```
 
 - 학년으로 나누고 다시 반별로 그룹화
 
-```
+```java
 Map<Integer, Map<Integer, List<Student>>> stuByHakAndBan = stuStream // 다중 그룹화
                 .collect(groupingBy(Student::getHak,                  // 1. 학년별 그룹화
                             groupingBy(Student::getBan                   // 2. 반별 그룹화
@@ -1377,7 +1381,7 @@ Map<Integer, Map<Integer, List<Student>>> stuByHakAndBan = stuStream // 다중 �
 
 - 학년으로 나누고 반으로 나눈 후 학생들 성적을 map을 사용하여 등급 나눔
 
-```
+```java
 Map<Integer, Map<Integer, Set<Student.Level>>> stuByHakAndBan = stuStream
     .collect(
       groupingBy(Student::getHak, groupingBy(Student::getBan,     // 다중 그룹화(학년별, 반별)
@@ -1392,7 +1396,7 @@ Map<Integer, Map<Integer, Set<Student.Level>>> stuByHakAndBan = stuStream
 
 - 실습
 
-```
+```java
 class Student3 {
     String name;
     boolean isMale; // 성별
