@@ -25,7 +25,7 @@ draft: false
 
 - stream으로 변환(생성하는 여러 방법들)
 
-```
+```java
 List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
 
 Stream<Integer> intStream1 = list.stream(); // 컬렉션, Collections.stream() 이라는 메서드 있음.(Stream 반환)
@@ -45,7 +45,7 @@ IntStream intStream2 = new Random().ints(5); // 난수 스트림(크기가 5);
 
 - ex)
 
-```
+```java
 stream.distinct().limit(5).sorted().forEach(System.out::println)
 ```
 
@@ -58,7 +58,7 @@ stream.distinct().limit(5).sorted().forEach(System.out::println)
   - forEach(System.out::println)
     - 최종연산(출력)
 
-```
+```java
 String[] strArr = {"dd", "aaa", "CC", "cc", "b"};
 
 Stream<String> stream = Stream.of(strArr); // 문자열 배열이 소스인 스트림
@@ -71,9 +71,9 @@ int total = stream.count(); // 요소 개수 세기(최종연산)
 
 ## 스트림의 특징
 
-1. 스트림은 데이터 소스(원본)으로부터 데이터를 읽기만할 뿐 변경하지 않는다.
+1. 스트림은 데이터 소스(원본)으로부터 데이터를 읽기만 할뿐 변경하지 않는다.
 
-```
+```java
 List<Integer> list = Arrays.asList(3, 1, 5, 4, 2);
 List<Integer> sortedList = list.stream().sorted() // list를 정렬해서
                             .collect(Collectors.toList()); // 새로운 List에 저장
@@ -83,7 +83,7 @@ System.out.println(sortedList); // [1, 2, 3, 4, 5];
 
 2. 스트림은 Iterator처럼 일회용이다. (필요하면 다시 스트림을 생성해야 함)
 
-```
+```java
 strStream.forEach(System.out::println); // 모든 요소를 화면에 출력(최종연산), forEach 가 최종연산(요소를 소모)
 int numOfStr = strStream.count(); // 에러. 스트림이 이미 닫혔음. count()가 최종연산. 중간연산도 할 수 없음
 ```
@@ -91,7 +91,7 @@ int numOfStr = strStream.count(); // 에러. 스트림이 이미 닫혔음. coun
 3. 최종 연산 전까지 중간연산이 수행되지 않는다. - 지연된 연산
   - 로또 번호 출력하기
 
-    ```
+    ```java
     IntStream intStream = new Random().ints(1, 46); // 1~45 범위의 무한 스트림(유한 스트림도 존재). 무한스트림이라서 스트림의 갯수가 없다. 즉 난수를 끝도 없이 줌.
     intStream.distinct().limit(6).sorted() // 중간 연산(중복제거, 자르기, 정렬)
               .forEach(i -> System.out.print(i + ",")); // 최종 연산
@@ -103,14 +103,14 @@ int numOfStr = strStream.count(); // 에러. 스트림이 이미 닫혔음. coun
 
   - 성능은 비효율적이지만 코드가 간결해진다.
 
-  ```
+  ```java
   for (String str : strList)
     System.out.println(str);
   ```
 
   - 위의 코드가 아래로 변경
 
-  ```
+  ```java
   stream.forEach(System.out::println); // forEach는 최종 연산이다.
   ```
 
@@ -118,7 +118,7 @@ int numOfStr = strStream.count(); // 에러. 스트림이 이미 닫혔음. coun
 
     - for문을 메서드 안으로.
 
-    ```
+    ```java
     void forEach(Consumer<? super T> action) {
         Objects.requireNonNull(action); // 매개변수의 널 체크
 
@@ -134,7 +134,7 @@ int numOfStr = strStream.count(); // 에러. 스트림이 이미 닫혔음. coun
   - parallel() : 스트림 -> 병렬스트림
   - sequential() : 병렬스트림 -> 스트림, 이게 기본
 
-  ```
+  ```java
   Stream<String> strStream = Stream.of("dd", "aaa", "CC", "cc", "b");
   int sum = strStream.parallel() // 병렬 스트림으로 전환(속성만 변경)
                   .mapToInt(s -> s.length()).sum(); // 모든 문자열의 길이의 합
@@ -162,11 +162,11 @@ int numOfStr = strStream.count(); // 에러. 스트림이 이미 닫혔음. coun
 
   - collcetion 인터페이스의 자손인 List, Set 2개를 구현한 클래스가 stream() 메서드를 가지고 있음
 
-  ```
+  ```java
   Stream<E> stream() // Collection 인터페이스의 메서드
   ```
 
-  ```
+  ```java
   List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
   Stream<Integer> intStream = list.stream(); // list를 데이터 소스로 하는 새로운 스트림 생성
 
@@ -177,7 +177,7 @@ int numOfStr = strStream.count(); // 에러. 스트림이 이미 닫혔음. coun
 
   - 에러 없이 다시 생성해서 생성하려면
 
-  ```
+  ```java
   List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
   Stream<Integer> intStream = list.stream(); // list를 데이터 소스로 하는 새로운 스트림 생성
   intStream.forEach(System.out::print); //  12345, forEach() 최종연산
@@ -190,7 +190,7 @@ int numOfStr = strStream.count(); // 에러. 스트림이 이미 닫혔음. coun
 
 ### 객체 배열로부터 스트림 생성하기
 
-```
+```java
 Stream<T> Stream.of(T... values) // 가변인자
 Stream<T> Stream.of(T[])
 Stream<T> Arrays.stream(T[])
@@ -199,7 +199,7 @@ Stream<T> Arrays.stream(T[] array, int startInclusive, int endExclusive) // 마�
 
 - 예시
 
-```
+```java
 Stream<String> strStream = Stream.of("a", "b" ,"c"); // 가변인자
 Stream<String> strStream = Stream.of(new String[]{"a", "b", "c"});
 Stream<String> strStream = Arrays.stream(new String[]{"a", "b", "c"});
@@ -210,7 +210,7 @@ Stream<String> strStream = Arrays.stream(new String[]{"a", "b", "c"}, 0, 3);
 
 - 배열에 기본형을 담으면 기본형 스트림이 생성된다.
 
-```
+```java
 IntStream IntStream.of(int... values) // Stream이 아니라 IntStream
 IntStream IntStream.of(int[])
 IntStream Arrays.stream(int[])
@@ -219,7 +219,7 @@ IntStream Arrays.stream(int[] array, int startInclusive, int endExclusive)
 
 - 예시
 
-```
+```java
 // 기본형 스트림 생성하기
 int[] intArr = {1, 2, 3, 4, 5};
 IntStream intStream = Arrays.stream(intArr);
@@ -241,7 +241,7 @@ Systme.out.println("count = " + intStream.count()); // count = 5 나온다 . 그
 
 - 난수를 요소로 갖는 스트림 생성하기
 
-```
+```java
 IntStreamintStream = new Random().ints(); // 무한 스트림
 intStream.limit(5).forEach(System.out::println); // 5개의 요소만 출력한다.
 
@@ -250,7 +250,7 @@ IntStream intStream = new Random().ints(5); // 크기가 5인 난수 스트림�
 
 - Random() 함수의 범위
 
-```
+```java
 Integer.MIN_VALUE <= ints() <= Integer.MAX_VALUE
 LONG.MIN_VALUE <= longs() <= LONG.MAX_VALUE
 0.0 <= doubles() <= 1.0
@@ -259,7 +259,7 @@ LONG.MIN_VALUE <= longs() <= LONG.MAX_VALUE
 
 - 지정된 범위의 난수를 요소로 갖는 스트림을 생성하는 메서드(Random 클래스)
 
-```
+```java
 // 무한 스트림
 IntStream ints(int begin, int end)
 LongStream longs(long begin, long end)
@@ -273,14 +273,14 @@ DoubleStream doubles(long streamSize, double begin, double end)
 
 - 실습
 
-```
+```java
 IntStream intStream = new Random().ints(); // 무한스트림
 intStream
     .limit(5) // 5개만 자르기. 이게 없으면 무한으로 계속 반환함.
     .forEach(System.out::println);
 ```
 
-```
+```java
 
 IntStream intStream1 = new Random().ints(5); // 유한스트림
 intStream1
@@ -299,12 +299,12 @@ intStream3
 
 ### 특정 범위의 정수를 요소로 갖는 스트림 생성하기(IntStream, LongStream)
 
-```
+```java
 IntStream IntStream.range(int begin, int end) // end 제외
 IntStream IntStream.rangeClosed(int begin, int end) // end 포함
 ```
 
-```
+```java
 IntStream intStream = IntStream.range(1, 5); // 1, 2, 3, 4
 IntStream intStream = IntStream.rangeClsoed(1, 5); // 1, 2, 3, 4, 5
 ```
@@ -314,14 +314,14 @@ IntStream intStream = IntStream.rangeClsoed(1, 5); // 1, 2, 3, 4, 5
 - 람다식을 소스로 하는 스트림 생성하기
   - 무한스트림임, 그래서 limit() 같은 것으로 짤라야 한다.
 
-```
+```java
 static <T> Stream<T> iterate(T seed, UnaryOperator<T> f) // 이전 요소에 종속적, UnaryOperator는 단항 연산자. 즉, 하나를 넣으면 결과 하나 나옴
 static <T> Stream<T> generate(Supplier<T> s) // 이전 요소에 독립적, Supplier는 주기만 하는 것. 즉, 입력은 없고 출력은 있다.
 ```
 
 - `iterate()`는 이전 요소를 seed로 해서 다음 요소를 계산한다.(종속적)
 
-  ```
+  ```java
   Stream<Integer> evenStream = Stream.iterate(0, n -> n+2); // 0, 2, 4, 6, ...
   ```
 
@@ -338,31 +338,31 @@ static <T> Stream<T> generate(Supplier<T> s) // 이전 요소에 독립적, Supp
 
   - iterate() 실습
 
-  ```
+  ```java
   Stream<Integer> intStream = Stream.iterate(0, n -> n + 2);
   intStream.forEach(System.out::println); 무한으로 +2 더한값들이 생성
   ```
 
-  ```
+  ```java
   Stream<Integer> intStream = Stream.iterate(0, n -> n + 2);
   intStream.limit(10).forEach(System.out::println); // 10개만 출력 0, 2, 4, 6, ...
   ```
 
-  ```
+  ```java
   Stream<Integer> intStream = Stream.iterate(1, n -> n + 2);
   intStream.limit(10).forEach(System.out::println); // 1부터 홀수 10개 1, 3, 5, 7, ...
   ```
 
 - `generate()`는 seed를 사용하지 않는다.(독립적)
 
-  ```
+  ```java
   Stream<Double> randomStream = Stream.generate(Math::random); // () -> Math.random(); 즉, 메서드 호출한 값을 계속 생성해 나가는 무한 스트림
   Stream<Integer> oneStream = Stream.generate(() -> 1); // 1, 1, 1, 1... 입력은 없고 계속 결과 1만 반환하는 무한 스트림
   ```
 
   - generate() 실습
 
-  ```
+  ```java
   Stream<Integer> oneStream = Stream.generate(() -> 1);
   oneStream
       .limit(10) // limit(10) 이 없다면 1 무한으로 찍힘
@@ -373,11 +373,11 @@ static <T> Stream<T> generate(Supplier<T> s) // 이전 요소에 독립적, Supp
 
 - 파일을 소스로 하는 스트림 생성하기
 
-```
+```java
 Stream<Path> Files.list(Path dir) // Path는 파일 또는 디렉토리
 ```
 
-```
+```java
 Stream<String> Files.lines(Path path) // 파일 내용을 라인 단위로. log파일 분석 같은 경우 유리
 Stream<String> Files.lines(Path path, Charset cs)
 Stream<String> lines() // BufferedReader클래스의 메서드
@@ -385,7 +385,7 @@ Stream<String> lines() // BufferedReader클래스의 메서드
 
 - 비어있는 스트림 생성하기
 
-```
+```java
 Stream emptyStream = Stream.empty(); // empty()는 빈 스트림을 생성해서 반환한다.
 long count = emptyStream.count(); // count의 값은 0
 ```
@@ -397,7 +397,7 @@ long count = emptyStream.count(); // count의 값은 0
 - 중간 연산 - 연산결과가 `스트림`인 연산. 반복적으로 적용가능
 - 최종 연산 - 연산결과가 스트림이 아닌 연산. 단 한번만 적용가능(스트림의 요소를 소모)
 
-```
+```java
 stream.distinct().limit(5).sorted().forEach(System.out::println)
 ```
 
@@ -415,7 +415,7 @@ stream.distinct().limit(5).sorted().forEach(System.out::println)
     - (println) 결과가 void
     - 스트림이 닫힘(closed)
 
-  ```
+  ```java
   String[] strArr = {"dd", "aaa", "CC", "cc", "b"};
 
   Stream<String> stream = Stream.of(strArr); // 문자열 배열이 소스인 스트림
@@ -474,34 +474,34 @@ stream.distinct().limit(5).sorted().forEach(System.out::println)
 
 ### 스트림 자르기 - skip(), limit()
 
-```
+```java
 Stream<T> skip(long n)  // 앞에서부터 n개 건너뛰기
 Stream<T> limit(long maxSize) // maxSize 이후의 요소는 잘라냄
 ```
 
-```
+```java
 IntStream intStream = IntStream.rangeClosed(1, 10); // 1 2 3 4 5 6 7 8 9 10
 intStream.skip(3).limit(5).forEach(System.out::print); // 4 5 6 7 8, skip(3) 으로 1 2 3 건너뛰고 그 다음 45678 5개 선택된 것
 ```
 
 ### 스트림의 요소 걸러내기 - filter(), distinct()
 
-```
+```java
 Stream<T> filter(Predicate<? supter T> predicate) // 조건에 맞지 않는 요소 제거
 Stream<T> distinct()
 ```
 
-```
+```java
 IntStream intStream = IntStream.of(1, 2, 2, 3, 3, 3, 4, 5, 5, 6);
 intStream.distinct().forEach(System.out::print); // 1 2 3 4 5 6
 ```
 
-```
+```java
 IntStream intStream = IntStream.rangeClosed(1, 10); // 1 2 3 4 5 6 7 8 9 10
 intStream.filter(i -> i%2 == 0).forEach(System.out::println); // 2의 배수만 출력 2 4 6 8 10
 ```
 
-```
+```java
 IntStream intStream = IntStream.rangeClosed(1, 10); // 1 2 3 4 5 6 7 8 9 10
 intStream.filter(i -> i%2 != 0 && i % 3 != 0).forEach(System.out::println); // 1 5 7
 intStream.filter(i -> i%2 != 0).filter(i -> i%3 != 0).forEach(System.out::println); // 1 5 7, filter()는 중간연산이고 stream을 반환하므로 여러번 사용해도 된다. 홀수 중에서 3의 배수가 아닌 것들
@@ -509,7 +509,7 @@ intStream.filter(i -> i%2 != 0).filter(i -> i%3 != 0).forEach(System.out::printl
 
 ### 스트림 정렬하기 - sorted()
 
-```
+```java
 Stream<T> sorted() // 스트림 요소의 기본 정렬(Comparable)로 정렬, 특정한 기준을 주지 않을 시.
 Stream<T> sorted(Comparator<? super T> comparator) // 지정된 Comparator로 정렬, 특정한 기준을 준 것.
 ```
@@ -527,21 +527,21 @@ Stream<T> sorted(Comparator<? super T> comparator) // 지정된 Comparator로 �
 
 - comparing의 반환타입은 Comparator
 
-```
+```jav
 comparing(Function<T, U> keyExtractor)
 comparing(Function<T, U> keyExtractor, Comparator<U> keyComparator)
 ```
 
 - 아래의 sorted()는 원래 `Stream<T> sorted(Comparator comparator)` 므로 파라미터로 Comparator를 받으니까, comparing() 의 반환타입도 Comparator니까 맞음.
 
-```
+```java
 studentStream.sorted(Comparator.comparing(Student::getBan)) // 반별로 정렬
             .forEach(System.out::println);
 ```
 
 ### 추가 정렬 기준을 제공할 때는 thenComparing()을 사용 (정렬 기준 여러개일 때)
 
-```
+```java
 thenComparing(Comparator<T> other)
 thenComparing(Function<T, U> keyExtractor)
 thenComparing(Function<T, U> keyExtractor, Compartor<U> keyComp)
@@ -549,7 +549,7 @@ thenComparing(Function<T, U> keyExtractor, Compartor<U> keyComp)
 
 - 아래서 정렬기준 3개. 더 붙여서 추가해도 됨
 
-```
+```java
 studentStream.sorted(Comparator.comparing(Student::getBan) // 반별로 정렬
                   .thenComparing(Student::getTotalScore) // 총점별로 정렬
                   .thenComparing(Student::getName)) // 이름별로 정렬
@@ -558,7 +558,7 @@ studentStream.sorted(Comparator.comparing(Student::getBan) // 반별로 정렬
 
 ### 실습
 
-```
+```java
 class Student implements Comparable<Student> {
     String name;
     int ban;
