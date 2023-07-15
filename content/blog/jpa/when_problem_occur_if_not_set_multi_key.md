@@ -10,6 +10,7 @@ draft: false
 ## 상황 설명
 - DB에는 AgencyRestaurantRelation 테이블에 실제로 Agency relationIdx, agencyIdx, restaurantId 3가지가 같이 pk 로 잡혀있는 상황이라 치자.
 - 그런데 아래코드에서 볼 수 있듯이 Entity에서는 1개만 pk(relationIdx) 를 설정한 상황이다.
+
 ```java
 
 // Agency 는 여행사
@@ -51,6 +52,7 @@ public interface AgencyRestaurantRelationRepository extends JpaRepository<Agency
 
 ## 그래서 복합키 설정을 꼭 해줘야 한다.
 - 복합키 설정하는 방식은 다양하니 다른 방법으로 해도 된다.
+
 ```java
 @Entity
 @IdClass(AgencyRestaurantRelationKey.class)
