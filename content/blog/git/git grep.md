@@ -9,7 +9,7 @@ draft: false
 - 함수 정의나 함수가 호출되는 곳 검색해야 하는 경우 편함
 - `-n` 옵션을 주면 찾은 문자열이 위치한 라인 번호도 같이 출력
 ```
-git grep -n myfunction
+git grep -n myfunction 
 ```
 - `--count` 옵션은 결과 대신 어떤 파일에서 몇 개나 찾았는지만 알고 싶을 경우
 ```

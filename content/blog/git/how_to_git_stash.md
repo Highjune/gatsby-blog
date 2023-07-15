@@ -17,7 +17,7 @@ draft: false
   ```
   - 추적 중이지 않은 파일을 같이 저장하려면.(아래 두 명령어는 같다.)
   ```
-  git stash -u
+  git stash -u 
   git stash --include-untracked
   ```
 - stash에 저장한 파일 확인

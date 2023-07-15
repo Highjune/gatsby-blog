@@ -4,7 +4,7 @@ date: 2023-01-18 22:37:00
 category: 'git'
 draft: false
 ---
-
+ 
 ## git log, 커밋 조회하기
 - `-n` 옵션
   - 최근 것들 중에서 n개만 보여준다.
