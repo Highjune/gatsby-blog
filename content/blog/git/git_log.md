@@ -6,6 +6,10 @@ draft: false
 ---
  
 ## git log, 커밋 조회하기
+- 그래프 형식으로 브런치 히스토리 다 보는 방법
+```
+git log --oneline --decorate --graph --all
+```
 - `-n` 옵션
   - 최근 것들 중에서 n개만 보여준다.
 ```

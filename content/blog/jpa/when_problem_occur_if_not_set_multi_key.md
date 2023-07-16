@@ -51,7 +51,7 @@ public interface AgencyRestaurantRelationRepository extends JpaRepository<Agency
         - 데이터A : 1, 10, 20
 
 ## 그래서 복합키 설정을 꼭 해줘야 한다.
-- 복합키 설정하는 방식은 다양하니 다른 방법으로 해도 된다.
+- 복합키 설정하는 방식은 다양하니 다른 방법으로 해도 된다
 
 ```java
 @Entity
