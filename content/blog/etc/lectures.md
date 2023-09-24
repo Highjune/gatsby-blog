@@ -1,6 +1,6 @@
 ---
 title: '강의'
-date: 2022-04-23 12:10:00
+date: 2023-09-24 12:10:00
 category: 'etc'
 draft: false
 ---
@@ -12,23 +12,25 @@ draft: false
 - 상황에 맞게 우선순위를 잘 고를것
 - 짧은영상 단위면 이동시간에 보기
 
-## `Watching`
 
-1. [인프런(한정수) - 비전공자를 위한 개발자 취업 올인원 가이드(통합편)](https://www.inflearn.com/course/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%B7%A8%EC%97%85-%ED%86%B5%ED%95%A9%ED%8E%B8/dashboard)
-1. [승지니어 기술면접 라이브코딩 실전편](https://www.youtube.com/watch?v=go8y4-vVg3Y&list=PL2mzT_U4XxDl8PP-jMk4rt6BPzBtS__pQ)
+# watching
 
-## `completed`
 
-### 2022
+# completed
 
+## 2023
+1. [실전! Querydsl](https://www.inflearn.com/course/Querydsl-%EC%8B%A4%EC%A0%84)
+1. [스프링 핵심 원리 - 고급편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B3%A0%EA%B8%89%ED%8E%B8)
+
+## 2022
 1. [실전! 스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-%ED%99%9C%EC%9A%A9-1)
 1. [자바 ORM 표준 JPA 프로그래밍 - 기본편](https://www.inflearn.com/course/ORM-JPA-Basic)
 1. [실전! 스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-%ED%99%9C%EC%9A%A9-1) 복습
 1. [실전! 스프링 부트와 JPA 활용2 - API 개발과 성능 최적화](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-API%EA%B0%9C%EB%B0%9C-%EC%84%B1%EB%8A%A5%EC%B5%9C%EC%A0%81%ED%99%94)
 1. [스프링 데이터 JPA](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-JPA-%EC%8B%A4%EC%A0%84)
+1. [(인프런)김영한 - 모든 개발자를 위한 HTTP웹 기본 지식](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC#)
 
-### 2021
-
+## 2021
 1. [인프런(권오흠) - 영리한 프로그래밍을 위한 알고리즘 강좌](https://www.inflearn.com/course/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%95%EC%A2%8C)
 1. [인프런(백기선) - 스프링 프레임워크 입문](https://www.inflearn.com/course/spring#)
 1. [인프런(백기선) - 예제로 배우는 스프링 입문 (개정판)](https://www.inflearn.com/course/spring_revised_edition#)
@@ -51,6 +53,8 @@ draft: false
 1. [실전! 스프링 웹 MVC - 1편](https://www.inflearn.com/course/스프링-mvc-1?utm_source=inflearn&utm_medium=social&utm_campaign=share#)
 1. [실전! 스프링 웹 MVC - 2편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-2/dashboard)
 1. [승지니어 기술면접 라이브코딩 기본편](https://www.youtube.com/watch?v=Bt11jaoqt_Y&list=PL2mzT_U4XxDm7p6g1o3KeQMsyRLfzSaVW)
+1. [인프런(한정수) - 비전공자를 위한 개발자 취업 올인원 가이드(통합편)](https://www.inflearn.com/course/%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%B7%A8%EC%97%85-%ED%86%B5%ED%95%A9%ED%8E%B8/dashboard)
+1. [승지니어 기술면접 라이브코딩 실전편](https://www.youtube.com/watch?v=go8y4-vVg3Y&list=PL2mzT_U4XxDl8PP-jMk4rt6BPzBtS__pQ)
 
 ### 2020
 
@@ -62,16 +66,9 @@ draft: false
 1. [생활코딩 - CSS](https://www.youtube.com/watch?v=Ok0bBJPtgJI&list=PLuHgQVnccGMAnWgUYiAW2cTzSBywFO75B)
 1. [유투브나동빈 - Git으로 시작하는 협업 및 오픈소스 프로젝트](https://www.youtube.com/watch?v=rhP5pseOJc0&list=PLRx0vPvlEmdD5FLIdwTM4mKBgyjv4no81)
 
-## `shopping-cart`
+# `shopping-cart`
 
 1. [인프런 - 자바 스프링 프레임워크(renew ver.) - 신입 프로그래머를 위한 강좌](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC_renew/dashboard)
-1. [인프런(김영한) - 강의 5개짜리, 김영한의 스프링 부트와 JPA 실무 완전 정복 로드맵](https://www.inflearn.com/roadmaps/149)
-
-   - 야생형으로 공부하기 고고(강의는 5갠데 1편은 복습하기)
-
-   1. [실전! Querydsl](https://www.inflearn.com/course/Querydsl-%EC%8B%A4%EC%A0%84)
-
-1. [인프런(이동욱) - IntelliJ를 시작하시는 분들을 위한 IntelliJ 가이드](https://www.inflearn.com/course/intellij-guide#)
 1. [운영체제 - 이화여자대학교 반효경 교수님 강의](http://www.kocw.net/home/search/kemView.do?kemId=1046323&ar=pop)
 
 1. [Linux Sysadmin Basics](https://www.youtube.com/watch?v=Lbh8Bh_SEzU)
@@ -92,10 +89,6 @@ draft: false
 1. [Taehoon의 유투브 채널](https://www.youtube.com/results?search_query=taehoon)
    - 프런트앤드 개발자인데 설명이 매우 좋음
    - 영상이 더 올라오진 않지만 이전의 영상들이 너무 좋음
-1. [(인프런)김영한 - 모든 개발자를 위한 HTTP웹 기본 지식](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC#)
-   - 유료강의
-   - 두꺼운 책인 `HTTP 완벽 가이드` 읽기 전에 먼저 듣기
-   - 필요한 것들만 먼저 보여줌
 1. [뉴렉처](https://www.youtube.com/channel/UC5-ixpj8DioZqmrasj6Ihpw/playlists)
    - 유투브 강의
    - 여러 강의들이 다 좋음
