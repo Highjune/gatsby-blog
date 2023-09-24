@@ -1,6 +1,6 @@
 ---
 title: '책'
-date: 2023-05-24 20:55:00
+date: 2023-09-24 20:55:00
 category: 'etc'
 draft: false
 ---

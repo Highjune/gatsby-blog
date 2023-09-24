@@ -1,6 +1,6 @@
 ---
 title: '모든개발서적리뷰'
-date: 2023-04-12 20:53:00
+date: 2023-09-24 20:53:00
 category: 'techbookreview'
 draft: false
 ---
@@ -11,6 +11,23 @@ order by readCompletedAt DESC
 ```
 
 # 2023년
+
+
+## 엘레강트 오브젝트
+- ![엘레강트오브젝트](https://github.com/Highjune/TIL/assets/57219160/a8f3ff25-196b-445c-b2df-85eb808ea7f2)
+- 지은이 / 출판사
+    - Yegor Bugayenko 지음, 조영호 역 / 지앤션
+ - 읽은 시기(when)
+    - 2023년 6월 ~ 2023년 8월
+- 구매(how, where, why)
+    - 누가 어디서 어떻게
+        - 회사 도서지원비로 구매. 지하철 왕복하면서 읽었음.
+        - 사실 되게 얇은 책이었지만 해이해져서 느리게 읽음
+    - 왜 구매
+        - Next Step 강의를 듣고 나서 객체지향적 코드에 대해서 더 공부하기 위해서. 강의 중에 책 추천 받음.
+- 후기(what)
+    - 조금 극단적인 스타일이긴 하지만 그럼에도 경계해야 하는 코드들에 대해서 공부를 많이 하게 되었다.
+
 
 ## 실용주의 프로그래머
 - ![KakaoTalk_Photo_2023-04-12-20-53-25](https://user-images.githubusercontent.com/57219160/231449159-c6ac6c13-91c6-4adc-a4a3-66109974203c.jpeg)
