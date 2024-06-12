@@ -5,8 +5,7 @@ category: 'bookreview'
 draft: false
 ---
 
-![이토록_평범한_미래](https://github.com/Highjune/TIL/assets/57219160/8459d968-1836-46b6-842d-7158210fdd26)
-
+![KakaoTalk_Photo_2024-06-13-00-44-19](https://github.com/Highjune/TIL/assets/57219160/b2c3e16e-de8a-42cf-87bc-f6bb0e305d53)
 - 완독 : 2024년 4월 ~ 2024년 5월
 - 올해 2월 생일에 [정수](https://www.integer.blog/) 한테 선물을 받은 책이었지만, 밀린 책들이 많아서 좀 늦게 읽었다. 지하철에서 왕복하며 편하게 볼 수 있는 책이었다. 
 
