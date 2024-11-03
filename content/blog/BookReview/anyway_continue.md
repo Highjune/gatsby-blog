@@ -1,5 +1,5 @@
 ---
-title: 아무튼 계속'
+title: '아무튼 계속'
 date: 2024-08-11 22:15:00
 category: 'bookreview'
 draft: false
